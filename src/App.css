@@ -1,0 +1,118 @@
+.swal-high-zindex {
+  z-index: 9999 !important;
+}
+:root {
+  --base-font-size: 16px; /* default normal size */
+}
+
+body,
+.app-wrapper,
+.sidebar,
+.content-wrapper {
+  font-size: var(--base-font-size) !important;
+  transition: font-size 0.3s ease-in-out;
+}
+
+* {
+  font-size: inherit !important;
+}
+
+.app-sidebarBox {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  /* z-index: 100; */
+}
+
+@media (min-width: 300px) and (max-width: 780px) {
+  .app-sidebarBox {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 100vh !important;
+    z-index: 1050 !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease !important;
+  }
+
+  .app-sidebarBox:not(.collapsed) {
+    transform: translateX(0) !important;
+  }
+}
+
+/* Sidebar container */
+.New-sidebar {
+  background-color: #343a40 !important;
+  color: #f1f5f9;
+  height: 100vh;
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  z-index: 1000;
+}
+
+.New-sidebar .brand-link {
+  color: #ffffff;
+}
+
+.New-sidebar .nav-link {
+  color: #f1f5f9;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Hover effect */
+.New-sidebar .nav-link:hover {
+  background-color: #334155 !important;
+  color: #ffffff;
+}
+
+.New-sidebar .nav-link.active {
+  background-color: #505f76;
+  color: #ffffff;
+  border-radius: 6px;
+}
+
+/* Icon color */
+/* .New-sidebar .nav-icon {
+  color: #cbd5f5;
+} */
+
+.New-sidebar .nav-link.active {
+  background-color: #505f76 !important;
+  color: #ffffff !important;
+  border-radius: 6px;
+}
+
+.New-sidebar .nav-link.active .nav-icon {
+  color: #ffffff !important;
+}
+
+@media (min-width: 200px) and (max-width: 600px) {
+  .New-sidebar {
+    position: absolute;
+    z-index: 999;
+    width: 260px;
+  }
+}
+@media (min-width: 600px) and (max-width: 1024px) {
+  .New-sidebar {
+    position: absolute;
+    z-index: 999;
+    width: 40%;
+  }
+}
+@media (min-width: 1024px) {
+  .closeLogo {
+    display: none;
+  }
+}
+
+
+.jodit-status-bar-link {
+  display: none !important;
+}

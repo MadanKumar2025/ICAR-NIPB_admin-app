@@ -1,0 +1,274 @@
+// import React, { useMemo } from "react";
+// import { MaterialReactTable } from "material-react-table";
+// import { useMaterialReactTable } from "material-react-table";
+
+// const NewsTable = ({
+//   data = [],
+//   handleToggle,
+//   handleEdit,
+//   pagination,
+//   setPagination,
+//   hasEditAccess,
+//   hasActiveAccess,
+// }) => {
+//   const columns = useMemo(
+//     () => [
+//       {
+//         header: "#",
+//         Cell: ({ row }) => row.index + 1,
+//         size: 50,
+//       },
+//       {
+//         accessorKey: "type",
+//         header: "Type",
+//       },
+//       {
+//         accessorFn: (row) => row.title?.en || "-",
+//         header: "Title",
+//       },
+
+//       {
+//         accessorKey: "link",
+//         header: "Link",
+//         Cell: ({ row }) => {
+//           const link = row.original.link;
+//           return link ? (
+//             <a
+//               href={link}
+//               target="_blank"
+//               className="fs-6"
+//               rel="noopener noreferrer"
+//             >
+//               Link
+//               <i className="bi bi-binoculars "></i>
+//             </a>
+//           ) : (
+//             "-"
+//           );
+//         },
+//       },
+//       {
+//         header: "Publish Date",
+//         accessorFn: (row) =>
+//           row.publishDate
+//             ? new Date(row.publishDate).toLocaleDateString("en-GB")
+//             : "-",
+//       },
+//       {
+//         header: "Expiry Date",
+//         accessorFn: (row) =>
+//           row.expiryDate
+//             ? new Date(row.expiryDate).toLocaleDateString("en-GB")
+//             : "-",
+//       },
+//       {
+//         accessorKey: "markAsNew",
+//         header: "Mark As New",
+//         Cell: ({ row }) => {
+//           const isNew = row.original.markAsNew;
+//           return isNew ? <p>✅</p> : <p>❌</p>;
+//         },
+//       },
+//       {
+//         accessorKey: "isActive",
+//         header: "Status",
+//         Cell: ({ row }) => {
+//           const item = row.original;
+
+//           return (
+//             <div className="form-check form-switch">
+//               <input
+//                 className="form-check-input"
+//                 type="checkbox"
+//                 checked={Boolean(item?.isActive)}
+//                 onChange={() => handleToggle?.(item)}
+//               />
+//               <label className="form-check-label">
+//                 {item?.isActive ? "Active" : "Inactive"}
+//               </label>
+//             </div>
+//           );
+//         },
+//       },
+//       {
+//         header: "Action",
+//         Cell: ({ row }) => {
+//           const item = row.original;
+//           return (
+//             <div className="d-flex gap-2">
+//               <span
+//                 className="badge text-bg-danger"
+//                 style={{ cursor: "pointer" }}
+//                 onClick={() => handleEdit?.(item)}
+//               >
+//                 Edit
+//               </span>
+//             </div>
+//           );
+//         },
+//       },
+//     ],
+//     [handleEdit],
+//   );
+
+//   const table = useMaterialReactTable({
+//     columns,
+//     data: data || [],
+//     state: {
+//       pagination,
+//     },
+//     onPaginationChange: setPagination,
+
+//     autoResetPageIndex: false,
+//     initialState: {
+//       showColumnFilters: true,
+//     },
+//   });
+
+//   return <MaterialReactTable table={table} />;
+// };
+
+// export default NewsTable;
+
+import React, { useMemo } from "react";
+import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
+
+const NewsTable = ({
+  data = [],
+  handleToggle,
+  handleEdit,
+  pagination,
+  setPagination,
+  hasEditAccess,
+  hasActiveAccess,
+}) => {
+
+  const columns = useMemo(() => {
+    const cols = [
+      {
+        header: "#",
+        Cell: ({ row }) => row.index + 1,
+        size: 50,
+      },
+      {
+        accessorKey: "type",
+        header: "Type",
+      },
+      {
+        accessorFn: (row) => row.title?.en || "-",
+        header: "Title",
+      },
+      {
+        accessorKey: "link",
+        header: "Link",
+        Cell: ({ row }) => {
+          const link = row.original.link;
+
+          return link ? (
+            <a
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="fs-6"
+            >
+              Link <i className="bi bi-binoculars"></i>
+            </a>
+          ) : (
+            "-"
+          );
+        },
+      },
+      {
+        header: "Publish Date",
+        accessorFn: (row) =>
+          row.publishDate
+            ? new Date(row.publishDate).toLocaleDateString("en-GB")
+            : "-",
+      },
+      {
+        header: "Expiry Date",
+        accessorFn: (row) =>
+          row.expiryDate
+            ? new Date(row.expiryDate).toLocaleDateString("en-GB")
+            : "-",
+      },
+      {
+        accessorKey: "markAsNew",
+        header: "Mark As New",
+        Cell: ({ row }) => {
+          return row.original.markAsNew ? "✅" : "❌";
+        },
+      },
+    ];
+
+    // =========================
+    // STATUS COLUMN (ACTIVE ACCESS)
+    // =========================
+    if (hasActiveAccess?.("News")) {
+      cols.push({
+        accessorKey: "isActive",
+        header: "Status",
+        Cell: ({ row }) => {
+          const item = row.original;
+
+          return (
+            <div className="form-check form-switch">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={Boolean(item?.isActive)}
+                onChange={() => handleToggle?.(item)}
+              />
+              <label className="form-check-label">
+                {item?.isActive ? "Active" : "Inactive"}
+              </label>
+            </div>
+          );
+        },
+      });
+    }
+
+    // =========================
+    // ACTION COLUMN (EDIT ACCESS)
+    // =========================
+    if (hasEditAccess?.("News")) {
+      cols.push({
+        header: "Action",
+        Cell: ({ row }) => {
+          const item = row.original;
+
+          return (
+            <div className="d-flex gap-2">
+              <span
+                className="badge text-bg-danger"
+                style={{ cursor: "pointer" }}
+                onClick={() => handleEdit?.(item)}
+              >
+                Edit
+              </span>
+            </div>
+          );
+        },
+      });
+    }
+
+    return cols;
+  }, [handleEdit, handleToggle, hasEditAccess, hasActiveAccess]);
+
+  const table = useMaterialReactTable({
+    columns,
+    data: data || [],
+    state: {
+      pagination,
+    },
+    onPaginationChange: setPagination,
+    autoResetPageIndex: false,
+    initialState: {
+      showColumnFilters: true,
+    },
+  });
+
+  return <MaterialReactTable table={table} />;
+};
+
+export default NewsTable;

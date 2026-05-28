@@ -1,0 +1,68 @@
+// @import "./scss/bootstrap-variables";
+// @import "./scss/app-header";
+// @import "./scss/app-sidebar";
+// @import "./scss/app-main";
+// @import "./scss/accessibility";
+// @import "./scss/app-content";
+// @import "./scss/app-footer";
+// @import "./scss/app-wrapper";
+// @import "./scss/callouts";
+// @import "./scss/cards";
+// @import "./scss/compact-mode";
+// @import "./scss/direct-chat";
+// @import "./scss/docs";
+// @import "./scss/dropdown";
+// @import "./scss/info-box";
+// @import "./scss/miscellaneous";
+// @import "./scss/mixins";
+// @import "./scss/progress-bars";
+// @import "./scss/root";
+// @import "./scss/small-box";
+// @import "./scss/table";
+// @import "./scss/timeline";
+// @import "./scss/toasts";
+// @import "./scss/variables-dark";
+// @import "./scss/variables";
+// @import "./scss/adminlte.scss";
+
+/* Bootstrap */
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+/* AdminLTE variables */
+@import "./scss/variables";
+@import "./scss/variables-dark";
+@import "./scss/bootstrap-variables";
+
+/* Mixins */
+@import "./scss/mixins";
+
+/* Layout */
+@import "./scss/root";
+@import "./scss/app-wrapper";
+@import "./scss/app-header";
+@import "./scss/app-sidebar";
+@import "./scss/app-main";
+@import "./scss/app-footer";
+@import "./scss/app-content";
+
+/* Components */
+@import "./scss/cards";
+@import "./scss/callouts";
+@import "./scss/dropdown";
+@import "./scss/info-box";
+@import "./scss/progress-bars";
+@import "./scss/small-box";
+@import "./scss/table";
+@import "./scss/timeline";
+@import "./scss/toasts";
+@import "./scss/direct-chat";
+@import "./scss/compact-mode";
+@import "./scss/miscellaneous";
+@import "./scss/docs";
+@import "./scss/accessibility";
+
+/* Main AdminLTE */
+@import "./scss/adminlte";
