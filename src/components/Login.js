@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function Login() {
+    const API_URL = process.env.REACT_APP_API_URL;
   const [data, setData] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/auth/login",
+        `${API_URL}/auth/login`,
         data,
       );
       const token = response.data.token;
