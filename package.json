@@ -2,6 +2,7 @@
   "name": "admin-app",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/admin",
   "dependencies": {
     "@editorjs/code": "^2.9.4",
     "@editorjs/editorjs": "^2.31.5",
