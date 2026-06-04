@@ -298,7 +298,7 @@ function ScientistForm({
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Scientist</div>
           </div>
@@ -621,9 +621,8 @@ function ScientistForm({
                         type="file"
                         name="photo"
                         onChange={handleChange}
-                        className="form-control col-md-6"
+                        className="form-control upload-image-input"
                         id="validationCustom05"
-                        style={{ height: "4vh" }}
                       />
                     </div>
                     {preview && (
@@ -649,6 +648,7 @@ function ScientistForm({
                     <label className="form-label fw-bold">
                       Research Interest (English)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -666,6 +666,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "100%" }}
                       ref={editor}
@@ -683,6 +684,7 @@ function ScientistForm({
                     <label className="form-label fw-bold">
                       Research Interest (Hindi)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -700,6 +702,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -723,6 +726,7 @@ function ScientistForm({
                     <label className="form-label fw-bold">
                       Publications (English)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -740,6 +744,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -753,10 +758,11 @@ function ScientistForm({
                     /> */}
                   </div>
                   <div></div>
-                  <div className="col-md-12">
+                  <div className="col-md-12 mt-3">
                     <label className="form-label fw-bold">
                       Publications (Hindi)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -774,6 +780,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -795,6 +802,7 @@ function ScientistForm({
                 <div className=" g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">IPR (English)</label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -812,6 +820,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -825,8 +834,9 @@ function ScientistForm({
                     /> */}
                   </div>
                   <div></div>
-                  <div className="col-md-12">
+                  <div className="col-md-12 mt-3">
                     <label className="form-label fw-bold">IPR (Hindi)</label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -844,6 +854,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -868,6 +879,7 @@ function ScientistForm({
                     <label className="form-label fw-bold">
                       Awards (English)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -885,6 +897,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -898,8 +911,9 @@ function ScientistForm({
                     /> */}
                   </div>
                   <div></div>
-                  <div className="col-md-12">
+                  <div className="col-md-12 mt-3">
                     <label className="form-label fw-bold">Awards (Hindi)</label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -917,6 +931,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -940,6 +955,7 @@ function ScientistForm({
                     <label className="form-label fw-bold">
                       Externally Funded Projects (English)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -957,6 +973,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -970,10 +987,11 @@ function ScientistForm({
                     /> */}
                   </div>
                   <div></div>
-                  <div className="col-md-12">
+                  <div className="col-md-12 mt-3">
                     <label className="form-label fw-bold">
                       Externally Funded Projects (Hindi)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -991,6 +1009,7 @@ function ScientistForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -1125,13 +1144,13 @@ function ScientistForm({
                       </div>
 
                       {/* Photo */}
-                      <div className="col-md-5">
+                      <div className="col-sm-9 col-md-5">
                         <label className="form-label">Photo</label>
                         <input
                           type="file"
                           name="photo"
                           onChange={(e) => handleLabProfileChange(index, e)}
-                          className="form-control"
+                          className="form-control upload-image-input"
                         />
                         {/* {preview && (
                           <img
@@ -1147,7 +1166,7 @@ function ScientistForm({
                       </div>
 
                       {/* Actions */}
-                      <div className="col-md-2 d-flex align-items-center gap-3 mt-4">
+                      <div className="col-sm-3 col-md-2 d-flex align-items-center gap-3 mt-4 pt-sm-4">
                         {/* Delete */}
                         <div
                           type="button"
@@ -1180,18 +1199,14 @@ function ScientistForm({
                 </div>
               </div>
             </CustomTabPanel>
-            <div className="d-flex justify-content-between">
-              <div className="card-footer">
+              <div className="card-footer d-flex">
                 <button className="btn btn-info" type="submit">
                   Save
                 </button>
-              </div>
-              <div className="card-footer">
-                <button className="btn btn-info" onClick={handleClose}>
+                 <button className="btn btn-info ms-auto" onClick={handleClose}>
                   Close
                 </button>
               </div>
-            </div>
           </form>
         </div>
       </div>

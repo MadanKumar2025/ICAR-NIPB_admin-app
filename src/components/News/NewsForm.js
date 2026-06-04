@@ -137,7 +137,7 @@ const NewsForm = ({
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Create News</div>
           </div>
@@ -305,20 +305,16 @@ const NewsForm = ({
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-content-between">
-              <div className="card-footer">
+              <div className="card-footer d-flex">
                 <button className="btn btn-info" type="submit">
                   {/* {isEdit ? "Update User" : "Submit form"} */}
                   {/* {isEdit ? "Update" : "Save"} */}
                   Save
                 </button>
-              </div>
-              <div className="card-footer">
-                <button className="btn btn-info" onClick={handleClose}>
+                 <button className="btn btn-info ms-auto" onClick={handleClose}>
                   Close
                 </button>
               </div>
-            </div>
           </form>
         </div>
       </div>

@@ -212,7 +212,7 @@ function AdministrativeStaffForm({
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Administrative Staff</div>
           </div>
@@ -412,9 +412,8 @@ function AdministrativeStaffForm({
                       type="file"
                       name="photo"
                       onChange={handleChange}
-                      className="form-control col-md-6"
+                      className="form-control upload-image-input"
                       id="validationCustom05"
-                      style={{ height: "4vh" }}
                     />
                   </div>
                   {preview && (
@@ -431,18 +430,14 @@ function AdministrativeStaffForm({
                 </div>
               </div>
             </div>
-            <div className="d-flex justify-content-between">
-              <div className="card-footer">
+              <div className="card-footer d-flex">
                 <button className="btn btn-info" type="submit">
                   Save
                 </button>
-              </div>
-              <div className="card-footer">
-                <button className="btn btn-info" onClick={handleClose}>
+                <button className="btn btn-info ms-auto" onClick={handleClose}>
                   Close
                 </button>
               </div>
-            </div>
           </form>
         </div>
       </div>

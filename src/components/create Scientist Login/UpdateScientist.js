@@ -488,7 +488,7 @@ function UpdateScientist() {
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Update Scientist Details</div>
           </div>
@@ -770,9 +770,8 @@ function UpdateScientist() {
                         type="file"
                         name="photo"
                         onChange={handleChange}
-                        className="form-control col-md-6"
+                        className="form-control upload-image-input"
                         id="validationCustom05"
-                        style={{ height: "4vh" }}
                       />
                     </div>
                     {preview && (
@@ -1329,13 +1328,11 @@ function UpdateScientist() {
                 </div>
               </div>
             </CustomTabPanel>
-            <div className="d-flex justify-content-between">
               <div className="card-footer">
                 <button className="btn btn-info" type="submit">
                   Save
                 </button>
               </div>
-            </div>
           </form>
         </div>
       </div>

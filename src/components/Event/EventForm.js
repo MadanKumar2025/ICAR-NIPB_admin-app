@@ -95,8 +95,8 @@ function EventForm({
     } else {
       const formData = new FormData();
 
-    console.log("data",data);
-    
+      console.log("data", data);
+
       formData.append("name_en", data?.name?.en);
       formData.append("name_hi", data?.name?.hi);
       formData.append("eventBannerPhoto", data?.eventBannerPhoto || "");
@@ -168,15 +168,17 @@ function EventForm({
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
-          <div className="card-header">
-            <div className="card-title">Create Event</div>
-          </div>
-          <form
-            className="needs-validation"
-            ref={formRef}
-            onSubmit={handleSubmit}
-          >
+
+
+        <form
+          className="needs-validation"
+          ref={formRef}
+          onSubmit={handleSubmit}
+        >
+         <div className="custom-card card card-info card-outline mb-4">
+            <div className="card-header">
+              <div className="card-title">Create Event </div>
+            </div>
             <div className="card-body">
               <div className="row g-3">
                 <div className="col-md-6">
@@ -250,7 +252,7 @@ function EventForm({
                     type="file"
                     name="eventBannerPhoto"
                     onChange={handleChange}
-                    className="form-control"
+                    className="form-control upload-image-input"
                     id="validationCustom03"
                   />
                   {preview && (
@@ -275,7 +277,7 @@ function EventForm({
                     type="file"
                     name="eventPhoto"
                     onChange={handleChange}
-                    className="form-control"
+                    className="form-control upload-image-input"
                     id="validationCustom03"
                   />
                   {preview && (
@@ -385,10 +387,19 @@ function EventForm({
                     Please provide a Registration Link.
                   </div>
                 </div>
-                <div>
-                  <label htmlFor="description_en" className="form-label">
-                    Description (English)
-                  </label>
+              </div>
+            </div>
+          </div>
+
+
+          <div className="custom-card card card-info card-outline mb-4">
+            <div className="card-body">
+              <div>
+
+                <label htmlFor="description_en" className="form-label">
+                  Description (English)
+                </label>
+                <div className="custom-main-editor">
                   <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
@@ -400,14 +411,16 @@ function EventForm({
                       }))
                     }
                   />
-                  <div className="invalid-feedback">
-                    Please provide a Description in English.
-                  </div>
                 </div>
-                <div>
-                  <label htmlFor="description_hi" className="form-label">
-                    Description (Hindi)
-                  </label>
+                <div className="invalid-feedback">
+                  Please provide a Description in English.
+                </div>
+              </div>
+              <div className="mt-3">
+                <label htmlFor="description_hi" className="form-label">
+                  Description (Hindi)
+                </label>
+                <div className="custom-main-editor">
                   <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
@@ -419,29 +432,24 @@ function EventForm({
                       }))
                     }
                   />
-                  <div className="invalid-feedback">
-                    कृपया विवरण (हिंदी में) प्रदान करें।
-                  </div>
+                </div>
+                <div className="invalid-feedback">
+                  कृपया विवरण (हिंदी में) प्रदान करें।
                 </div>
               </div>
             </div>
-
-            <div className="d-flex justify-content-between">
-              <div className="card-footer">
-                <button className="btn btn-info" type="submit">
-                  {/* {isEdit ? "Update User" : "Submit form"} */}
-                  {/* {isEdit ? "Update" : "Save"} */}
-                  Save
-                </button>
-              </div>
-              <div className="card-footer">
-                <button className="btn btn-info" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex ">
+              <button className="btn btn-info" type="submit">
+                {/* {isEdit ? "Update User" : "Submit form"} */}
+                {/* {isEdit ? "Update" : "Save"} */}
+                Save
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </>
   );

@@ -394,7 +394,7 @@ function OrganizationDetails() {
     <>
       <div>
         <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-          <div className="card card-info card-outline mb-4">
+          <div className="custom-card card card-info card-outline mb-4">
             <div className="card-header">
               <div className="card-title">Organization Details</div>
             </div>
@@ -482,7 +482,7 @@ function OrganizationDetails() {
                       type="file"
                       name="logo1"
                       onChange={handleChange}
-                      className="form-control"
+                      className="form-control upload-image-input"
                       id="validationCustom05"
                       // required
                     />
@@ -526,7 +526,7 @@ function OrganizationDetails() {
                       type="file"
                       name="logo2"
                       onChange={handleChange}
-                      className="form-control"
+                      className="form-control upload-image-input"
                       id="validationCustom05"
                     />
                     {preview && (

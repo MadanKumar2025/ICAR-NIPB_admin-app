@@ -269,39 +269,39 @@ function AboutCentre() {
     <>
       <div>
         <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-          <div className="card card-info card-outline mb-4">
-            <div className="card-header">
-              <div className="card-title">About Centre</div>
+
+           <div className="main-heading w-100 d-block overflow-hidden mb-3">
+              <div className="card-title fw-semibold">About Centre</div>
             </div>
 
-            <form
-              className="needs-validation"
-              ref={formRef}
-              onSubmit={handleSubmit}
-            >
+          <form className="needs-validation" ref={formRef} onSubmit={handleSubmit}>
+            <div className="custom-card card card-info card-outline mb-4">
               <div className="card-body">
-                <div className="row g-3">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Top Section (English)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.topSection_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          topSection_en: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.topSection_en}
+                        className="custom-editor"
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            topSection_en: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -318,28 +318,35 @@ function AboutCentre() {
                     /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Top Section (Hindi)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.topSection_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          topSection_hi: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.topSection_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            topSection_hi: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -356,28 +363,35 @@ function AboutCentre() {
                     /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Middle Section 1 (English)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.MediyamSection1_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          MediyamSection1_en: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.MediyamSection1_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            MediyamSection1_en: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -394,28 +408,35 @@ function AboutCentre() {
                     /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Middle Section 1 (Hindi)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.MediyamSection1_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          MediyamSection1_hi: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.MediyamSection1_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            MediyamSection1_hi: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -432,28 +453,36 @@ function AboutCentre() {
                     /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Middle Section 2 (English)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.MediyamSection2_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          MediyamSection2_en: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.MediyamSection2_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            MediyamSection2_en: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -470,28 +499,36 @@ function AboutCentre() {
                     /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Middle Section 2 (Hindi)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.MediyamSection2_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          MediyamSection2_hi: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.MediyamSection2_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            MediyamSection2_hi: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -508,28 +545,35 @@ function AboutCentre() {
                     /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Middle Section 3 (English)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.MediyamSection3_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          MediyamSection3_en: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.MediyamSection3_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            MediyamSection3_en: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -546,140 +590,168 @@ function AboutCentre() {
                     /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Middle Section 3 (Hindi)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.MediyamSection3_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          MediyamSection3_hi: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.MediyamSection3_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            MediyamSection3_hi: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.MediyamSection3_hi}
-                      config={{
-                        placeholder: "",
-                      }}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          MediyamSection3_hi: newContent,
-                        })
-                      }
-                    /> */}
+                          style={{ width: "90%" }}
+                          ref={editor}
+                          value={data?.MediyamSection3_hi}
+                          config={{
+                            placeholder: "",
+                          }}
+                          onChange={(newContent) =>
+                            setData({
+                              ...data,
+                              MediyamSection3_hi: newContent,
+                            })
+                          }
+                        /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Botem Section (English)
                     </label>
-
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.BotemSection_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          BotemSection_en: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.BotemSection_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            BotemSection_en: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.BotemSection_en}
-                      config={{
-                        placeholder: "",
-                      }}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          BotemSection_en: newContent,
-                        })
-                      }
-                    /> */}
+                          style={{ width: "90%" }}
+                          ref={editor}
+                          value={data?.BotemSection_en}
+                          config={{
+                            placeholder: "",
+                          }}
+                          onChange={(newContent) =>
+                            setData({
+                              ...data,
+                              BotemSection_en: newContent,
+                            })
+                          }
+                        /> */}
                   </div>
                 </div>
-                <div className="row g-3">
+              </div>
+            </div>
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row g-3 mb-3">
                   <div>
                     <label className="form-label fw-bold">
                       Botem Section (Hindi)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.BotemSection_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          BotemSection_hi: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.BotemSection_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            BotemSection_hi: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.BotemSection_hi}
-                      config={{
-                        placeholder: "",
-                      }}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          BotemSection_hi: newContent,
-                        })
-                      }
-                    /> */}
+                          style={{ width: "90%" }}
+                          ref={editor}
+                          value={data?.BotemSection_hi}
+                          config={{
+                            placeholder: "",
+                          }}
+                          onChange={(newContent) =>
+                            setData({
+                              ...data,
+                              BotemSection_hi: newContent,
+                            })
+                          }
+                        /> */}
                   </div>
                 </div>
-                <div className="col-md-6">
-                  <label htmlFor="validationCustom05" className="form-label">
-                    Photo
-                  </label>
-                  <div className="d-flex">
+              </div>
+            </div>
+
+
+            <div className="custom-card card card-info card-outline mb-4">
+              <div className="card-body">
+                <div className="row gap-3">
+                  <div className="col-12">
+                    <label htmlFor="validationCustom05" className="form-label">
+                      Photo
+                    </label>
+                  </div>
+                  <div className="col-sm-6 col-xl-5">
                     <input
                       type="file"
                       name="photo"
                       onChange={handleChange}
-                      className="form-control col-md-6"
+                      className="form-control upload-image-input"
                       id="validationCustom05"
-                      style={{ height: "4vh" }}
                     />
+                  </div>
+                  <div className="col-sm-6 mt-3 mt-sm-0">
                     {preview && (
                       <img
                         src={preview}
                         alt="Preview"
                         style={{
-                          marginLeft: "20px",
                           height: "50px",
                           objectFit: "cover",
                         }}
@@ -690,18 +762,20 @@ function AboutCentre() {
                     </div>
                   </div>
                 </div>
-              </div>
+                 </div>
 
-              <div className="card-footer">
-                {(hasAddAccess("About Centre") ||
-                  hasEditAccess("About Centre")) && (
-                  <button className="btn btn-info" type="submit">
-                    Save
-                  </button>
-                )}
-              </div>
-            </form>
-          </div>
+                <div className="card-footer">
+                  {(hasAddAccess("About Centre") ||
+                    hasEditAccess("About Centre")) && (
+                      <button className="btn btn-info" type="submit">
+                        Save
+                      </button>
+                    )}
+                </div>
+             
+
+            </div>
+          </form> 
         </div>
       </div>
     </>

@@ -122,7 +122,7 @@ function ProfileUpdate() {
 
   return (
     <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-      <div className="card card-info card-outline mb-4">
+      <div className="custom-card card card-info card-outline mb-4">
         <div className="card-header">
           <div className="card-title">Profile Update</div>
         </div>
@@ -130,7 +130,7 @@ function ProfileUpdate() {
         <form className="needs-validation" onSubmit={handleSubmit}>
           <div className="card-body">
             <div className="row g-3">
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <label htmlFor="validationCustom01" className="form-label">
                   Name
                 </label>
@@ -145,7 +145,7 @@ function ProfileUpdate() {
                 <div className="valid-feedback">Looks good!</div>
               </div>
 
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <label htmlFor="validationCustomUsername" className="form-label">
                   Mobile No.
                 </label>
@@ -164,7 +164,7 @@ function ProfileUpdate() {
                 </div>
               </div>
 
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <label htmlFor="validationCustom03" className="form-label">
                   Designation
                 </label>
@@ -180,7 +180,7 @@ function ProfileUpdate() {
                   Please provide a Designation.
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-sm-6">
                 <label htmlFor="validationCustom03" className="form-label">
                   Image Title
                 </label>
@@ -201,7 +201,7 @@ function ProfileUpdate() {
                 <input
                   type="file"
                   onChange={handlePhotoChange}
-                  className="form-control"
+                  className="form-control upload-image-input"
                   id="validationCustom05"
                 />
 

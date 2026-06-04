@@ -3,6 +3,7 @@
 }
 :root {
   --base-font-size: 16px; /* default normal size */
+  --bs-panel-primary: #0dcaf0;;
 }
 
 body,
@@ -115,4 +116,62 @@ body,
 
 .jodit-status-bar-link {
   display: none !important;
+}
+.panel-navbar {
+    background: #f2f2f2;
+}
+.screens-buttons .btn {
+	background: #fff;
+}
+.screens-buttons .btn:hover {
+	background: var(--bs-panel-primary);
+	color: #fff;
+	border: 1px solid transparent;
+}
+.custom-card {
+	border: 1px solid #e5eaf4 !important;
+	border-radius: .625rem !important;
+	box-shadow: rgba(149, 157, 165, .1) 0px 0px 14px !important;
+}
+.custom-card .card-header {
+	border-bottom: 1px solid #e5eaf4 !important;
+	border-top: 1px solid #e5eaf4 !important;
+}
+.custom-card .card-footer {
+	border-top: 1px solid #e5eaf4 !important;
+}
+.custom-card .form-control {
+	height: 50px;
+	border: 1px solid #e0e6f1;
+	appearance: auto;
+}
+.custom-card .form-control:focus {
+	height: 50px;
+	border: 1px solid var(--bs-panel-primary);
+	box-shadow: none;
+}
+.custom-card .upload-image-input {
+	overflow: hidden;
+	line-height: 35px;
+}
+.custom-card .btn:hover {
+	color: #fff;
+	background-color: #0d90f0;
+	border-color: #0d90f0;
+}
+/*=== custom editor ===*/
+.custom-main-editor .jodit-status-bar {
+	padding: 10px 5px !important;
+	min-height: 53px;
+}
+.custom-main-editor .jodit-toolbar-button_size_tiny .jodit-icon {
+	height: 20px;
+	width: 25px;
+}
+.custom-main-editor .jodit-container {
+	border: 1px solid #e5eaf4 !important;
+	box-shadow: rgba(149, 157, 165, .1) 0px 0px 14px !important;
+}
+.associated-organization-logo {
+	width: auto !important;
 }

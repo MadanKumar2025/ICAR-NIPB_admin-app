@@ -123,7 +123,7 @@ function ScreenReaderAccess() {
     <>
       <div>
         <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-          <div className="card card-info card-outline mb-4">
+          <div className="custom-card card card-info card-outline mb-4">
             <div className="card-header">
               <div className="card-title">Screen Reader Access</div>
             </div>
@@ -140,6 +140,7 @@ function ScreenReaderAccess() {
                     <label className="form-label fw-bold">
                       Content (English)
                     </label>
+                    <div className="custom-main-editor">
                      <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
@@ -157,6 +158,7 @@ function ScreenReaderAccess() {
                           }));
                         }}
                       />
+                      </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -176,6 +178,7 @@ function ScreenReaderAccess() {
                     <label className="form-label fw-bold">
                       Content (Hindi)
                     </label>
+                    <div className="custom-main-editor">
                      <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
@@ -193,6 +196,7 @@ function ScreenReaderAccess() {
                           }));
                         }}
                       />
+                      </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}

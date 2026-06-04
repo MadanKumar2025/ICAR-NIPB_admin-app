@@ -59,7 +59,7 @@ function ChangePassword() {
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Change Password</div>
           </div>
@@ -82,7 +82,7 @@ function ChangePassword() {
                   />
                   <div className="valid-feedback">Looks good!</div>
                 </div> */}
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label htmlFor="validationCustom02" className="form-label">
                     New Password
                   </label>
@@ -97,7 +97,7 @@ function ChangePassword() {
                   />
                   <div className="valid-feedback">Looks good!</div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label
                     htmlFor="validationCustomUsername"
                     className="form-label"

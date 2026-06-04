@@ -121,6 +121,7 @@ function RelatedLinks() {
       }
     }
   };
+
   const config = useMemo(
     () => ({
       readonly: false,
@@ -129,11 +130,12 @@ function RelatedLinks() {
     }),
     [],
   );
+
   return (
     <>
       <div>
         <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-          <div className="card card-info card-outline mb-4">
+          <div className="custom-card card card-info card-outline mb-4">
             <div className="card-header">
               <div className="card-title">Related Links</div>
             </div>
@@ -150,7 +152,8 @@ function RelatedLinks() {
                     <label className="form-label fw-bold">
                       Content (English)
                     </label>
-                    {/* <JoditEditor
+                    <div className="custom-main-editor">
+                      {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.content_en}
@@ -167,19 +170,20 @@ function RelatedLinks() {
                         }));
                       }}
                     /> */}
-                    <JoditEditor
-                      ref={editor}
-                      value={data.content_en}
-                      config={config}
-                      tabIndex={1}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          content_en: newContent,
-                        }));
-                      }}
-                      onChange={() => {}}
-                    />
+                      <JoditEditor
+                        ref={editor}
+                        value={data.content_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            content_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -199,23 +203,25 @@ function RelatedLinks() {
                     <label className="form-label fw-bold">
                       Content (Hindi)
                     </label>
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.content_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          content_hi: newContent,
-                        }));
-                      }}
-                    />
+                    <div className="custom-main-editor">
+                      <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.content_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            content_hi: newContent,
+                          }));
+                        }}
+                      />
+                    </div>
                     {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}

@@ -193,7 +193,7 @@ function Student({ setOpen, open, studentInCourse }) {
 
   return (
     <>
-      <div className="card card-info card-outline mb-4">
+      <div className="custom-card card card-info card-outline mb-4">
         <div className="card-header w-100 d-flex justify-content-between align-items-center">
           <h5 className="mb-0 w-50">Add Student</h5>
           <div className="w-50 d-flex justify-content-end">

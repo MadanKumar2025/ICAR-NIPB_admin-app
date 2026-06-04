@@ -285,7 +285,7 @@ function CreateScientistLogin() {
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Create Scientist Login</div>
           </div>
@@ -430,14 +430,11 @@ function CreateScientistLogin() {
                 </div>
               </div>
             </div>
-
-            <div className="d-flex justify-content-between">
               <div className="card-footer">
                 <button className="btn btn-info" type="submit">
                   Save
                 </button>
               </div>
-            </div>
           </form>
         </div>
       </div>

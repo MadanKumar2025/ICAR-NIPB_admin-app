@@ -60,6 +60,7 @@ const AssociatedOrganizationTable = ({
             <img
               src={`${IMG_BASE_URL}/${fileUrl}`}
               alt="Preview"
+              className="associated-organization-logo"
               style={{
                 height: "50px",
                 width: "50px",

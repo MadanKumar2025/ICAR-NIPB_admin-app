@@ -23,7 +23,6 @@ import Scientist from "./components/Scientist/Scientist.js";
 import Staff from "./components/Staff/Staff.js";
 import Album from "./components/Album/Album.js";
 import "./App.css";
-// import "jodit/build/jodit.min.css";
 import PreviousDirector from "./components/PreviousDirector/PreviousDirector.js";
 import ExternallyFundedProjects from "./components/ExternallyFundedProjects/ExternallyFundedProjects.js";
 import InstitutionalProjects from "./components/InstitutionalProjects/InstitutionalProjects.js";

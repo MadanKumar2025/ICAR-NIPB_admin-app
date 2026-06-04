@@ -324,7 +324,7 @@ function StaffForm({
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Staff</div>
           </div>
@@ -618,9 +618,8 @@ function StaffForm({
                         type="file"
                         name="photo"
                         onChange={handleChange}
-                        className="form-control col-md-6"
+                        className="form-control upload-image-input"
                         id="validationCustom05"
-                        style={{ height: "4vh" }}
                       />
                       {preview && (
                         <img
@@ -649,6 +648,7 @@ function StaffForm({
                     <label className="form-label fw-bold">
                       Duties assigned and Date of Joining (English)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -666,6 +666,7 @@ function StaffForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                              style={{ width: "100%" }}
                              ref={editor}
@@ -678,11 +679,12 @@ function StaffForm({
                              }
                            /> */}
                   </div>
-                  <div></div>
+                  
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Duties assigned and Date of Joining (Hindi)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -700,6 +702,7 @@ function StaffForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                              style={{ width: "90%" }}
                              ref={editor}
@@ -800,7 +803,7 @@ function StaffForm({
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-5">
+                        <div className="col-sm-9 col-md-5">
                           <label className="form-label">Awards (Hindi)</label>
                           <input
                             type="text"
@@ -810,7 +813,7 @@ function StaffForm({
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-1 mt-1">
+                        <div className="col-sm-3 col-md-2 d-flex align-items-center gap-3 mt-4 pt-sm-4">
                           <div
                             type="button"
                             onClick={() =>
@@ -826,14 +829,14 @@ function StaffForm({
                           >
                             <i className="bi bi-trash fs-4"></i>
                           </div>
-                        </div>
-                        <div
+                          <div
                           type="button"
-                          className="col-md-1 mt-1"
+                          className="add-awards"
                           // className="btn btn-primary"
                           onClick={addAwards}
                         >
                           <i className="bi bi-plus-circle fs-4"></i>
+                        </div>
                         </div>
                       </div>
                     </>
@@ -911,6 +914,7 @@ function StaffForm({
                     <label className="form-label fw-bold">
                       Publications (English)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -928,6 +932,7 @@ function StaffForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                                   style={{ width: "90%" }}
                                   ref={editor}
@@ -941,10 +946,11 @@ function StaffForm({
                                 /> */}
                   </div>
                   <div></div>
-                  <div className="col-md-12">
+                  <div className="col-md-12 mt-3">
                     <label className="form-label fw-bold">
                       Publications (Hindi)
                     </label>
+                    <div className="custom-main-editor">
                     <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
@@ -962,6 +968,7 @@ function StaffForm({
                         }));
                       }}
                     />
+                    </div>
                     {/* <JoditEditor
                                   style={{ width: "90%" }}
                                   ref={editor}
@@ -994,7 +1001,7 @@ function StaffForm({
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-5">
+                        <div className="col-sm-9 col-md-5">
                           <label className="form-label">IPR (Hindi)</label>
                           <input
                             type="text"
@@ -1004,7 +1011,7 @@ function StaffForm({
                             className="form-control"
                           />
                         </div>
-                        <div className="col-md-1 mt-1">
+                        <div className="col-sm-3 col-md-2 d-flex align-items-center gap-3 mt-4 pt-sm-4">
                           <div
                             type="button"
                             onClick={() =>
@@ -1020,13 +1027,13 @@ function StaffForm({
                           >
                             <i className="bi bi-trash fs-4"></i>
                           </div>
-                        </div>
-                        <div
+                          <div
                           type="button"
-                          className="col-md-1 mt-1"
+                          className="add-award"
                           onClick={addIpr}
                         >
                           <i className="bi bi-plus-circle fs-4"></i>
+                        </div>
                         </div>
                       </div>
                     </>
@@ -1068,18 +1075,14 @@ function StaffForm({
                 )}
               </div>
             </div> */}
-            <div className="d-flex justify-content-between">
-              <div className="card-footer">
+              <div className="card-footer d-flex">
                 <button className="btn btn-info" type="submit">
                   Save
                 </button>
-              </div>
-              <div className="card-footer">
-                <button className="btn btn-info" onClick={handleClose}>
+                <button className="btn btn-info ms-auto" onClick={handleClose}>
                   Close
                 </button>
               </div>
-            </div>
           </form>
         </div>
       </div>

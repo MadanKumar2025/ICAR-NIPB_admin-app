@@ -205,7 +205,7 @@ function Organogram() {
     <>
       <div>
         <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-          <div className="card card-info card-outline mb-4">
+          <div className="custom-card card card-info card-outline mb-4">
             <div className="card-header">
               <div className="card-title"> Organogram Details</div>
             </div>

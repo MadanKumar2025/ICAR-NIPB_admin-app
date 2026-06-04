@@ -123,7 +123,7 @@ function PioneerForm({
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">pioneer</div>
           </div>
@@ -215,7 +215,7 @@ function PioneerForm({
                     type="file"
                     name="photo"
                     onChange={handleChange}
-                    className="form-control"
+                    className="form-control upload-image-input"
                     id="photo"
                   />
                   {preview && (
@@ -233,19 +233,14 @@ function PioneerForm({
                 </div>
               </div>
             </div>
-
-            <div className="d-flex justify-content-between">
-              <div className="card-footer">
+              <div className="card-footer d-flex">
                 <button className="btn btn-info" type="submit">
                   Save
                 </button>
-              </div>
-              <div className="card-footer">
-                <button className="btn btn-info" onClick={handleClose}>
+                 <button className="btn btn-info ms-auto" onClick={handleClose}>
                   Close
                 </button>
               </div>
-            </div>
           </form>
         </div>
       </div>

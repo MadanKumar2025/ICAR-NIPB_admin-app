@@ -14831,7 +14831,7 @@ body:not(.app-loaded) .app-footer {
   --bs-btn-hover-color: var(--lte-card-variant-color);
 }
 .card.card-outline {
-  border-top: 3px solid var(--lte-card-variant-bg);
+  border-top: 3px solid var(--lte-card-variant-bg) !important;
 }
 .card.maximized-card {
   position: fixed;

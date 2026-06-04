@@ -333,7 +333,7 @@ function Page() {
       <div>
         {hasAddAccess("Page") && (
           <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-            <div className="card card-info card-outline mb-4">
+            <div className="custom-card card card-info card-outline mb-4">
               <div className="card-header">
                 <div className="card-title">Create page</div>
               </div>
@@ -544,7 +544,7 @@ function Page() {
                         type="file"
                         name="photo"
                         onChange={handleChange}
-                        className="form-control"
+                        className="form-control upload-image-input"
                         id="validationCustom05"
                       />
                       {preview && (

@@ -31,17 +31,17 @@ function Header({ toggleSidebar }) {
   return (
     <>
       {/* <nav className="app-header navbar navbar-expand bg-body"> */}
-      <nav className=" navbar navbar-expand bg-body">
+      <nav className=" navbar navbar-expand panel-navbar">
         {/* <nav className="app-header"> */}
         <div className="container-fluid">
           {/* Left Navbar */}
           <ul className="navbar-nav">
-            <li className="nav-item">
+            <li className="nav-item navbar-toggle">
               <a className="nav-link" onClick={toggleSidebar} href="#">
                 <i className="bi bi-list"></i>
               </a>
             </li>
-            <div style={{ marginBottom: "10px" }}>
+            <div className="screens-buttons d-flex gap-2 ms-2">
               <button className="btn" onClick={() => changeFontSize(-2)}>
                 -A
               </button>

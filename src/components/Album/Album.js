@@ -481,7 +481,7 @@ function Album() {
       <div>
         {hasAddAccess("Album") && (
           <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-            <div className="card card-info card-outline mb-4">
+            <div className="custom-card card card-info card-outline mb-4">
               <div className="card-header">
                 <div className="card-title">Create Album</div>
               </div>
@@ -648,7 +648,7 @@ function Album() {
                         type="file"
                         name="coverPic"
                         onChange={handleChange}
-                        className="form-control"
+                        className="form-control upload-image-input"
                         id="validationCustom03"
                       />
                       {preview && (
@@ -703,7 +703,7 @@ function Album() {
           aria-describedby="modal-modal-description"
         >
           <Box style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-            <div className="card card-info card-outline mb-4">
+            <div className="custom-card card card-info card-outline mb-4">
               <div className="card-header w-100 d-flex justify-content-between align-items-center">
                 <h5 className="mb-0 w-50">Add Gallery</h5>
                 <div className="w-50 d-flex justify-content-end">

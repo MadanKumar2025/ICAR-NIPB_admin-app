@@ -91,7 +91,7 @@ function DirectorForm({
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-        <div className="card card-info card-outline mb-4">
+        <div className="custom-card card card-info card-outline mb-4">
           <div className="card-header">
             <div className="card-title">Director</div>
           </div>
@@ -246,7 +246,7 @@ function DirectorForm({
                     type="file"
                     name="photo"
                     onChange={handleChange}
-                    className="form-control"
+                    className="form-control upload-image-input"
                     id="photo"
                   />
                   {preview && (
@@ -265,15 +265,13 @@ function DirectorForm({
               </div>
             </div>
 
-            <div className="d-flex justify-content-between">
-              <div className="card-footer">
+            <div className="card-footer">
                 {(hasAddAccess("Director") || hasEditAccess("Director")) && (
                   <button className="btn btn-info" type="submit">
                     Save
                   </button>
                 )}
               </div>
-            </div>
           </form>
         </div>
       </div>

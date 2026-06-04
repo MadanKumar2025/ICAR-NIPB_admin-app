@@ -130,7 +130,7 @@ function Template() {
       <div>
         {hasAddAccess("Template") && (
           <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-            <div className="card card-info card-outline mb-4">
+            <div className="custom-card card card-info card-outline mb-4">
               <div className="card-header">
                 <div className="card-title">Create Template</div>
               </div>
@@ -161,6 +161,7 @@ function Template() {
                       <label className="form-label fw-bold">
                         HTML Description
                       </label>
+                       <div className="custom-main-editor">
                        <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
@@ -178,6 +179,7 @@ function Template() {
                           }));
                         }}
                       />
+                      </div>
                       {/* <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
