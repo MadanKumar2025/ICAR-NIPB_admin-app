@@ -159,8 +159,13 @@ function Menu() {
       let updated = { ...prev };
 
       updated[name] = value;
-      if (name === "menuCategory" && value === "footer") {
-        updated.menuType = "parent";
+      // if (name === "menuCategory" && value === "footer") {
+      //   updated.menuType = "parent";
+      // }
+
+      if (name === "menuCategory") {
+        // updated.menuType = "parent";
+        updated.parentMenuId = "";
       }
 
       if (name === "menuType") {
@@ -252,7 +257,7 @@ function Menu() {
             pagination={pagination}
             setPagination={setPagination}
             hasActiveAccess={hasActiveAccess}
-             hasEditAccess={ hasEditAccess}
+            hasEditAccess={hasEditAccess}
           />
         </div>
       </div>

@@ -153,7 +153,7 @@ const MenuForm = ({
                     className="form-control"
                     value={data?.menuType}
                     onChange={handleChange}
-                    disabled={data?.menuCategory === "footer"}
+                    // disabled={data?.menuCategory === "footer"}
                   >
                     <option>select</option>
                     <option value="parent">Parent Menu</option>
@@ -177,9 +177,11 @@ const MenuForm = ({
                         ?.filter(
                           (item) =>
                             item?.isActive === true &&
-                            item?.menuType == "parent",
+                            item?.menuType === "parent" &&
+                            item?.menuCategory === data?.menuCategory,
                         )
                         .map((item, index) => {
+                          console.log("Menu Item:", item);
                           return (
                             <option key={index} value={String(item?.id)}>
                               {item?.menuName_en}

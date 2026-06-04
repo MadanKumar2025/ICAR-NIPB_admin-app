@@ -25,6 +25,7 @@ function Staff() {
     designation_hi: "",
     phone: "",
     email: "",
+    displayOrder:"",
     education_en: "",
     education_hi: "",
     research_en: "",
@@ -36,8 +37,7 @@ function Staff() {
     awards: [{ en: "", hi: "" }],
     ipr: [{ en: "", hi: "" }],
     isActive: true,
-    // research: [{ en: "", hi: "" }],
-    // publications: [{ en: "", hi: "" }],
+ 
   });
 
   const [pagination, setPagination] = useState({
@@ -103,7 +103,7 @@ function Staff() {
     }
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (item) => {    
     setData({
       department_en: item?.department?.en,
       department_hi: item?.department?.hi,
@@ -113,6 +113,7 @@ function Staff() {
       designation_hi: item?.designation?.hi,
       phone: item?.phone,
       email: item?.email,
+      displayOrder: item?.displayOrder,
       education_en: item?.education?.en,
       education_hi: item?.education?.hi,
       imageTitle: item?.imageTitle,
@@ -146,6 +147,7 @@ function Staff() {
       designation_hi: "",
       phone: "",
       email: "",
+      displayOrder:"",
       education_en: "",
       education_hi: "",
       research_en: "",

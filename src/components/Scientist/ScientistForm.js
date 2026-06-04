@@ -73,7 +73,6 @@ function ScientistForm({
 
       setDesignation(response?.data?.data);
     } catch (error) {
-      console.error("Error fetching organizations:", error);
       if (
         error.response?.data?.message === "Invalid token" ||
         error.response?.status === 401
@@ -211,6 +210,10 @@ function ScientistForm({
       "externallyFundedProjects_hi",
       data.externallyFundedProjects_hi || "",
     );
+    formData.append(
+      "displayOrder",
+      data?.displayOrder || "",
+    );
     formData.append("isActive", data.isActive);
 
     if (data.photo && typeof data.photo !== "string") {
@@ -283,7 +286,7 @@ function ScientistForm({
       handleClose();
     } catch (error) {
       console.log(error);
-      
+
       Swal.fire({
         icon: "error",
         title: "Error",
@@ -560,6 +563,8 @@ function ScientistForm({
                     >
                       <option value="">select</option>
                       {designation?.map((item, index) => {
+                        // console.log("designationId",item);
+                        
                         return (
                           <option key={item?.id} value={item?.id}>
                             {item?.name?.en}
@@ -579,6 +584,20 @@ function ScientistForm({
                       <option value={true}>Active</option>
                       <option value={false}>Inactive</option>
                     </select>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom03" className="form-label">
+                      Display Order Number
+                    </label>
+                    <input
+                      type="text"
+                      name="displayOrder"
+                      value={data?.displayOrder}
+                      onChange={handleChange}
+                      className="form-control"
+                      id="displayOrder"
+                      required
+                    />
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="validationCustom03" className="form-label">

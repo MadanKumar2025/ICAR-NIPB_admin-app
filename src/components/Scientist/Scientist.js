@@ -41,6 +41,7 @@ function Scientist() {
     awards_hi: "",
     externallyFundedProjects_en: "",
     externallyFundedProjects_hi: "",
+    displayOrder: "",
     photo: null,
     labProfile: [
       {
@@ -116,11 +117,12 @@ function Scientist() {
   };
 
   const handleEdit = (item) => {
+    console.log("item",item)
     setData({
       scientistName_en: item?.scientistName?.en || "",
       scientistName_hi: item?.scientistName?.hi || "",
 
-      designationId: item?.designationId?._id || "",
+      designationId: item?.designation?.id || "",
       phone1: item?.phone1 || "",
       phone2: item?.phone2 || "",
 
@@ -149,7 +151,7 @@ function Scientist() {
 
       externallyFundedProjects_en: item?.externallyFundedProjects?.en || "",
       externallyFundedProjects_hi: item?.externallyFundedProjects?.hi || "",
-
+      displayOrder: item?.displayOrder || "",
       photo: item?.photo || null,
 
       //  LAB PROFILE MAPPING (IMPORTANT)
@@ -193,7 +195,7 @@ function Scientist() {
       setPreview(null);
     }
 
-    setEditId(item?._id);
+    setEditId(item?.id);
     setIsEdit(true);
     setShowForm(true);
   };
@@ -224,6 +226,7 @@ function Scientist() {
       externallyFundedProjects_en: "",
       externallyFundedProjects_hi: "",
       photo: null,
+      displayOrder: "",
       labProfile: [
         {
           name: { en: "", hi: "" },
@@ -242,7 +245,8 @@ function Scientist() {
   const handleCreateLogin = (id) => {
     navigate(`/CreateScientistLogin/${id}`);
   };
-  return (
+
+   return (
     <>
       <div>
         <div className="d-flex justify-content-end">

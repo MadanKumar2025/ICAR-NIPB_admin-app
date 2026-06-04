@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { usePermissions } from "../User_Management/UserManagement.js";
 import JoditEditor from "jodit-react";
@@ -10,6 +10,9 @@ function RelatedLinks() {
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState(null);
   const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+
+  // test
+  const [editorContent, setEditorContent] = useState("");
 
   const [data, setData] = useState({
     content_en: "",
@@ -118,7 +121,14 @@ function RelatedLinks() {
       }
     }
   };
-
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
   return (
     <>
       <div>
@@ -140,7 +150,7 @@ function RelatedLinks() {
                     <label className="form-label fw-bold">
                       Content (English)
                     </label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.content_en}
@@ -156,6 +166,19 @@ function RelatedLinks() {
                           content_en: newContent,
                         }));
                       }}
+                    /> */}
+                    <JoditEditor
+                      ref={editor}
+                      value={data.content_en}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          content_en: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
                     />
                     {/* <JoditEditor
                       style={{ width: "90%" }}

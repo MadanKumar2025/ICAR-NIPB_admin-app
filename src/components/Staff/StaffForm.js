@@ -28,7 +28,6 @@ function StaffForm({
 }) {
   const [designation, setDesignation] = useState([]);
   const [tab, setTab] = useState(0);
-  // console.log("data", data);
 
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
@@ -40,14 +39,6 @@ function StaffForm({
   const handleTabChange = (e, newValue) => {
     setTab(newValue);
   };
-
-  // const handleNext = () => {
-  //   setTab((prev) => prev + 1);
-  // };
-
-  // const handleBack = () => {
-  //   setTab((prev) => prev - 1);
-  // };
 
   const handleChange = (e) => {
     const { name, type, files } = e.target;
@@ -85,6 +76,7 @@ function StaffForm({
         formData.append("designation_hi", data?.designation_hi || "");
         formData.append("phone", data?.phone || "");
         formData.append("email", data?.email || "");
+        formData.append("displayOrder", data?.displayOrder || "");
         formData.append("education_en", data?.education_en || "");
         formData.append("education_hi", data?.education_hi || "");
         formData.append("research_en", data?.research_en || "");
@@ -99,18 +91,11 @@ function StaffForm({
           formData.append("photo", data.photo);
         }
 
-        // formData.append(
-        //   "research",
-        //   JSON.stringify(data?.research || [{ en: "", hi: "" }]),
-        // );
         formData.append(
           "awards",
           JSON.stringify(data?.awards || [{ en: "", hi: "" }]),
         );
-        // formData.append(
-        //   "publications",
-        //   JSON.stringify(data?.publications || [{ en: "", hi: "" }]),
-        // );
+
         formData.append(
           "ipr",
           JSON.stringify(data?.ipr || [{ en: "", hi: "" }]),
@@ -136,6 +121,7 @@ function StaffForm({
           designation_hi: "",
           phone: "",
           email: "",
+          displayOrder: "",
           education_en: "",
           education_hi: "",
           research_en: "",
@@ -172,6 +158,7 @@ function StaffForm({
       formData.append("designation_hi", data?.designation_hi || "");
       formData.append("phone", data?.phone || "");
       formData.append("email", data?.email || "");
+      formData.append("displayOrder", data?.displayOrder || "");
       formData.append("education_en", data?.education_en || "");
       formData.append("education_hi", data?.education_hi || "");
       formData.append("imageTitle", data?.imageTitle || "");
@@ -185,18 +172,12 @@ function StaffForm({
       if (data.photo) {
         formData.append("photo", data.photo);
       }
-      // formData.append(
-      //   "research",
-      //   JSON.stringify(data?.research || [{ en: "", hi: "" }]),
-      // );
+
       formData.append(
         "awards",
         JSON.stringify(data?.awards || [{ en: "", hi: "" }]),
       );
-      // formData.append(
-      //   "publications",
-      //   JSON.stringify(data?.publications || [{ en: "", hi: "" }]),
-      // );
+
       formData.append("ipr", JSON.stringify(data?.ipr || [{ en: "", hi: "" }]));
       try {
         const response = await axios.post(`${API_URL}/staff/create`, formData, {
@@ -215,6 +196,7 @@ function StaffForm({
           designation_hi: "",
           phone: "",
           email: "",
+          displayOrder: "",
           education_en: "",
           education_hi: "",
           research_en: "",
@@ -337,7 +319,7 @@ function StaffForm({
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  console.log("data", data);
+  // console.log("data", data);
 
   return (
     <>
@@ -542,6 +524,24 @@ function StaffForm({
                         type="email"
                         name="email"
                         value={data?.email}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <label
+                      htmlFor="validationCustomUsername"
+                      className="form-label"
+                    >
+                      Display Order Number
+                    </label>
+                    <div className="input-group has-validation">
+                      <input
+                        type="text"
+                        name="displayOrder"
+                        value={data?.displayOrder}
                         onChange={handleChange}
                         className="form-control"
                         required
