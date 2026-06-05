@@ -1,24 +1,25 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import DesignationForm from "./DesignationForm";
-import DesignationTable from "./DesignationTable";
 import { usePermissions } from "../User_Management/UserManagement";
+import TrainingProgramForm from "./TrainingProgramForm";
+import TrainingProgramTable from "./TrainingProgramTable";
 
-function Designation() {
+function TrainingProgram() {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
   const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
 
   const [preview, setPreview] = useState(null);
-  const [designation, setDesignation] = useState([]);
+  const [trainingProgram, setTrainingProgram] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [data, setData] = useState({
-    name_en: "",
-    name_hi: "",
-    isActive: true,
+    title_en: "",
+    title_hi: "",
+    description_en: "",
+    description_hi: "",
   });
 
   const [pagination, setPagination] = useState({
@@ -28,15 +29,15 @@ function Designation() {
 
   const token = localStorage.getItem("token");
 
-  const getDesignation = async () => {
+  const getTrainingProgram = async () => {
     try {
-      const response = await axios.get(`${API_URL}/designation/get`, {
+      const response = await axios.get(`${API_URL}/TrainingProgramRoutes/get`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      setDesignation(response?.data?.data);
+      setTrainingProgram(response?.data?.data);
     } catch (error) {
       console.error("Error fetching organizations:", error);
       if (
@@ -50,7 +51,7 @@ function Designation() {
   };
 
   useEffect(() => {
-    getDesignation();
+    getTrainingProgram();
   }, []);
 
   const handleToggle = async (item) => {
@@ -58,7 +59,7 @@ function Designation() {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/designation/updateStatus/${item?._id}`,
+        `${API_URL}/TrainingProgramRoutes/updateStatus/${item?.id}`,
         {
           isActive: !item.isActive,
           updateby: decoded.id,
@@ -69,9 +70,10 @@ function Designation() {
           },
         },
       );
-      setDesignation((prev) =>
+
+      setTrainingProgram((prev) =>
         prev.map((row) =>
-          row._id === item._id ? { ...row, isActive: !row.isActive } : row,
+          row.id === item.id ? { ...row, isActive: !row.isActive } : row,
         ),
       );
     } catch (error) {
@@ -81,9 +83,10 @@ function Designation() {
 
   const handleEdit = (item) => {
     setData({
-      name_en: item?.name?.en,
-      name_hi: item?.name?.hi,
-      isActive: item?.isActive ?? true,
+      title_en: item?.title?.en,
+      title_hi: item?.title?.hi,
+      description_en: item?.description?.en,
+      description_hi: item?.description?.hi,
     });
 
     setEditId(item?.id);
@@ -94,10 +97,13 @@ function Designation() {
   const handleClose = () => {
     setShowForm(false);
     setData({
-      name_en: "",
-      name_hi: "",
+      title_en: "",
+      title_hi: "",
+      description_en: "",
+      description_hi: "",
       isActive: true,
     });
+    setEditId(null);
   };
 
   return (
@@ -112,39 +118,39 @@ function Designation() {
               marginRight: "4vw",
             }}
           >
-            {hasAddAccess("Designation") && (
+            {hasAddAccess("Api Function Mapping Web") && (
               <button
                 className="btn btn-info"
                 onClick={() => setShowForm(true)}
               >
-                Create Designation
+                Create Training Program
               </button>
             )}
           </div>
         </div>
         {showForm && (
-          <DesignationForm
+          <TrainingProgramForm
             data={data}
             setData={setData}
             setPreview={setPreview}
             isEdit={isEdit}
-            setIsEdit={setIsEdit}
             editId={editId}
-            getDesignation={getDesignation}
-            setAllStaff={setDesignation}
+            getTrainingProgram={getTrainingProgram}
+            setTrainingProgram={setTrainingProgram}
             preview={preview}
             handleClose={handleClose}
           />
         )}
         <div className="card mb-4" style={{ width: "90%", marginLeft: "5%" }}>
-          <DesignationTable
-            data={designation || []}
+          <TrainingProgramTable
+            data={trainingProgram || []}
             handleToggle={handleToggle}
             pagination={pagination}
             setPagination={setPagination}
             handleEdit={handleEdit}
-            hasActiveAccess={hasActiveAccess}
             hasEditAccess={hasEditAccess}
+            hasActiveAccess={hasActiveAccess}
+            IMG_BASE_URL={IMG_BASE_URL}
           />
         </div>
       </div>
@@ -152,4 +158,4 @@ function Designation() {
   );
 }
 
-export default Designation;
+export default TrainingProgram;

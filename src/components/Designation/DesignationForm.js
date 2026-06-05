@@ -75,7 +75,6 @@ function DesignationForm({
             },
           },
         );
-console.log("response",response);
 
         setData({
           name_en: "",
@@ -153,16 +152,16 @@ console.log("response",response);
                 </div>
               </div>
             </div>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  {/* {isEdit ? "Update User" : "Submit form"} */}
-                  {isEdit ? "Update" : "Save"}
-                  {/* Save */}
-                </button>
-                 <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                {/* {isEdit ? "Update User" : "Submit form"} */}
+                {isEdit ? "Update" : "Save"}
+                {/* Save */}
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>

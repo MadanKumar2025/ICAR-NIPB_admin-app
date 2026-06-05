@@ -67,6 +67,7 @@ import Payment from "./components/Payment/Payment.js";
 import CreateScientistLogin from "./components/create Scientist Login/CreateScientistLogin.js";
 import UpdateScientist from "./components/create Scientist Login/UpdateScientist.js";
 import Popup from "./components/Popup/Popup.js";
+import TrainingProgram from "./components/Training Program/TrainingProgram.js";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -568,6 +569,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <Popup />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/TrainingProgram"
+                  element={
+                    <ProtectedRoute>
+                      <TrainingProgram />
                     </ProtectedRoute>
                   }
                 />
