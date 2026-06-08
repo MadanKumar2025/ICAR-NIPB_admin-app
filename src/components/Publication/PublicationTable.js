@@ -64,8 +64,8 @@ const PublicationTable = ({
           const fileUrl = `${IMG_BASE_URL}/files/${file}`;
 
           return (
-            <a href={fileUrl} target="_blank" rel="noopener noreferrer">
-              View File
+            <a className="view-file-btn" href={fileUrl} target="_blank" rel="noopener noreferrer">
+              <i class="bi bi-files"></i> <span>View File</span>
             </a>
           );
         },
@@ -106,11 +106,11 @@ const PublicationTable = ({
           const item = row.original;
 
           return (
-            <span
+            <span className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-              <i className="bi bi-pencil fs-4"></i>
+              <i className="bi bi-pencil fs-5"></i>
             </span>
           );
         },

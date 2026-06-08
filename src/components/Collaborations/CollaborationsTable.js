@@ -163,7 +163,7 @@ const CollaborationsTable = ({
           const item = row.original;
 
           return (
-            <span
+            <span className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >

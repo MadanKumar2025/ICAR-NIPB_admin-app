@@ -156,7 +156,7 @@ function AdminMenuMasterForm({
           >
             <div className="card-body">
               <div className="row g-3">
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label htmlFor="validationCustom02" className="form-label">
                     Menu Name
                   </label>
@@ -170,7 +170,7 @@ function AdminMenuMasterForm({
                   />
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label
                     htmlFor="validationCustomUsername"
                     className="form-label"
@@ -189,7 +189,7 @@ function AdminMenuMasterForm({
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label
                     htmlFor="validationCustomUsername"
                     className="form-label"
@@ -208,7 +208,7 @@ function AdminMenuMasterForm({
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label className="form-label">Is Active</label>
                   <select
                     name="isActive"

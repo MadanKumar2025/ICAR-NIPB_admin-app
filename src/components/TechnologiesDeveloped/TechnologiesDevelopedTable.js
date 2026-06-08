@@ -146,14 +146,20 @@ const TechnologiesDevelopedTable = ({
           const item = row.original;
 
           return (
-            <div className="form-check form-switch">
+            <div className="form-check form-switch table-lable-switch d-flex align-items-center">
               <input
                 className="form-check-input"
                 type="checkbox"
                 checked={Boolean(item?.isActive)}
                 onChange={() => handleToggle?.(item)}
               />
-              <label className="form-check-label">
+              {/* <label className="form-check-label">
+                {item?.isActive ? "Active" : "Inactive"}
+              </label> */}
+              <label
+                className={`form-check-label ${item?.isActive ? "status-active" : "status-inactive"
+                  }`}
+              >
                 {item?.isActive ? "Active" : "Inactive"}
               </label>
             </div>
@@ -172,13 +178,14 @@ const TechnologiesDevelopedTable = ({
           const item = row.original;
 
           return (
-            <span
-              className="badge text-bg-danger"
+            <div
+              className="table-text-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-              Edit
-            </span>
+            <i class="bi bi-pencil fs-6"></i>
+              <span>Edit</span>
+            </div>
           );
         },
       });

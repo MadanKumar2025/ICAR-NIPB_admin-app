@@ -70,14 +70,14 @@ const UserTable = ({
           const item = row.original;
 
           return (
-            <span
+            <div className="table-icon-edit"
               // className="badge text-bg-danger"
               // style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
               {/* Edit */}
-               <i className="bi bi-pencil fs-4"></i>
-            </span>
+               <i className="bi bi-pencil fs-5"></i>
+            </div>
           );
         },
       });
@@ -89,7 +89,7 @@ const UserTable = ({
         const item = row.original;        
         return (
           <button
-            className="btn btn-info"
+            className="btn btn-info nowrap-btn"
             style={{ marginTop: "10px" }}
             onClick={() => navigate(`/UserPermissions/${item?._id}`)}
           >
@@ -108,6 +108,7 @@ const UserTable = ({
     initialState: {
       showColumnFilters: true,
     },
+    
   });
 
   return <MaterialReactTable table={table} />;

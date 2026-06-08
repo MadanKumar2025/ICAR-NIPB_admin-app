@@ -107,7 +107,7 @@ body,
     width: 40%;
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1024.98px) {
   .closeLogo {
     display: none;
   }
@@ -174,4 +174,197 @@ body,
 }
 .associated-organization-logo {
 	width: auto !important;
+}
+/*=== custom Table  ===*/
+.card.custom-panel-table {
+	border-top: 3px solid #0dcaf0 !important;
+}
+.custom-panel-table {
+	border: 1px solid #e5eaf4 !important;
+	border-radius: 15px !important;
+	box-shadow: rgba(149, 157, 165, .1) 0px 0px 14px !important;
+	overflow: hidden;
+}
+.custom-panel-table .MuiTableHead-root .MuiTableRow-root {
+	background: #f6f6f6;
+}
+.custom-panel-table .css-1tbggly {
+	min-height: 4rem;
+}
+.custom-panel-table .css-53g0n7-MuiButtonBase-root-MuiIconButton-root {
+	min-width: 47px;
+}
+.custom-panel-table .css-53g0n7-MuiButtonBase-root-MuiIconButton-root:hover {
+	min-width: 47px;
+  color: #0dcaf0;
+  background: transparent !important;
+}
+.custom-panel-table .MuiBox-root .css-di3982 .MuiSvgIcon-root {
+	width: 1.5rem;
+	height: 2rem;
+}
+.custom-panel-table  .MuiTableHead-root th.MuiTableCell-head {
+   border-top:1px solid #e0e6f1 !important;
+  border-bottom:1px solid #e0e6f1 !important
+}
+.custom-panel-table td.MuiTableCell-body {
+  border-bottom: 1px solid #e5eaf4 !important;
+}
+.custom-panel-table .MuiBox-root.css-10gei56 {
+	min-height: 70px;
+	height: 100%;
+	box-shadow: none !important;
+}
+.custom-panel-table .MuiBox-root.css-qpxlqp, .custom-panel-table .MuiBox-root.css-nokk8 {
+	width: 100%;
+}
+.custom-panel-table .MuiTablePagination-root {
+	width: 100%;
+}
+.custom-panel-table .MuiBox-root.css-exd1zr {
+	margin-right: auto;
+}
+.MuiSelect-root {
+	border: 1px solid #e5eaf4 !important;
+	border-radius: 10px;
+	padding: 5px 10px;
+}
+.nowrap-btn {
+  white-space: nowrap;
+}
+.custom-panel-table .Mui-TableHeadCell-Content-Wrapper {
+	white-space: nowrap !important;
+}
+.table-icon-edit i {
+  color: #0dcaf0;
+	background: #0dcaf029;
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #0dcaf0;
+  transition: 0.5s all ease-in-out;
+}
+.table-icon-edit i:hover {
+	background: #0dcaf0;
+	color: #fff;
+}
+.table-text-edit {
+	color: #0dcaf0;
+	background: #0dcaf029;
+	padding: 5px 5px;
+	border-radius: 5px;
+	border: 1px solid #0dcaf0;
+	transition: 0.5s all ease-in-out;
+	width: fit-content;
+	gap: 5px;
+	display: flex;
+	align-items: center;
+	font-size: 1.5rem;
+}
+.table-text-edit:hover {
+	background: #0dcaf0;
+	color: #fff;
+}
+.table-plus-add i {
+	color: #0d90f0;
+	background: #0d90f036;
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #0d90f0;
+	transition: 0.5s all ease-in-out;
+}
+.table-plus-add i:hover {
+	color: #fff;
+	background: #0d90f0;
+}
+.custom-panel-table .form-check .form-check-input {
+	width: 3rem;
+	height: 1.6rem;
+}
+.table-lable-switch {
+  gap: 0 9px;
+}
+.table-lable-switch .status-active{
+  color: #0d90f0;
+}  
+.urls-links-title {
+	background: #d4edda;
+	color: #097022 !important;
+	font-weight: 600;
+	padding: 6px 17px;
+	width: fit-content;
+	border-radius: 7px;
+	border: 1px solid #a2d0ad;
+  transition: 0.5s all ease-in-out;
+}
+.urls-links-title:hover{
+	color: #d4edda !important;
+	background: #097022 !important;
+	border: 1px solid #097022;
+}
+.feedback-btn {
+	gap: 0 10px;
+	background: #f4f6f7;
+	width: fit-content;
+	padding: 2px 10px;
+	border-radius: 6px;
+	color: #3c3e41;
+	border: 1px solid #d6d6d6;
+	transition: 0.5s all ease-in-out;
+}
+.feedback-btn:hover {
+	background: #3c3e41;
+	color: #fff;
+	border: 1px solid #3c3e41;
+}
+.view-file-btn {
+	background: #ddf0fe;
+	padding: 9px 10px;
+	border-radius: 8px;
+	text-decoration: none !important;
+	color: #143b59 !important;
+	border: 1px solid #b7daf4;
+   transition: 0.5s all ease-in-out;
+}
+.view-file-btn:hover {
+	background: #0dcaf0 !important;
+	color: #fff !important;
+}
+.pdf-icon {
+	color: #ff2b2b;
+}
+.trash-icon i {
+	background: #fdd4d4;
+	border: 1px solid #fb5b5b;
+	color: #ff2b2b;
+	padding: 5px;
+	border-radius: 5px;
+	transition: 0.5s all ease-in-out;
+}
+.trash-icon i:hover {
+	color: #fff;
+	border: 1px solid #ff2b2b;
+	background: #ff2b2b
+}
+.links-title {
+	border: 1px solid #a9cff2;
+	color: #0074ec;
+	padding: 3px 9px;
+	text-decoration: none;
+	border-radius: 8px;
+	display: flex;
+	align-items: center;
+	width: fit-content;
+	gap: 4px;
+	font-weight: 600;
+  transition: 0.5s all ease-in-out;
+}
+.links-title:hover {
+	background: #0074ec;
+	color: #fff;
+	border: 1px solid #0074ec;
+}
+@media screen and (max-width: 575px) {
+  .card-body.tab-panel-body {
+    padding: 0;
+  }
 }

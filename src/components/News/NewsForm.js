@@ -285,8 +285,8 @@ const NewsForm = ({
                   </select>
                 </div>
                 <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                  className="col-md-2"
+                  style={{ display: "flex", alignItems: "center", gap: "3" }}
+                  className="col-12"
                 >
                   <input
                     type="checkbox"
@@ -295,7 +295,7 @@ const NewsForm = ({
                     onChange={handleChange}
                     id="validationCustom05"
                   />
-                  <label htmlFor="validationCustom05" className="form-label">
+                  <label htmlFor="validationCustom05" className="form-label m-0">
                     Mark As New
                   </label>
 

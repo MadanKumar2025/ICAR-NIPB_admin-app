@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { Box, Tabs, useMediaQuery, useTheme } from "@mui/material";
 import Tab from "@mui/material/Tab";
@@ -210,10 +210,7 @@ function ScientistForm({
       "externallyFundedProjects_hi",
       data.externallyFundedProjects_hi || "",
     );
-    formData.append(
-      "displayOrder",
-      data?.displayOrder || "",
-    );
+    formData.append("displayOrder", data?.displayOrder || "");
     formData.append("isActive", data.isActive);
 
     if (data.photo && typeof data.photo !== "string") {
@@ -295,6 +292,14 @@ function ScientistForm({
     }
   };
 
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -375,7 +380,7 @@ function ScientistForm({
 
             {/* TAB 1 */}
             <CustomTabPanel value={tab} index={0}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className="row g-3">
                   <div className="col-md-6">
                     <label htmlFor="validationCustom02" className="form-label">
@@ -564,7 +569,7 @@ function ScientistForm({
                       <option value="">select</option>
                       {designation?.map((item, index) => {
                         // console.log("designationId",item);
-                        
+
                         return (
                           <option key={item?.id} value={item?.id}>
                             {item?.name?.en}
@@ -642,14 +647,14 @@ function ScientistForm({
             </CustomTabPanel>
             {/* TAB 2 */}
             <CustomTabPanel value={tab} index={1}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className="row g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Research Interest (English)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
+                      {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.researchInterest_en}
@@ -665,19 +670,21 @@ function ScientistForm({
                           researchInterest_en: newContent,
                         }));
                       }}
-                    />
+                    />*/}
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "100%" }}
+                    <JoditEditor
                       ref={editor}
                       value={data.researchInterest_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
                           researchInterest_en: newContent,
-                        })
-                      }
-                    /> */}
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                   <div></div>
                   <div className="col-md-12">
@@ -685,77 +692,81 @@ function ScientistForm({
                       Research Interest (Hindi)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.researchInterest_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          researchInterest_hi: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.researchInterest_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            researchInterest_hi: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data.researchInterest_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            researchInterest_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.researchInterest_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          researchInterest_hi: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                 </div>
               </div>
             </CustomTabPanel>
             {/* TAB 3 */}
             <CustomTabPanel value={tab} index={2}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className=" g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Publications (English)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.publications_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          publications_en: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.publications_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            publications_en: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.publications_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            publications_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.publications_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          publications_en: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                   <div></div>
                   <div className="col-md-12 mt-3">
@@ -763,109 +774,115 @@ function ScientistForm({
                       Publications (Hindi)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.publications_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          publications_hi: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.publications_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            publications_hi: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data.publications_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            publications_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.publications_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          publications_hi: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                 </div>
               </div>
             </CustomTabPanel>
             {/* TAB 4 */}
             <CustomTabPanel value={tab} index={3}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className=" g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">IPR (English)</label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.IPR_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          IPR_en: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.IPR_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            IPR_en: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data.IPR_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            IPR_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.IPR_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          IPR_en: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                   <div></div>
                   <div className="col-md-12 mt-3">
                     <label className="form-label fw-bold">IPR (Hindi)</label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.IPR_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          IPR_hi: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.IPR_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            IPR_hi: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.IPR_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            IPR_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.IPR_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          IPR_hi: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                 </div>
               </div>
@@ -873,118 +890,124 @@ function ScientistForm({
 
             {/* TAB 5 */}
             <CustomTabPanel value={tab} index={4}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className=" g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Awards (English)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.awards_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          awards_en: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.awards_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            awards_en: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.awards_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            awards_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.awards_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          awards_en: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                   <div></div>
                   <div className="col-md-12 mt-3">
                     <label className="form-label fw-bold">Awards (Hindi)</label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.awards_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          awards_hi: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.awards_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            awards_hi: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.awards_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            awards_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.awards_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          awards_hi: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                 </div>
               </div>
             </CustomTabPanel>
             {/* TAB 6 */}
             <CustomTabPanel value={tab} index={5}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className=" g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Externally Funded Projects (English)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.externallyFundedProjects_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          externallyFundedProjects_en: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.externallyFundedProjects_en}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            externallyFundedProjects_en: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data.externallyFundedProjects_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            externallyFundedProjects_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.externallyFundedProjects_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          externallyFundedProjects_en: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                   <div></div>
                   <div className="col-md-12 mt-3">
@@ -992,35 +1015,37 @@ function ScientistForm({
                       Externally Funded Projects (Hindi)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.externallyFundedProjects_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          externallyFundedProjects_hi: newContent,
-                        }));
-                      }}
-                    />
+                      {/* <JoditEditor
+                        style={{ width: "90%" }}
+                        ref={editor}
+                        value={data?.externallyFundedProjects_hi}
+                        config={{
+                          showPoweredBy: false,
+                          placeholder: "",
+                          askBeforePasteHTML: false,
+                          askBeforePasteFromWord: false,
+                        }}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            externallyFundedProjects_hi: newContent,
+                          }));
+                        }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data.externallyFundedProjects_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            externallyFundedProjects_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.externallyFundedProjects_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          externallyFundedProjects_hi: newContent,
-                        })
-                      }
-                    /> */}
                   </div>
                 </div>
               </div>
@@ -1028,7 +1053,7 @@ function ScientistForm({
             {/* TAB 7 */}
 
             <CustomTabPanel value={tab} index={6}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className="row g-3">
                   {data?.labProfile?.map((item, index) => (
                     <div
@@ -1199,14 +1224,14 @@ function ScientistForm({
                 </div>
               </div>
             </CustomTabPanel>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-                 <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                Save
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>

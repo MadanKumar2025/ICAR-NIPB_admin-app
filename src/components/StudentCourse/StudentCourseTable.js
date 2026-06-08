@@ -180,14 +180,13 @@ const StudentCourseTable = ({
           const item = row.original;
 
           return (
-            <span
-              // className="badge text-bg-danger"
+            <div
+              className="table-icon-edit"
               // style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-              {/* Edit */}
-                <i className="bi bi-pencil fs-4"></i>
-            </span>
+            <i class="bi bi-pencil fs-5"></i>
+            </div>
           );
         },
       });
@@ -203,7 +202,7 @@ const StudentCourseTable = ({
 
         return (
           <div
-            className="btn btn-info"
+            className="btn btn-info nowrap-btn"
             style={{ cursor: "pointer" }}
             onClick={() => {
               setStudentInCourse?.(item?._id);

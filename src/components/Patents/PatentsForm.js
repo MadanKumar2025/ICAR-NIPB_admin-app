@@ -130,7 +130,7 @@ function PatentsForm({
           <form className="needs-validation" onSubmit={handleSubmit}>
             <div className="card-body">
               <div className="row g-3">
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label htmlFor="validationCustom01" className="form-label">
                     Type (English)
                   </label>
@@ -148,7 +148,7 @@ function PatentsForm({
                     </option>
                   </select>
                 </div>
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label htmlFor="validationCustom01" className="form-label">
                     Type (Hindi)
                   </label>
@@ -168,7 +168,7 @@ function PatentsForm({
                     </option>
                   </select>
                 </div>
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label className="form-label">Is Active</label>
                   <select
                     name="isActive"

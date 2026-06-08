@@ -213,14 +213,14 @@ const AlbumTable = ({
 
           return (
             <div className="d-flex gap-2">
-              <span
+              <span className="table-icon-edit"
                 // className="badge text-bg-danger"
                 // style={{ cursor: "pointer" }}
                 onClick={() => handleEdit?.(item)}
               >
                 {/* Edit */}
 
-                <i className="bi bi-pencil fs-4"></i>
+                <i className="bi bi-pencil fs-5"></i>
               </span>
             </div>
           );
@@ -240,7 +240,7 @@ const AlbumTable = ({
           return (
             <div className="col-md-6">
               <div
-                className="btn btn-info"
+                className="btn btn-info nowrap-btn"
                 onClick={() => {
                   setAlbumGallery?.(item?._id);
                   handleOpen?.();

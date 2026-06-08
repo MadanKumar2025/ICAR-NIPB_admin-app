@@ -165,13 +165,13 @@ const NewsTable = ({
           const link = row.original.link;
 
           return link ? (
-            <a
+            <a 
               href={link}
               target="_blank"
               rel="noopener noreferrer"
-              className="fs-6"
+              className="fs-6 links-title"
             >
-              Link <i className="bi bi-binoculars"></i>
+              <i class="bi bi-link-45deg fs-5"></i> Link
             </a>
           ) : (
             "-"
@@ -212,14 +212,20 @@ const NewsTable = ({
           const item = row.original;
 
           return (
-            <div className="form-check form-switch">
+            <div className="form-check form-switch table-lable-switch d-flex align-items-center">
               <input
                 className="form-check-input"
                 type="checkbox"
                 checked={Boolean(item?.isActive)}
                 onChange={() => handleToggle?.(item)}
               />
-              <label className="form-check-label">
+              {/* <label className="form-check-label">
+                {item?.isActive ? "Active" : "Inactive"}
+              </label> */}
+              <label
+                className={`form-check-label ${item?.isActive ? "status-active" : "status-inactive"
+                  }`}
+              >
                 {item?.isActive ? "Active" : "Inactive"}
               </label>
             </div>
@@ -238,13 +244,11 @@ const NewsTable = ({
           const item = row.original;
 
           return (
-            <div className="d-flex gap-2">
-              <span
-                className="badge text-bg-danger"
-                style={{ cursor: "pointer" }}
+            <div className="table-text-edit" style={{ cursor: "pointer" }}
                 onClick={() => handleEdit?.(item)}
               >
-                Edit
+                <i class="bi bi-pencil fs-6"></i>
+               <span> Edit
               </span>
             </div>
           );

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { usePermissions } from "../User_Management/UserManagement.js";
 import JoditEditor from "jodit-react";
@@ -119,6 +119,15 @@ function Disclaimer() {
     }
   };
 
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
+
   return (
     <>
       <div>
@@ -141,7 +150,7 @@ function Disclaimer() {
                       Content (English)
                     </label>
                     <div className="custom-main-editor">
-                     <JoditEditor
+                      {/* <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
                         value={data?.content_en}
@@ -157,29 +166,29 @@ function Disclaimer() {
                             content_en: newContent,
                           }));
                         }}
+                      /> */}
+
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.content_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            content_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
                       />
-                      </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.content_en}
-                      config={{
-                        placeholder:""
-                      }}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          content_en: newContent,
-                        })
-                      }
-                    /> */}
+                    </div>
                   </div>
                   <div>
                     <label className="form-label fw-bold">
                       Content (Hindi)
                     </label>
                     <div className="custom-main-editor">
-                     <JoditEditor
+                      {/* <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
                         value={data?.content_hi}
@@ -195,22 +204,22 @@ function Disclaimer() {
                             content_hi: newContent,
                           }));
                         }}
+                      /> */}
+                        <JoditEditor
+                        ref={editor}
+                        value={data?.content_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            content_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
                       />
-                      </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.content_hi}
-                      config={{
-                        placeholder:""
-                      }}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          content_hi: newContent,
-                        })
-                      }
-                    /> */}
+                    </div>
+                     
                   </div>
                 </div>
               </div>

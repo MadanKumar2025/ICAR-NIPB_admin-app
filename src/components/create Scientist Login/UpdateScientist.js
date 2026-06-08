@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { jwtDecode } from "jwt-decode";
 
@@ -485,6 +485,15 @@ function UpdateScientist() {
     }
   };
 
+   const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
+
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -797,7 +806,7 @@ function UpdateScientist() {
                     <label className="form-label fw-bold">
                       Research Interest (English)
                     </label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.researchInterest_en}
@@ -813,25 +822,33 @@ function UpdateScientist() {
                           researchInterest_en: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "100%" }}
-                      ref={editor}
-                      value={data.researchInterest_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          researchInterest_en: newContent,
-                        })
-                      }
                     /> */}
+                      <JoditEditor
+                      ref={editor}
+                      value={data?.researchInterest_en}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          researchInterest_en: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
+
+
+
+
+
+
                   </div>
                   <div></div>
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Research Interest (Hindi)
                     </label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.researchInterest_hi}
@@ -847,18 +864,26 @@ function UpdateScientist() {
                           researchInterest_hi: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.researchInterest_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          researchInterest_hi: newContent,
-                        })
-                      }
                     /> */}
+                     <JoditEditor
+                      ref={editor}
+                      value={data?.researchInterest_hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          researchInterest_hi: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
+
+
+
+
+
+
                   </div>
                 </div>
               </div>
@@ -871,7 +896,7 @@ function UpdateScientist() {
                     <label className="form-label fw-bold">
                       Publications (English)
                     </label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.publications_en}
@@ -887,25 +912,27 @@ function UpdateScientist() {
                           publications_en: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.publications_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          publications_en: newContent,
-                        })
-                      }
                     /> */}
+                    <JoditEditor
+                      ref={editor}
+                      value={data?.publications_en}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          publications_en: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                   <div></div>
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Publications (Hindi)
                     </label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.publications_hi}
@@ -921,18 +948,20 @@ function UpdateScientist() {
                           publications_hi: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
+                    /> */}
+                      <JoditEditor
                       ref={editor}
                       value={data.publications_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
                           publications_hi: newContent,
-                        })
-                      }
-                    /> */}
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                 </div>
               </div>
@@ -943,7 +972,7 @@ function UpdateScientist() {
                 <div className=" g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">IPR (English)</label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.IPR_en}
@@ -960,22 +989,25 @@ function UpdateScientist() {
                         }));
                       }}
                     />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
+                     */}
+                     <JoditEditor
                       ref={editor}
-                      value={data.IPR_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
+                      value={data?.IPR_en}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
                           IPR_en: newContent,
-                        })
-                      }
-                    /> */}
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                   <div></div>
                   <div className="col-md-12">
                     <label className="form-label fw-bold">IPR (Hindi)</label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.IPR_hi}
@@ -991,18 +1023,20 @@ function UpdateScientist() {
                           IPR_hi: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.IPR_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          IPR_hi: newContent,
-                        })
-                      }
                     /> */}
+                    <JoditEditor
+                      ref={editor}
+                      value={data?.IPR_hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          IPR_hi: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                 </div>
               </div>
@@ -1016,7 +1050,7 @@ function UpdateScientist() {
                     <label className="form-label fw-bold">
                       Awards (English)
                     </label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.awards_en}
@@ -1032,23 +1066,25 @@ function UpdateScientist() {
                           awards_en: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
+                    /> */}
+                     <JoditEditor
                       ref={editor}
                       value={data.awards_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
                           awards_en: newContent,
-                        })
-                      }
-                    /> */}
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                   <div></div>
                   <div className="col-md-12">
                     <label className="form-label fw-bold">Awards (Hindi)</label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.awards_hi}
@@ -1064,18 +1100,20 @@ function UpdateScientist() {
                           awards_hi: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.awards_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          awards_hi: newContent,
-                        })
-                      }
                     /> */}
+                    <JoditEditor
+                      ref={editor}
+                      value={data.awards_hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          awards_hi: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                 </div>
               </div>
@@ -1088,7 +1126,7 @@ function UpdateScientist() {
                     <label className="form-label fw-bold">
                       Externally Funded Projects (English)
                     </label>
-                    <JoditEditor
+                    {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.externallyFundedProjects_en}
@@ -1104,18 +1142,20 @@ function UpdateScientist() {
                           externallyFundedProjects_en: newContent,
                         }));
                       }}
-                    />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
+                    /> */}
+                   <JoditEditor
                       ref={editor}
                       value={data.externallyFundedProjects_en}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
                           externallyFundedProjects_en: newContent,
-                        })
-                      }
-                    /> */}
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                   <div></div>
                   <div className="col-md-12">
@@ -1139,17 +1179,19 @@ function UpdateScientist() {
                         }));
                       }}
                     />
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
+                    <JoditEditor
                       ref={editor}
-                      value={data?.externallyFundedProjects_hi}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
+                      value={data.externallyFundedProjects_hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
                           externallyFundedProjects_hi: newContent,
-                        })
-                      }
-                    /> */}
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                   </div>
                 </div>
               </div>

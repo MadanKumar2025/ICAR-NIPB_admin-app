@@ -191,14 +191,14 @@ const PageTable = ({
               }}
             >
               {/* EDIT BUTTON */}
-              <span onClick={() => handleEdit?.(item)}>
-                <i className="bi bi-pencil fs-4"></i>
+              <span className="table-icon-edit" onClick={() => handleEdit?.(item)}>
+                <i className="bi bi-pencil fs-5"></i>
               </span>
 
               {/* CONTENT BUTTON (ONLY STATIC TEMPLATE) */}
               {isStaticTemplate && (
-                <span onClick={() => navigate(`/content/${item._id}`)}>
-                  <i className="bi bi-file-earmark-plus fs-4"></i>
+                <span className="table-plus-add" onClick={() => navigate(`/content/${item._id}`)}>
+                  <i className="bi bi-file-earmark-plus fs-5"></i>
                 </span>
               )}
             </div>

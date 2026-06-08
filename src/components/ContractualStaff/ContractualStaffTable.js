@@ -158,8 +158,8 @@ const ContractualStaffTable = ({
           const item = row.original;
 
           return (
-            <span onClick={() => handleEdit?.(item)}>
-              <i className="bi bi-pencil fs-4"></i>
+            <span className="table-icon-edit" onClick={() => handleEdit?.(item)}>
+              <i className="bi bi-pencil fs-5"></i>
             </span>
           );
         },

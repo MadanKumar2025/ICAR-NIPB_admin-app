@@ -36,13 +36,12 @@ const DocumentUploaderTable = ({
           const fileUrl = row.original?.documentFile;
 
           return fileUrl ? (
-            <a
+            <a className="view-file-btn"
               href={`${IMG_BASE_URL}/files/${fileUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: "underline", color: "blue" }}
-            >
-              View File
+            >  <i class="bi bi-files"></i> <span>View File</span>
             </a>
           ) : (
             "-"
@@ -67,8 +66,7 @@ const DocumentUploaderTable = ({
             />
           ) : (
             <i
-              className="bi bi-file-earmark-pdf"
-              style={{ fontSize: 24, color: "red" }}
+              className="bi bi-file-earmark-pdf pdf-icon fs-3"
             ></i>
           );
         },
@@ -89,19 +87,19 @@ const DocumentUploaderTable = ({
           return (
             <div style={{ display: "flex", gap: "10px", cursor: "pointer" }}>
               {hasEditAccess?.("Document Uploader") && (
-                <span onClick={() => handleEdit?.(item)}>
-                  <i className="bi bi-pencil fs-4"></i>
+                <span className="table-icon-edit" onClick={() => handleEdit?.(item)}>
+                  <i className="bi bi-pencil fs-5"></i>
                 </span>
               )}
 
               {hasDeleteAccess?.("Document Uploader") && (
-                <span
+                <span className="trash-icon"
                   onClick={() => {
                     handleDelete?.(item);
                     handleClose?.();
                   }}
                 >
-                  <i className="bi bi-trash fs-4"></i>
+                  <i className="bi bi-trash fs-5"></i>
                 </span>
               )}
             </div>

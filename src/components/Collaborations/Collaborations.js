@@ -142,7 +142,7 @@ function Collaborations() {
             preview={preview}
           />
         )}
-        <div className="card mb-4" style={{ width: "90%", marginLeft: "5%" }}>
+        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
           <CollaborationsTable
             data={collaborations?.data || []}
             handleToggle={handleToggle}

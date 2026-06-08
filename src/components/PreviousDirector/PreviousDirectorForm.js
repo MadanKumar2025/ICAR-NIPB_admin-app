@@ -174,7 +174,7 @@ function PreviousDirectorForm({
                   </div>
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label className="form-label">working Period</label>
                   <input
                     type="text"
@@ -187,7 +187,7 @@ function PreviousDirectorForm({
                     required
                   />
                 </div>
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label className="form-label">Photo Title</label>
                   <input
                     type="text"
@@ -204,7 +204,7 @@ function PreviousDirectorForm({
                     type="file"
                     name="photo"
                     onChange={handleChange}
-                    className="form-control"
+                    className="form-control upload-image-input"
                     id="photo"
                   />
                   {preview && (
@@ -221,7 +221,7 @@ function PreviousDirectorForm({
                   )}
                 </div>
 
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label className="form-label">Acting</label>
                   <select
                     name="acting"
@@ -233,7 +233,7 @@ function PreviousDirectorForm({
                     <option value={false}>InActing</option>
                   </select>
                 </div>
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label className="form-label">Is Active</label>
                   <select
                     name="isActive"

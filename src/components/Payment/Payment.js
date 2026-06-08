@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { usePermissions } from "../User_Management/UserManagement.js";
 import JoditEditor from "jodit-react";
@@ -213,6 +213,14 @@ function Payment() {
     }
   };
 
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
   return (
     <>
       <div>
@@ -288,7 +296,7 @@ function Payment() {
                         }
                       /> */}
                       <div className="custom-main-editor">
-                      <JoditEditor
+                        {/* <JoditEditor
                         ref={editor}
                         value={data.bankDetails_en}
                         config={{
@@ -303,7 +311,20 @@ function Payment() {
                             bankDetails_en: newContent,
                           }));
                         }}
-                      />
+                      /> */}
+                        <JoditEditor
+                          ref={editor}
+                          value={data.bankDetails_en}
+                          config={config}
+                          tabIndex={1}
+                          onBlur={(newContent) => {
+                            setData((prev) => ({
+                              ...prev,
+                              bankDetails_en: newContent,
+                            }));
+                          }}
+                          onChange={() => {}}
+                        />
                       </div>
                     </div>
                   </div>
@@ -313,7 +334,7 @@ function Payment() {
                         Bank Details (Hindi)
                       </label>
                       <div className="custom-main-editor">
-                      <JoditEditor
+                        {/* <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
                         value={data?.bankDetails_hi}
@@ -329,7 +350,20 @@ function Payment() {
                             bankDetails_hi: newContent,
                           }));
                         }}
-                      />
+                      /> */}
+                        <JoditEditor
+                          ref={editor}
+                          value={data.bankDetails_hi}
+                          config={config}
+                          tabIndex={1}
+                          onBlur={(newContent) => {
+                            setData((prev) => ({
+                              ...prev,
+                              bankDetails_hi: newContent,
+                            }));
+                          }}
+                          onChange={() => {}}
+                        />
                       </div>
                     </div>
                   </div>

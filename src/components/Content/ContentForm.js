@@ -1,6 +1,6 @@
 import axios from "axios";
 import JoditEditor from "jodit-react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -14,7 +14,7 @@ function ContentForm({
   setPreview,
   preview,
   hasAddAccess,
-  hasEditAccess
+  hasEditAccess,
 }) {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
@@ -104,6 +104,15 @@ function ContentForm({
     }
   };
 
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
+
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -123,77 +132,85 @@ function ContentForm({
                   <label className="form-label fw-bold">
                     HTML Content (English)
                   </label>
-                   <JoditEditor
-                        style={{ width: "90%" }}
-                        ref={editor}
-                        value={data?.content_en}
-                        config={{
-                          showPoweredBy: false,
-                          placeholder: "",
-                          askBeforePasteHTML: false,
-                          askBeforePasteFromWord: false,
-                        }}
-                        onBlur={(newContent) => {
-                          setData((prev) => ({
-                            ...prev,
-                            content_en: newContent,
-                          }));
-                        }}
-                      />
                   {/* <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
                     value={data?.content_en}
-                    onChange={(newContent) =>
-                      setData({
-                        ...data,
+                    config={{
+                      showPoweredBy: false,
+                      placeholder: "",
+                      askBeforePasteHTML: false,
+                      askBeforePasteFromWord: false,
+                    }}
+                    onBlur={(newContent) => {
+                      setData((prev) => ({
+                        ...prev,
                         content_en: newContent,
-                      })
-                    }
-                  /> */}
+                      }));
+                    }}
+                  />
+                  */}
+
+                  <JoditEditor
+                    ref={editor}
+                    value={data.content_en}
+                    config={config}
+                    tabIndex={1}
+                    onBlur={(newContent) => {
+                      setData((prev) => ({
+                        ...prev,
+                        content_en: newContent,
+                      }));
+                    }}
+                    onChange={() => {}}
+                  />
                 </div>
                 <div>
                   <label className="form-label fw-bold">
                     HTML Content (Hindi)
                   </label>
-                   <JoditEditor
-                        style={{ width: "90%" }}
-                        ref={editor}
-                        value={data?.content_hi}
-                        config={{
-                          showPoweredBy: false,
-                          placeholder: "",
-                          askBeforePasteHTML: false,
-                          askBeforePasteFromWord: false,
-                        }}
-                        onBlur={(newContent) => {
-                          setData((prev) => ({
-                            ...prev,
-                            content_hi: newContent,
-                          }));
-                        }}
-                      />
                   {/* <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
                     value={data?.content_hi}
-                    onChange={(newContent) =>
-                      setData({
-                        ...data,
+                    config={{
+                      showPoweredBy: false,
+                      placeholder: "",
+                      askBeforePasteHTML: false,
+                      askBeforePasteFromWord: false,
+                    }}
+                    onBlur={(newContent) => {
+                      setData((prev) => ({
+                        ...prev,
                         content_hi: newContent,
-                      })
-                    }
+                      }));
+                    }}
                   /> */}
+
+                  <JoditEditor
+                    ref={editor}
+                    value={data?.content_hi}
+                    config={config}
+                    tabIndex={1}
+                    onBlur={(newContent) => {
+                      setData((prev) => ({
+                        ...prev,
+                        content_hi: newContent,
+                      }));
+                    }}
+                    onChange={() => {}}
+                  />
                 </div>
               </div>
             </div>
 
             <div className="d-flex justify-content-between">
               <div className="card-footer">
-               {(hasAddAccess("content") ||
-                hasEditAccess("content")) && (  <button className="btn btn-info" type="submit">
-                  {isEdit ? "Update" : "Save"}
-                </button>)}
+                {(hasAddAccess("content") || hasEditAccess("content")) && (
+                  <button className="btn btn-info" type="submit">
+                    {isEdit ? "Update" : "Save"}
+                  </button>
+                )}
               </div>
             </div>
           </form>

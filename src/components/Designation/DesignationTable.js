@@ -146,12 +146,12 @@ const DesignationTable = ({
 
           return (
             <span
-              // className="badge text-bg-danger"
+              className="table-icon-edit"
               // style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
               {/* Edit */}
-              <i className="bi bi-pencil fs-4"></i>
+              <i className="bi bi-pencil fs-5"></i>
             </span>
           );
         },

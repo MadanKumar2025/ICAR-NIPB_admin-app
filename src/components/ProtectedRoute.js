@@ -7,6 +7,10 @@ function ProtectedRoute({ children }) {
   const { hasAccessByUrl, loading } = usePermissions();
 
   const path = location.pathname.toLowerCase();
+  
+  if (token && path === "/login") {
+    return <Navigate to="/" replace />;
+  }
 
   if (!token) {
     return <Navigate to="/login" replace />;

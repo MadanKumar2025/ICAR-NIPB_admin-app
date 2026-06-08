@@ -80,11 +80,11 @@ const ScientistTable = ({
           const item = row.original;
 
           return (
-            <span
+            <span className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-              <i className="bi bi-pencil fs-4"></i>
+              <i className="bi bi-pencil fs-5"></i>
             </span>
           );
         },
@@ -117,7 +117,7 @@ const ScientistTable = ({
                 }}
               >
                 <button
-                  className="btn btn-info btn-sm"
+                  className="btn btn-info btn-sm nowrap-btn"
                   onClick={() => handleCreateLogin?.(item?._id)}
                 >
                   Create Scientist Login

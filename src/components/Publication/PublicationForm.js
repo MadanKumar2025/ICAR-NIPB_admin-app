@@ -1,6 +1,6 @@
 import axios from "axios";
 import JoditEditor from "jodit-react";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import Swal from "sweetalert2";
 
 function PublicationForm({
@@ -194,7 +194,7 @@ function PublicationForm({
       }
     }
   };
-  
+
   const showFileUploadCategories = [
     "AnnualReport",
     "Newsletters",
@@ -204,6 +204,16 @@ function PublicationForm({
   ];
 
   const showFileUpload = showFileUploadCategories.includes(data?.category);
+
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
+
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -238,7 +248,7 @@ function PublicationForm({
                   </select>
                 </div>
                 {data?.category !== "Forms" && (
-                  <div className="col-md-6">
+                  <div className="col-sm-6">
                     <label
                       htmlFor="validationCustomUsername"
                       className="form-label"
@@ -293,7 +303,7 @@ function PublicationForm({
                   </div> */}
                   </div>
                 )}
-                <div className="col-md-6">
+                <div className="col-sm-6">
                   <label className="form-label">Is Active</label>
                   <select
                     name="isActive"
@@ -332,7 +342,7 @@ function PublicationForm({
                 <div>
                   <label className="form-label fw-bold">Title (English)</label>
                   <div className="custom-main-editor">
-                  <JoditEditor
+                    {/* <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
                     value={data?.title_en}
@@ -348,24 +358,26 @@ function PublicationForm({
                         title_en: newContent,
                       }));
                     }}
-                  />
-                  </div>
-                  {/* <JoditEditor
-                    style={{ width: "90%" }}
-                    ref={editor}
-                    value={data?.title_en}
-                    onChange={(newContent) =>
-                      setData({
-                        ...data,
-                        title_en: newContent,
-                      })
-                    }
                   /> */}
+                    <JoditEditor
+                      ref={editor}
+                      value={data.title_en}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          title_en: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="form-label fw-bold">Title (Hindi)</label>
                   <div className="custom-main-editor">
-                  <JoditEditor
+                    {/* <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
                     value={data?.title_hi}
@@ -381,30 +393,32 @@ function PublicationForm({
                         title_hi: newContent,
                       }));
                     }}
-                  />
-                  </div>
-                  {/* <JoditEditor
-                    style={{ width: "90%" }}
-                    ref={editor}
-                    value={data?.title_hi}
-                    onChange={(newContent) =>
-                      setData({
-                        ...data,
-                        title_hi: newContent,
-                      })
-                    }
                   /> */}
+                    <JoditEditor
+                      ref={editor}
+                      value={data?.title_hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          title_hi: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-                 <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                Save
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -25,6 +25,15 @@ function Sidebar({ isOpen, toggleSidebar }) {
     navigate("/login");
   };
 
+  /* menu click close sidebar */
+  const handleMenuClick = (url) => {
+  navigate(url);
+
+  if (window.innerWidth <= 1024) {
+    toggleSidebar();
+  }
+};
+
   const getPermissions = async (page = 1) => {
     try {
       const response = await axios.get(
@@ -114,10 +123,15 @@ function Sidebar({ isOpen, toggleSidebar }) {
               if (menu?.url?.includes(":id")) return null;
               return (
                 <li className="nav-item" key={menu?._id || index}>
-                  <Link
+                  {/* <Link
                     to={menu?.url || "#"}
                     className={`nav-link ${pathname === menu?.url && "active"}`}
-                  >
+                  > */}
+                  <Link
+  to={menu?.url || "#"}
+  className={`nav-link ${pathname === menu?.url ? "active" : ""}`}
+  onClick={() => handleMenuClick(menu?.url)}
+>
                     <i className="nav-icon bi bi-palette"></i>
                     <p>{menu?.menuName}</p>
                   </Link>

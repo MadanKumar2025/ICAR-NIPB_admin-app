@@ -107,13 +107,14 @@ const TemplateTable = ({ data = [], handleEdit, hasEditAccess }) => {
           const item = row.original;
 
           return (
-            <span
-              className="badge text-bg-danger"
+            <div
+              className="table-text-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-              Edit
-            </span>
+             <i class="bi bi-pencil fs-6"></i>
+              <span>Edit</span>
+            </div>
           );
         },
       });

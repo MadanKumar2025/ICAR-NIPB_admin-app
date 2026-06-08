@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import ApexCharts from "apexcharts";
 // import "./css/adminlte.css";
 // import "./Styles/main.scss";
@@ -94,12 +94,16 @@ function App() {
       );
     }
   }, []);
-
+  const token = localStorage.getItem("token");
   return (
     <>
       {isLogin ? (
         <Routes>
-          <Route path="/login" element={<Login />} />
+          {/* <Route path="/login" element={<Login />} /> */}
+          <Route
+            path="/login"
+            element={token ? <Navigate to="/" replace /> : <Login />}
+          />
         </Routes>
       ) : (
         <div className="layout-fixed sidebar-expand-lg bg-body-tertiary">

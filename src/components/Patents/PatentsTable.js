@@ -73,7 +73,7 @@ const PatentsTable = ({
           const item = row.original;
 
           return (
-            <span
+            <span className="table-icon-edit"
             
               onClick={() => handleEdit?.(item)}
             >

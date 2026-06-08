@@ -158,12 +158,12 @@ const FeedbackTable = ({
         const item = row.original;
 
         return (
-          <div
+          <div className="feedback-btn d-flex align-items-center"
             style={{ cursor: "pointer",  }}
             onClick={() => navigate(`/feedbackView/${item?.id}`)}
           >
             <i className="bi bi-card-checklist fs-4"></i>
-            <div>View</div>
+            <span>View</span>
           </div>
         );
       },

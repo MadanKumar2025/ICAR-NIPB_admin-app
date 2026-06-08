@@ -30,7 +30,7 @@ const AssociatedOrganizationTable = ({
           if (!link) return "-";
 
           return (
-            <a
+            <a className="urls-links-title"
               href={link}
               target="_blank"
               rel="noopener noreferrer"
@@ -132,6 +132,9 @@ const AssociatedOrganizationTable = ({
     state: { pagination },
     onPaginationChange: setPagination,
     autoResetPageIndex: false,
+     muiTablePaperProps: {
+    className: "panel-inner-table",
+  },
   });
 
   return <MaterialReactTable table={table} />;

@@ -182,7 +182,7 @@ function Alumni() {
           handleClose={handleClose}
         />
       )}
-      <div className="card mb-4" style={{ width: "90%", marginLeft: "5%" }}>
+      <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
         <AlumniTable
           data={alumni?.data || []}
           handleToggle={handleToggle}

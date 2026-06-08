@@ -296,7 +296,7 @@ function Student({ setOpen, open, studentInCourse }) {
             </button>
           </div>
         </form>
-        <div className="card mb-4" style={{ width: "90%", marginLeft: "5%" }}>
+        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
           <StudentTable
             data={student?.data || []}
             handleToggle={handleToggle}

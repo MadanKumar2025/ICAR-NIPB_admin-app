@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { Box, Tabs, useMediaQuery, useTheme } from "@mui/material";
 import Tab from "@mui/material/Tab";
@@ -321,6 +321,15 @@ function StaffForm({
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   // console.log("data", data);
 
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
+
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -369,7 +378,7 @@ function StaffForm({
 
             {/* TAB 1 */}
             <CustomTabPanel value={tab} index={0}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className="row g-3">
                   <div className="col-md-6">
                     <label htmlFor="validationCustom01" className="form-label">
@@ -642,14 +651,14 @@ function StaffForm({
             </CustomTabPanel>
             {/* TAB 2 */}
             <CustomTabPanel value={tab} index={1}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className="row g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Duties assigned and Date of Joining (English)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
+                      {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.research_en}
@@ -665,27 +674,29 @@ function StaffForm({
                           research_en: newContent,
                         }));
                       }}
-                    />
+                    /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data.research_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            research_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                             style={{ width: "100%" }}
-                             ref={editor}
-                             value={data.researchInterest_en}
-                             onChange={(newContent) =>
-                               setData({
-                                 ...data,
-                                 researchInterest_en: newContent,
-                               })
-                             }
-                           /> */}
                   </div>
-                  
+
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Duties assigned and Date of Joining (Hindi)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
+                      {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.research_hi}
@@ -701,94 +712,29 @@ function StaffForm({
                           research_hi: newContent,
                         }));
                       }}
-                    />
+                    /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.research_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            research_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                             style={{ width: "90%" }}
-                             ref={editor}
-                             value={data.researchInterest_hi}
-                             onChange={(newContent) =>
-                               setData({
-                                 ...data,
-                                 researchInterest_hi: newContent,
-                               })
-                             }
-                           /> */}
                   </div>
                 </div>
               </div>
             </CustomTabPanel>
 
-            {/* <CustomTabPanel value={tab} index={1}>
-              <div className="card-body">
-                <div className="row g-3">
-                  {data?.research?.map((research, index) => (
-                    <>
-                      <div
-                        key={index}
-                        className="row g-3  align-items-center"
-                        // className="d-flex align-items-center  gap-2 mb-2"
-                      >
-                        <div key={index} className="col-md-5">
-                          <label className="form-label">
-                            Research Interest (English)
-                          </label>
-                          <input
-                            type="text"
-                            name="en"
-                            value={research?.en}
-                            onChange={(e) => handleResearchChange(index, e)}
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="col-md-5">
-                          <label className="form-label">
-                            Research Interest (Hindi)
-                          </label>
-                          <input
-                            type="text"
-                            name="hi"
-                            value={research?.hi}
-                            onChange={(e) => handleResearchChange(index, e)}
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="d-flex align-items-center col-md-1 mt-1">
-                          <div className="col-md-5 mt-1">
-                            <div
-                              type="button"
-                              onClick={() =>
-                                data?.research?.length > 1 &&
-                                deleteResearch(index)
-                              }
-                              style={{
-                                cursor:
-                                  data?.research?.length > 1
-                                    ? "pointer"
-                                    : "not-allowed",
-                                opacity: data?.research?.length > 1 ? 1 : 0.5,
-                              }}
-                            >
-                              <i className="bi bi-trash fs-4"></i>
-                            </div>
-                          </div>
-                          <div
-                            className="col-md-5 mt-1"
-                            type="button"
-                            onClick={addResearch}
-                          >
-                            <i className="bi bi-plus-circle fs-4"></i>
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  ))}
-                </div>
-              </div>
-            </CustomTabPanel> */}
             {/* TAB 3 */}
             <CustomTabPanel value={tab} index={2}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className="row g-3">
                   {data?.awards?.map((awards, index) => (
                     <>
@@ -830,13 +776,13 @@ function StaffForm({
                             <i className="bi bi-trash fs-4"></i>
                           </div>
                           <div
-                          type="button"
-                          className="add-awards"
-                          // className="btn btn-primary"
-                          onClick={addAwards}
-                        >
-                          <i className="bi bi-plus-circle fs-4"></i>
-                        </div>
+                            type="button"
+                            className="add-awards"
+                            // className="btn btn-primary"
+                            onClick={addAwards}
+                          >
+                            <i className="bi bi-plus-circle fs-4"></i>
+                          </div>
                         </div>
                       </div>
                     </>
@@ -844,78 +790,16 @@ function StaffForm({
                 </div>
               </div>
             </CustomTabPanel>
-            {/* TAB 4 */}
-            {/* <CustomTabPanel value={tab} index={3}>
-              <div className="card-body">
-                <div className="row g-3">
-                  {data?.publications?.map((publications, index) => (
-                    <>
-                      <div key={index} className="row g-3  align-items-center">
-                        <div key={index} className="col-md-5">
-                          <label className="form-label">
-                            publications (English)
-                          </label>
-                          <input
-                            type="text"
-                            name="en"
-                            value={publications?.en}
-                            onChange={(e) => handlePublicationsChange(index, e)}
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="col-md-5">
-                          <label className="form-label">
-                            Publications (Hindi)
-                          </label>
-                          <input
-                            type="text"
-                            name="hi"
-                            value={publications?.hi}
-                            onChange={(e) => handlePublicationsChange(index, e)}
-                            className="form-control"
-                          />
-                        </div>
-                        <div className="col-md-1 mt-1">
-                          <div
-                            type="button"
-                            onClick={() =>
-                              data?.publications?.length > 1 &&
-                              deletePublications(index)
-                            }
-                            style={{
-                              cursor:
-                                data?.publications?.length > 1
-                                  ? "pointer"
-                                  : "not-allowed",
-                              opacity: data?.publications?.length > 1 ? 1 : 0.5,
-                            }}
-                          >
-                            <i className="bi bi-trash fs-4"></i>
-                          </div>
-                        </div>
-                        <div
-                          type="button"
-                          className="col-md-1 mt-1"
-                          onClick={addPublications}
-                        >
-                          <i className="bi bi-plus-circle fs-4"></i>
-                        </div>
-                      </div>
-                    </>
-                  ))}
-                </div>
-              </div>
-            </CustomTabPanel> */}
 
             <CustomTabPanel value={tab} index={3}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className=" g-3">
                   <div className="col-md-12">
                     <label className="form-label fw-bold">
                       Publications (English)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
+                      {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.publications_en}
@@ -931,19 +815,21 @@ function StaffForm({
                           publications_en: newContent,
                         }));
                       }}
-                    />
+                    /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.publications_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            publications_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                                  style={{ width: "90%" }}
-                                  ref={editor}
-                                  value={data.publications_en}
-                                  onChange={(newContent) =>
-                                    setData({
-                                      ...data,
-                                      publications_en: newContent,
-                                    })
-                                  }
-                                /> */}
                   </div>
                   <div></div>
                   <div className="col-md-12 mt-3">
@@ -951,7 +837,7 @@ function StaffForm({
                       Publications (Hindi)
                     </label>
                     <div className="custom-main-editor">
-                    <JoditEditor
+                      {/* <JoditEditor
                       style={{ width: "90%" }}
                       ref={editor}
                       value={data?.publications_hi}
@@ -967,26 +853,28 @@ function StaffForm({
                           publications_hi: newContent,
                         }));
                       }}
-                    />
+                    /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.publications_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            publications_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    {/* <JoditEditor
-                                  style={{ width: "90%" }}
-                                  ref={editor}
-                                  value={data.publications_hi}
-                                  onChange={(newContent) =>
-                                    setData({
-                                      ...data,
-                                      publications_hi: newContent,
-                                    })
-                                  }
-                                /> */}
                   </div>
                 </div>
               </div>
             </CustomTabPanel>
             {/* TAB 5 */}
             <CustomTabPanel value={tab} index={4}>
-              <div className="card-body">
+              <div className="card-body tab-panel-body">
                 <div className="row g-3">
                   {data?.ipr?.map((ipr, index) => (
                     <>
@@ -1028,12 +916,12 @@ function StaffForm({
                             <i className="bi bi-trash fs-4"></i>
                           </div>
                           <div
-                          type="button"
-                          className="add-award"
-                          onClick={addIpr}
-                        >
-                          <i className="bi bi-plus-circle fs-4"></i>
-                        </div>
+                            type="button"
+                            className="add-award"
+                            onClick={addIpr}
+                          >
+                            <i className="bi bi-plus-circle fs-4"></i>
+                          </div>
                         </div>
                       </div>
                     </>
@@ -1042,47 +930,14 @@ function StaffForm({
               </div>
             </CustomTabPanel>
 
-            {/* <div
-              style={{
-                margin: "30px",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={handleBack}
-                disabled={tab === 0}
-              >
-                Back
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                Save
               </button>
-
-              <div>
-                {tab < 4 && (
-                  <button
-                    type="button"
-                    className="btn btn-info"
-                    onClick={handleNext}
-                  >
-                    Next
-                  </button>
-                )}
-                {tab === 4 && (
-                  <button type="submit" className="btn btn-primary">
-                    Save
-                  </button>
-                )}
-              </div>
-            </div> */}
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-                <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -67,11 +67,11 @@ const VigilanceOfficerTable = ({
           const item = row.original;
 
           return (
-            <span
+            <span  className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-              <i className="bi bi-pencil fs-4"></i>
+              <i className="bi bi-pencil fs-5"></i>
             </span>
           );
         },
@@ -87,6 +87,9 @@ const VigilanceOfficerTable = ({
     state: { pagination },
     onPaginationChange: setPagination,
     autoResetPageIndex: false,
+     muiTablePaperProps: {
+    className: "panel-inner-table",
+  },
   });
 
   return <MaterialReactTable table={table} />;

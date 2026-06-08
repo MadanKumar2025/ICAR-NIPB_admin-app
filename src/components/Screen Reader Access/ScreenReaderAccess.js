@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { usePermissions } from "../User_Management/UserManagement.js";
 import JoditEditor from "jodit-react";
@@ -22,11 +22,14 @@ function ScreenReaderAccess() {
 
   const getscreenReaderAccess = async (page = 1) => {
     try {
-      const response = await axios.get(`${API_URL}/ScreenReaderAccessRoutes/getAll`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.get(
+        `${API_URL}/ScreenReaderAccessRoutes/getAll`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       const item = response?.data?.data?.[0];
 
@@ -118,6 +121,14 @@ function ScreenReaderAccess() {
       }
     }
   };
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
 
   return (
     <>
@@ -141,7 +152,7 @@ function ScreenReaderAccess() {
                       Content (English)
                     </label>
                     <div className="custom-main-editor">
-                     <JoditEditor
+                      {/* <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
                         value={data?.content_en}
@@ -157,29 +168,28 @@ function ScreenReaderAccess() {
                             content_en: newContent,
                           }));
                         }}
+                      /> */}
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.content_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            content_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
                       />
-                      </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data.content_en}
-                      config={{
-                        placeholder: "",
-                      }}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
-                          content_en: newContent,
-                        })
-                      }
-                    /> */}
+                    </div>
                   </div>
                   <div>
                     <label className="form-label fw-bold">
                       Content (Hindi)
                     </label>
                     <div className="custom-main-editor">
-                     <JoditEditor
+                      {/* <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}
                         value={data?.content_hi}
@@ -195,22 +205,22 @@ function ScreenReaderAccess() {
                             content_hi: newContent,
                           }));
                         }}
-                      />
-                      </div>
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
+                      /> */}
+                         <JoditEditor
                       ref={editor}
-                      value={data.content_hi}
-                      config={{
-                        placeholder: "",
-                      }}
-                      onChange={(newContent) =>
-                        setData({
-                          ...data,
+                      value={data?.content_hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
                           content_hi: newContent,
-                        })
-                      }
-                    /> */}
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
+                    </div>
+                    
                   </div>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import EventTable from "./EventTable";
 import { jwtDecode } from "jwt-decode";
@@ -165,17 +165,24 @@ function EventForm({
     }
   };
 
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      showPoweredBy: false,
+      placeholder: "",
+    }),
+    [],
+  );
+
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-
-
         <form
           className="needs-validation"
           ref={formRef}
           onSubmit={handleSubmit}
         >
-         <div className="custom-card card card-info card-outline mb-4">
+          <div className="custom-card card card-info card-outline mb-4">
             <div className="card-header">
               <div className="card-title">Create Event </div>
             </div>
@@ -391,16 +398,14 @@ function EventForm({
             </div>
           </div>
 
-
           <div className="custom-card card card-info card-outline mb-4">
             <div className="card-body">
               <div>
-
                 <label htmlFor="description_en" className="form-label">
                   Description (English)
                 </label>
                 <div className="custom-main-editor">
-                  <JoditEditor
+                  {/* <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
                     value={data?.description?.en}
@@ -410,6 +415,20 @@ function EventForm({
                         description: { ...prev?.description, en: newContent },
                       }))
                     }
+                  /> */}
+                  <JoditEditor
+                    ref={editor}
+                    value={data.description?.en}
+                    config={config}
+                    tabIndex={1}
+                    onBlur={(newContent) => {
+                      setData((prev) => ({
+                        ...prev,
+                        // description_hi: newContent,
+                        description: { ...prev?.description, en: newContent },
+                      }));
+                    }}
+                    onChange={() => {}}
                   />
                 </div>
                 <div className="invalid-feedback">
@@ -421,7 +440,7 @@ function EventForm({
                   Description (Hindi)
                 </label>
                 <div className="custom-main-editor">
-                  <JoditEditor
+                  {/* <JoditEditor
                     style={{ width: "90%" }}
                     ref={editor}
                     value={data?.description?.hi}
@@ -431,7 +450,21 @@ function EventForm({
                         description: { ...prev?.description, hi: newContent },
                       }))
                     }
-                  />
+                  /> */}
+                     <JoditEditor
+                      ref={editor}
+                      value={data.description?.hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          // description_hi: newContent,
+                          description: { ...prev?.description, hi: newContent },
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
                 </div>
                 <div className="invalid-feedback">
                   कृपया विवरण (हिंदी में) प्रदान करें।
