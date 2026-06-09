@@ -197,7 +197,7 @@ const PreviousDirectorTable = ({
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-               <i class="bi bi-pencil fs-6"></i>
+               <i className="bi bi-pencil fs-6"></i>
              <span> Edit</span>
             </div>
           );

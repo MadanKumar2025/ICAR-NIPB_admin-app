@@ -8,7 +8,7 @@ import { usePermissions } from "../User_Management/UserManagement";
 function PreviousDirector() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-    const { hasAddAccess,hasActiveAccess,hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
 
   const [PreviousDirector, setPreviousDirector] = useState([]);
   const [data, setData] = useState({
@@ -18,6 +18,7 @@ function PreviousDirector() {
     photoTitle: "",
     photo: null,
     acting: true,
+    displayOrderNumber: null,
     isActive: true,
   });
 
@@ -34,6 +35,7 @@ function PreviousDirector() {
       name_hi: "",
       workingPeriod: "",
       photoTitle: "",
+      displayOrderNumber: "",
       photo: null,
       acting: true,
       isActive: true,
@@ -105,6 +107,7 @@ function PreviousDirector() {
       name_en: item?.name?.en || "",
       name_hi: item?.name?.hi || "",
       workingPeriod: item?.workingPeriod || "",
+      displayOrderNumber: item?.displayOrderNumber || 0,
       photoTitle: item?.photoTitle || "",
       acting: item?.acting || true,
       photo: item?.photo || "",
@@ -115,7 +118,7 @@ function PreviousDirector() {
     }
 
     setIsEdit(true);
-    setEditId(item?._id);
+    setEditId(item?.id);
     setShowForm(true);
 
     window.scrollTo({
@@ -124,18 +127,26 @@ function PreviousDirector() {
     });
   };
 
-  
   return (
     <>
       <div>
         <div className="d-flex justify-content-end">
           <div
             className="card-footer"
-            style={{ marginTop: "2vh", marginBottom: "2vh", marginRight: "4vw",}}
+            style={{
+              marginTop: "2vh",
+              marginBottom: "2vh",
+              marginRight: "4vw",
+            }}
           >
-           {hasAddAccess("Previous Director") && (  <button className="btn btn-info" onClick={() => setShowForm(true)}>
-              Create Previous Director
-            </button>)}
+            {hasAddAccess("Previous Director") && (
+              <button
+                className="btn btn-info"
+                onClick={() => setShowForm(true)}
+              >
+                Create Previous Director
+              </button>
+            )}
           </div>
         </div>
         {showForm && (
@@ -151,7 +162,10 @@ function PreviousDirector() {
             preview={preview}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <PreviousDirectorTable
             data={PreviousDirector?.data || []}
             handleToggle={handleToggle}

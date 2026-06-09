@@ -49,6 +49,7 @@ function PreviousDirectorForm({
         formData.append("name_hi", data?.name_hi || "");
         formData.append("workingPeriod", data?.workingPeriod || "");
         formData.append("photoTitle", data?.photoTitle || "");
+        formData.append("displayOrderNumber", data?.displayOrderNumber || "");
         formData.append("acting", data?.acting);
         formData.append("isActive", data?.isActive);
 
@@ -86,6 +87,7 @@ function PreviousDirectorForm({
       formData.append("workingPeriod", data?.workingPeriod || "");
       formData.append("photo", data?.photo || "");
       formData.append("photoTitle", data?.photoTitle || "");
+      formData.append("displayOrderNumber", data?.displayOrderNumber || "");
       formData.append("acting", data?.acting || true);
       formData.append("isActive", data?.isActive);
 
@@ -118,6 +120,7 @@ function PreviousDirectorForm({
     }
   };
 
+   
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -185,6 +188,17 @@ function PreviousDirectorForm({
                     id="validationCustomUsername"
                     aria-describedby="inputGroupPrepend"
                     required
+                  />
+                </div>
+                <div className="col-sm-6">
+                  <label className="form-label">Display Order Number</label>
+                  <input
+                    type="number"
+                    name="displayOrderNumber"
+                    value={data?.displayOrderNumber}
+                    onChange={handleChange}
+                    className="form-control"
+                    id="displayOrderNumber"
                   />
                 </div>
                 <div className="col-sm-6">
