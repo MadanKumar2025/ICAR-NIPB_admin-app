@@ -39,6 +39,16 @@ function PublicationForm({
     if (type === "file") {
       const file = files?.[0];
 
+      const maxSize = 50 * 1024 * 1024;
+      if (file && file.size > maxSize) {
+        Swal.fire({
+          icon: "warning",
+          title: "File Too Large",
+          text: "File size must be less than 50MB",
+        });
+
+        return;
+      }
       setData((prev) => ({
         ...prev,
         [name]: file || null,
@@ -106,7 +116,15 @@ function PublicationForm({
         if (data?.file) {
           formData.append("file", data.file);
         }
-
+        Swal.fire({
+          title: "Uploading...",
+          html: "0%",
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
         const res = await axios.put(
           `${API_URL}/PublicationsRoutes/update/${editId}`,
           formData,
@@ -114,8 +132,18 @@ function PublicationForm({
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            onUploadProgress: (progressEvent) => {
+              const percent = Math.round(
+                (progressEvent.loaded * 100) / progressEvent.total,
+              );
+
+              Swal.update({
+                html: `${percent}%`,
+              });
+            },
           },
         );
+ Swal.close();
         setIsEdit(false);
         setData({
           title_en: "",
@@ -132,10 +160,15 @@ function PublicationForm({
         await getPublication();
         handleClose();
       } catch (error) {
+        console.log("FULL ERROR:", error);
+        console.log("STATUS:", error?.response?.status);
+        console.log("DATA:", error?.response?.data);
+
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: error || "Server error",
+          text:
+            error?.response?.data?.message || error.message || "Server error",
         });
       }
     } else {
