@@ -123,8 +123,7 @@ function Publication() {
     });
   };
 
-  console.log("publication",publication);
-  
+   
   return (
     <>
       <div>

@@ -139,7 +139,7 @@ function CadreStrengthForm({
                     htmlFor="validationCustomUsername"
                     className="form-label"
                   >
-                    Staff (English)
+                    Category (English)
                   </label>
                   <div className="input-group has-validation">
                     <input
@@ -157,7 +157,7 @@ function CadreStrengthForm({
                     htmlFor="validationCustomUsername"
                     className="form-label"
                   >
-                    Staff (Hindi)
+                    Category (Hindi)
                   </label>
                   <div className="input-group has-validation">
                     <input

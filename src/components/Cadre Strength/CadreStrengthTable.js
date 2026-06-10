@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import {
   MaterialReactTable,
@@ -26,18 +25,18 @@ const CadreStrengthTable = ({
       },
       {
         accessorFn: (row) => row?.staff?.en || "-",
-        header: "Staff",
+        header: "Category",
       },
       {
-        accessorFn: (row) => row?.sanctionedStrength || "-",
+        accessorFn: (row) => row?.sanctionedStrength || "0",
         header: "Sanctioned strength",
       },
       {
-        accessorFn: (row) => row?.filled || "-",
+        accessorFn: (row) => row?.filled || "0",
         header: "Filled",
       },
       {
-        accessorFn: (row) => row?.vacant || "-",
+        accessorFn: (row) => row?.vacant || "0",
         header: "Vacant",
       },
     ];
@@ -72,7 +71,8 @@ const CadreStrengthTable = ({
           const item = row.original;
 
           return (
-            <span className="table-icon-edit"
+            <span
+              className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
