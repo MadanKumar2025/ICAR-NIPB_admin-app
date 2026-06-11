@@ -31,13 +31,13 @@ function Page() {
     keyword: "",
     seoPageType: "",
     imageTitle: "",
-    apiName:"",
+    apiName: "",
     photo: null,
   });
 
   const token = localStorage.getItem("token");
   const formRef = useRef();
-  
+
   const getTemplate = async (page = 1, combinedData = []) => {
     try {
       const response = await axios.get(
@@ -145,7 +145,7 @@ function Page() {
           keyword: "",
           seoPageType: "",
           imageTitle: "",
-          apiName:"",
+          apiName: "",
           photo: null,
         });
 
@@ -302,6 +302,7 @@ function Page() {
   };
 
   const handleEdit = (item) => {
+    // console.log("item",item);
     setData({
       pageTitle_en: item?.pageTitle?.en,
       pageTitle_hi: item?.pageTitle?.hi,
@@ -621,7 +622,10 @@ function Page() {
             </div>
           </div>
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <PageTable
             data={allPage?.data || []}
             handleToggle={handleToggle}

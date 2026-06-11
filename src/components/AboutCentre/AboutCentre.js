@@ -277,12 +277,15 @@ function AboutCentre() {
     <>
       <div>
         <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
+          <div className="main-heading w-100 d-block overflow-hidden mb-3">
+            <div className="card-title fw-semibold">About Centre</div>
+          </div>
 
-           <div className="main-heading w-100 d-block overflow-hidden mb-3">
-              <div className="card-title fw-semibold">About Centre</div>
-            </div>
-
-          <form className="needs-validation" ref={formRef} onSubmit={handleSubmit}>
+          <form
+            className="needs-validation"
+            ref={formRef}
+            onSubmit={handleSubmit}
+          >
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-body">
                 <div className="row g-3 mb-3">
@@ -309,23 +312,21 @@ function AboutCentre() {
                           }));
                         }}
                       /> */}
-                      
-   <JoditEditor
-                      ref={editor}
-                      value={data?.topSection_en}
-                      config={config}
-                      tabIndex={1}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          topSection_en: newContent,
-                        }));
-                      }}
-                      onChange={() => {}}
-                    />
 
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.topSection_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            topSection_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                   
                   </div>
                 </div>
               </div>
@@ -356,23 +357,21 @@ function AboutCentre() {
                           }));
                         }}
                       /> */}
-                      
-   <JoditEditor
-                      ref={editor}
-                      value={data?.topSection_hi}
-                      config={config}
-                      tabIndex={1}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          topSection_hi: newContent,
-                        }));
-                      }}
-                      onChange={() => {}}
-                    />
 
+                      <JoditEditor
+                        ref={editor}
+                        value={data?.topSection_hi}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            topSection_hi: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                   
                   </div>
                 </div>
               </div>
@@ -468,7 +467,6 @@ function AboutCentre() {
               </div>
             </div>
 
-
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-body">
                 <div className="row g-3 mb-3">
@@ -513,7 +511,6 @@ function AboutCentre() {
                 </div>
               </div>
             </div>
-
 
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-body">
@@ -740,7 +737,6 @@ function AboutCentre() {
               </div>
             </div>
 
-
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-body">
                 <div className="row gap-3">
@@ -774,20 +770,18 @@ function AboutCentre() {
                     </div>
                   </div>
                 </div>
-                 </div>
+              </div>
 
-                <div className="card-footer">
-                  {(hasAddAccess("About Centre") ||
-                    hasEditAccess("About Centre")) && (
-                      <button className="btn btn-info" type="submit">
-                        Save
-                      </button>
-                    )}
-                </div>
-             
-
+              <div className="card-footer">
+                {(hasAddAccess("About Centre") ||
+                  hasEditAccess("About Centre")) && (
+                  <button className="btn btn-info" type="submit">
+                    Save
+                  </button>
+                )}
+              </div>
             </div>
-          </form> 
+          </form>
         </div>
       </div>
     </>

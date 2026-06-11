@@ -143,7 +143,8 @@ function PublicationForm({
             },
           },
         );
- Swal.close();
+        Swal.close();
+        
         setIsEdit(false);
         setData({
           title_en: "",

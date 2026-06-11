@@ -1,5 +1,3 @@
- 
-
 import React, { useMemo } from "react";
 import {
   MaterialReactTable,
@@ -7,7 +5,7 @@ import {
 } from "material-react-table";
 import { useNavigate } from "react-router-dom";
 
-const CollaborationsTable = ({
+const CommitteesTable = ({
   data = [],
   handleToggle,
   handleEdit,
@@ -26,13 +24,13 @@ const CollaborationsTable = ({
         size: 50,
       },
       {
-        accessorFn: (row) => row?.title?.en || "-",
-        header: "Title",
+        accessorFn: (row) => row?.type?.en || "-",
+        header: "Type",
       },
     ];
 
     //  STATUS COLUMN
-    if (hasActiveAccess?.("Collaborations")) {
+    if (hasActiveAccess?.("Committees")) {
       cols.push({
         accessorKey: "isActive",
         header: "Status",
@@ -54,14 +52,15 @@ const CollaborationsTable = ({
     }
 
     //  EDIT COLUMN
-    if (hasEditAccess?.("Collaborations")) {
+    if (hasEditAccess?.("Committees")) {
       cols.push({
         header: "Edit",
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <span className="table-icon-edit"
+            <span
+              className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
@@ -71,26 +70,7 @@ const CollaborationsTable = ({
         },
       });
     }
-
-    //   DETAILS COLUMN (navigation)
-    if (hasEditAccess?.("Collaborations")) {
-      cols.push({
-        header: "Details",
-        Cell: ({ row }) => {
-          const item = row.original;
-
-          return (
-            <button
-              className="btn btn-info"
-              style={{ marginTop: "10px" }}
-              onClick={() => navigate(`/collaborationsDetails/${item?._id}`)}
-            >
-              Add Details
-            </button>
-          );
-        },
-      });
-    }
+ 
 
     return cols;
   }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess, navigate]);
@@ -111,4 +91,4 @@ const CollaborationsTable = ({
   return <MaterialReactTable table={table} />;
 };
 
-export default CollaborationsTable;
+export default CommitteesTable;

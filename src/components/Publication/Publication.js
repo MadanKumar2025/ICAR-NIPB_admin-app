@@ -29,13 +29,16 @@ function Publication() {
 
   const handleClose = () => {
     setShowForm(false);
+    setIsEdit(false);
     setData({
       title_en: "",
       title_hi: "",
       category: "",
       year: "",
+      file: null,
       isActive: true,
     });
+    setPreview(null);
   };
 
   const [pagination, setPagination] = useState({
@@ -123,7 +126,6 @@ function Publication() {
     });
   };
 
-   
   return (
     <>
       <div>
@@ -159,7 +161,10 @@ function Publication() {
             getPublication={getPublication}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <PublicationTable
             data={publication?.data || []}
             handleToggle={handleToggle}

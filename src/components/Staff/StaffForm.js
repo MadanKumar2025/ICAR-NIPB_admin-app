@@ -397,7 +397,7 @@ function StaffForm({
                         Administrative Staff
                       </option>
                       <option value="Professor">Professor</option>
-                      <option value="Faculty">Faculty</option>
+                      {/* <option value="Faculty">Faculty</option> */}
                       <option value="Honorary Scientist">
                         Honorary Scientist
                       </option>
@@ -420,7 +420,7 @@ function StaffForm({
                         प्रशासनिक कर्मचारी
                       </option>
                       <option value="प्रोफेसर">प्रोफेसर</option>
-                      <option value="फैकल्टी">फैकल्टी</option>
+                      {/* <option value="फैकल्टी">फैकल्टी</option> */}
                       <option value="मानद वैज्ञानिक">मानद वैज्ञानिक</option>
                     </select>
                   </div>

@@ -1,47 +1,63 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useMemo, useRef, useState } from "react";
-import Swal from "sweetalert2";
-import { usePermissions } from "../User_Management/UserManagement.js";
-import JoditEditor from "jodit-react";
+import { jwtDecode } from "jwt-decode";
+import { usePermissions } from "../User_Management/UserManagement";
+import CommitteesForm from "./CommitteesForm";
+import CommitteesTable from "./CommitteesTable";
 
 function Committees() {
   const API_URL = process.env.REACT_APP_API_URL;
-  const [isEdit, setIsEdit] = useState(false);
-  const [editId, setEditId] = useState(null);
+  const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
 
+  const [committees, setCommittees] = useState([]);
+
+  const [preview, setPreview] = useState(null);
   const [data, setData] = useState({
     content_en: "",
     content_hi: "",
+    type_en: "",
+    type_hi: "",
+    isActive: true,
   });
 
   const token = localStorage.getItem("token");
-  const formRef = useRef();
-  const editor = useRef(null);
+  const [showForm, setShowForm] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
 
-  const getCommittees = async (page = 1) => {
+  const handleClose = () => {
+    setShowForm(false);
+    setData({
+      content_en: "",
+      content_hi: "",
+      type_en: "",
+      type_hi: "",
+      isActive: true,
+    });
+    setPreview(null);
+  };
+
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+
+  const getCommittees = async () => {
     try {
       const response = await axios.get(`${API_URL}/CommitteesRoutes/getAll`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      const item = response?.data?.data?.[0];
-
-      setIsEdit(item?.content?.en === undefined ? false : true);
-      setEditId(item?._id);
-
-      setData({
-        content_en: item?.content?.en || "",
-        content_hi: item?.content?.hi || "",
-      });
+      setCommittees(response?.data);
     } catch (error) {
-      console.error("Error fetching organizations:", error);
-      if (
-        error.response?.data?.message === "Invalid token" ||
-        error.response?.status === 401
-      ) {
+      console.error("Error fetching data:", error);
+      if (error.response?.data?.message === "Invalid token") {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+      if (error.response?.status === 401) {
         localStorage.removeItem("token");
         window.location.href = "/login";
       }
@@ -52,191 +68,101 @@ function Committees() {
     getCommittees();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isEdit) {
-      try {
-        const response = await axios.put(
-          `${API_URL}/CommitteesRoutes/update/${editId}`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
+  const handleToggle = async (item) => {
+    try {
+      const decoded = jwtDecode(token);
+
+      const res = await axios.put(
+        `${API_URL}/CommitteesRoutes/updateStatus/${item?.id}`,
+        {
+          isActive: !item?.isActive,
+          updateby: decoded?.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
+        },
+      );
 
-        setData({
-          content_en: "",
-          content_hi: "",
-        });
-
-        formRef.current.reset();
-
-        Swal.fire({
-          icon: "success",
-          title: "Organization Update",
-          text: response.data.message || "Organization updated successfully",
-          confirmButtonColor: "#3085d6",
-        });
-
-        await getCommittees();
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: error?.response?.data?.message || "Update failed",
-        });
-      }
-    } else {
-      try {
-        const response = await axios.post(
-          `${API_URL}/CommitteesRoutes/create`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          },
-        );
-
-        Swal.fire({
-          icon: "success",
-          title: "Organization Details",
-          text: response.data.message || "Organization Details Successfully.",
-          confirmButtonColor: "#3085d6",
-        });
-        getCommittees();
-      } catch (error) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: error?.response?.data?.message || "Server error",
-        });
-      }
+      setCommittees((prev) => ({
+        ...prev,
+        data: prev.data.map((row) =>
+          row?.id === item?.id ? { ...row, isActive: !row?.isActive } : row,
+        ),
+      }));
+    } catch (error) {
+      console.error("Status update error", error);
     }
   };
 
-    const config = useMemo(
-    () => ({
-      readonly: false,
-      showPoweredBy: false,
-      placeholder: "",
-    }),
-    [],
-  );
+  const handleEdit = (item) => {
+    setData({
+      content_en: item?.content?.en || "",
+      content_hi: item?.content?.hi || "",
+      type_en: item?.type?.en || "",
+      type_hi: item?.type?.hi || "",
+      isActive: item?.isActive ?? true,
+    });
+
+    setIsEdit(true);
+    setEditId(item?.id);
+    setShowForm(true);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+ 
   return (
     <>
       <div>
-        <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
-          <div className="custom-card card card-info card-outline mb-4">
-            <div className="card-header">
-              <div className="card-title">committees</div>
-            </div>
-
-            <form
-              className="needs-validation"
-              ref={formRef}
-              onSubmit={handleSubmit}
-            >
-              <div className="card-body">
-                <div className="row g-3">
-                  <div></div>
-                  <div>
-                    <label className="form-label fw-bold">
-                      Content (English)
-                    </label>
-                    <div className="custom-main-editor">
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.content_en}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          content_en: newContent,
-                        }));
-                      }}
-                    /> */}
-                       <JoditEditor
-                      ref={editor}
-                      value={data?.content_en}
-                      config={config}
-                      tabIndex={1}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          content_en: newContent,
-                        }));
-                      }}
-                      onChange={() => {}}
-                    />
-
-
-                    </div>
-                    
-                  </div>
-                  <div>
-                    <label className="form-label fw-bold">
-                      Content (Hindi)
-                    </label>
-                    <div className="custom-main-editor">
-                    {/* <JoditEditor
-                      style={{ width: "90%" }}
-                      ref={editor}
-                      value={data?.content_hi}
-                      config={{
-                        showPoweredBy: false,
-                        placeholder: "",
-                        askBeforePasteHTML: false,
-                        askBeforePasteFromWord: false,
-                      }}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          content_hi: newContent,
-                        }));
-                      }}
-                    /> */}
-                       <JoditEditor
-                      ref={editor}
-                      value={data?.content_hi}
-                      config={config}
-                      tabIndex={1}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          content_hi: newContent,
-                        }));
-                      }}
-                      onChange={() => {}}
-                    />
-
-
-                    </div>
-                     
-                  </div>
-                </div>
-              </div>
-
-              <div className="card-footer">
-                {(hasAddAccess("Committees") ||
-                  hasEditAccess("Committees")) && (
-                  <button className="btn btn-info" type="submit">
-                    Save
-                  </button>
-                )}
-              </div>
-            </form>
+        <div className="d-flex justify-content-end">
+          <div
+            className="card-footer"
+            style={{
+              marginTop: "2vh",
+              marginBottom: "2vh",
+              marginRight: "4vw",
+            }}
+          >
+            {hasAddAccess("Committees") && (
+              <button
+                className="btn btn-info"
+                onClick={() => setShowForm(true)}
+              >
+                Create Committees
+              </button>
+            )}
           </div>
+        </div>
+        {showForm && (
+          <CommitteesForm
+            data={data}
+            setData={setData}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            editId={editId}
+            handleClose={handleClose}
+            getCommittees={getCommittees}
+            setPreview={setPreview}
+            preview={preview}
+          />
+        )}
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
+          <CommitteesTable
+            data={committees?.data || []}
+            handleToggle={handleToggle}
+            handleEdit={handleEdit}
+            pagination={pagination}
+            setPagination={setPagination}
+            hasEditAccess={hasEditAccess}
+            hasActiveAccess={hasActiveAccess}
+          />
         </div>
       </div>
     </>
