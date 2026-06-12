@@ -91,7 +91,7 @@ const AlumniTable = ({
           const item = row.original;
 
           return (
-            <span class="table-icon-edit"
+            <span className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >

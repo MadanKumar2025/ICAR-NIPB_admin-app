@@ -140,7 +140,8 @@ const AlbumTable = ({
   setAlbumGallery,
   handleOpen,
   hasEditAccess,
-  hasActiveAccess,hasAddAccess
+  hasActiveAccess,
+  hasAddAccess,
 }) => {
   const columns = useMemo(() => {
     const cols = [
@@ -157,32 +158,34 @@ const AlbumTable = ({
         accessorFn: (row) => row.title?.en || "-",
         header: "Title",
       },
-      {
-        accessorFn: (row) => row.venue?.en || "-",
-        header: "Venue",
-      },
-      {
-        header: "Publish Date",
-        accessorFn: (row) =>
-          row.publishDate
-            ? new Date(row.publishDate).toLocaleDateString("en-GB")
-            : "-",
-      },
-      {
-        header: "Expiry Date",
-        accessorFn: (row) =>
-          row.expiryDate
-            ? new Date(row.expiryDate).toLocaleDateString("en-GB")
-            : "-",
-      },
+      // {
+      //   accessorFn: (row) => row.venue?.en || "-",
+      //   header: "Venue",
+      // },
+      // {
+      //   header: "Publish Date",
+      //   accessorFn: (row) =>
+      //     row.publishDate
+      //       ? new Date(row.publishDate).toLocaleDateString("en-GB")
+      //       : "-",
+      // },
+      // {
+      //   header: "Expiry Date",
+      //   accessorFn: (row) =>
+      //     row.expiryDate
+      //       ? new Date(row.expiryDate).toLocaleDateString("en-GB")
+      //       : "-",
+      // },
     ];
 
     // STATUS COLUMN (ACTIVE ACCESS)
 
     if (hasActiveAccess?.("Album")) {
       cols.push({
-        accessorKey: "isActive",
         header: "Status",
+        size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -208,12 +211,16 @@ const AlbumTable = ({
     if (hasEditAccess?.("Album")) {
       cols.push({
         header: "Action",
+        size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
             <div className="d-flex gap-2">
-              <span className="table-icon-edit"
+              <span
+                className="table-icon-edit"
                 // className="badge text-bg-danger"
                 // style={{ cursor: "pointer" }}
                 onClick={() => handleEdit?.(item)}
@@ -231,7 +238,6 @@ const AlbumTable = ({
     // GALLERY ACTION (NO RESTRICT LOGIC APPLIED, BUT SAFE)
 
     if (hasEditAccess?.("Album") || hasAddAccess?.("Album")) {
-  
       cols.push({
         header: "Gallery",
         Cell: ({ row }) => {

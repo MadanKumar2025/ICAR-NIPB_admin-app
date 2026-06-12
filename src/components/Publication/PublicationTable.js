@@ -3,6 +3,7 @@ import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
+import DOMPurify from "dompurify";
 
 const PublicationTable = ({
   data = [],
@@ -38,6 +39,9 @@ const PublicationTable = ({
       {
         accessorFn: (row) => row?.year || "-",
         header: "Year",
+        size: 30,
+        minSize: 25,
+        maxSize: 60,
       },
       {
         accessorFn: (row) => row?.category || "-",
@@ -47,13 +51,31 @@ const PublicationTable = ({
         accessorFn: (row) => row?.title?.en || "-",
         header: "Title",
         Cell: ({ row }) => {
-          return stripHtmlAndLimit(row.original?.title?.en, 5);
+          return stripHtmlAndLimit(row.original?.title?.en, 4);
         },
       },
+      // {
+      //   accessorFn: (row) => row?.title?.en || "-",
+      //   header: "Title (HTML Rendered)",
+      //   Cell: ({ row }) => {
+      //     // Option 2: Render HTML safely
+      //     const html = row.original?.title?.en || "-";
+      //     return (
+      //       <div
+      //         dangerouslySetInnerHTML={{
+      //           __html: DOMPurify.sanitize(html),
+      //         }}
+      //       />
+      //     );
+      //   },
+      // },
+    
       {
         accessorKey: "file",
         header: "File",
-
+        size: 25,
+        minSize: 20,
+        maxSize: 55,
         Cell: ({ row }) => {
           const file = row.original?.file;
 
@@ -64,7 +86,12 @@ const PublicationTable = ({
           const fileUrl = `${IMG_BASE_URL}/files/${file}`;
 
           return (
-            <a className="view-file-btn" href={fileUrl} target="_blank" rel="noopener noreferrer">
+            <a
+              className="view-file-btn"
+              href={fileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <i class="bi bi-files"></i> <span>View File</span>
             </a>
           );
@@ -77,8 +104,10 @@ const PublicationTable = ({
     // =========================
     if (hasActiveAccess?.("Publication")) {
       cols.push({
-        accessorKey: "isActive",
         header: "Status",
+        size: 30,
+        minSize: 20,
+        maxSize: 60,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -102,11 +131,15 @@ const PublicationTable = ({
     if (hasEditAccess?.("Publication")) {
       cols.push({
         header: "Action",
+        size: 30,
+        minSize: 20,
+        maxSize: 60,
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <span className="table-icon-edit"
+            <span
+              className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >

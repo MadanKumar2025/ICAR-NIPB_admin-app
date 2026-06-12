@@ -38,7 +38,9 @@ const VigilanceOfficerTable = ({
     // =========================
     if (hasActiveAccess?.("Vigilance Officer")) {
       cols.push({
-        accessorKey: "isActive",
+         size: 40,
+        minSize: 30,
+        maxSize: 70,
         header: "Status",
         Cell: ({ row }) => {
           const item = row.original;
@@ -62,7 +64,9 @@ const VigilanceOfficerTable = ({
     // =========================
     if (hasEditAccess?.("Vigilance Officer")) {
       cols.push({
-        header: "Action",
+        header: "Action", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 

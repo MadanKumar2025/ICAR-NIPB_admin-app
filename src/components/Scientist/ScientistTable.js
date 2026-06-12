@@ -26,22 +26,7 @@ const ScientistTable = ({
         accessorFn: (row) => row.scientistName?.en || "-",
         header: "Scientist Name",
       },
-      {
-        accessorFn: (row) => row.phone1 || "-",
-        header: "Phone",
-      },
-      {
-        accessorFn: (row) => row.email1 || "-",
-        header: "Email",
-      },
-      // {
-      //   accessorFn: (row) => row.education?.en || "-",
-      //   header: "Education",
-      // },
-      // {
-      //   accessorFn: (row) => row.majorCourses?.en || "-",
-      //   header: "Major Courses",
-      // },
+      
       {
         accessorFn: (row) => row?.designationId?.name?.en || "-",
         header: "Designation",
@@ -53,6 +38,9 @@ const ScientistTable = ({
       cols.push({
         accessorKey: "isActive",
         header: "Status",
+          size: 50,
+        minSize: 40,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -76,11 +64,15 @@ const ScientistTable = ({
     if (hasEditAccess?.("Scientist")) {
       cols.push({
         header: "Action",
+        size: 60,
+        minSize: 50,
+        maxSize: 80,
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <span className="table-icon-edit"
+            <span
+              className="table-icon-edit"
               style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
@@ -92,7 +84,8 @@ const ScientistTable = ({
     }
     if (hasEditAccess?.("Scientist")) {
       cols.push({
-        header: "Create Scientist Login",
+        // header: "Create Scientist Login",
+        header: "Login",
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -116,11 +109,17 @@ const ScientistTable = ({
                   background: "transparent",
                 }}
               >
-                <button
+                {/* <button
                   className="btn btn-info btn-sm nowrap-btn"
                   onClick={() => handleCreateLogin?.(item?._id)}
                 >
                   Create Scientist Login
+                </button> */}
+                <button
+                  className="btn btn-info btn-sm nowrap-btn"
+                  onClick={() => handleCreateLogin?.(item?._id)}
+                >
+                  Create Login
                 </button>
               </div>
             </div>

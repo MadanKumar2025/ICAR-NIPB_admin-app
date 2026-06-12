@@ -19,6 +19,8 @@ function Publication() {
     category: "",
     year: "",
     file: null,
+    articleType_en: "",
+    articleType_hi: "",
     isActive: true,
   });
 
@@ -36,6 +38,8 @@ function Publication() {
       category: "",
       year: "",
       file: null,
+      articleType_en: "",
+      articleType_hi: "",
       isActive: true,
     });
     setPreview(null);
@@ -101,11 +105,13 @@ function Publication() {
   };
 
   const handleEdit = (item) => {
-    console.log("item", item);
+    // console.log("item", item);
 
     setData({
       title_en: item?.title?.en || "",
       title_hi: item?.title?.hi || "",
+      articleType_en: item?.articleType?.en || "",
+      articleType_hi: item?.articleType?.hi || "",
       year: item?.year || "",
       category: item?.category,
       file: item?.file,

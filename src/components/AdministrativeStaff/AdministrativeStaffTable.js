@@ -125,8 +125,10 @@ const AdministrativeStaffTable = ({
     // =========================
     if (hasActiveAccess?.("Administrative Staff")) {
       cols.push({
-        accessorKey: "isActive",
-        header: "Status",
+       
+        header: "Status", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -149,7 +151,9 @@ const AdministrativeStaffTable = ({
     // =========================
     if (hasEditAccess?.("Administrative Staff")) {
       cols.push({
-        header: "Action",
+        header: "Action", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 

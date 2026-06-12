@@ -30,22 +30,30 @@ const CadreStrengthTable = ({
       {
         accessorFn: (row) => row?.sanctionedStrength || "0",
         header: "Sanctioned strength",
+         size: 40,
+        minSize: 30,
+        maxSize: 70,
       },
       {
         accessorFn: (row) => row?.filled || "0",
-        header: "Filled",
+        header: "Filled", size: 40,
+        minSize: 30,
+        maxSize: 70,
       },
       {
         accessorFn: (row) => row?.vacant || "0",
-        header: "Vacant",
+        header: "Vacant", size: 40,
+        minSize: 30,
+        maxSize: 70,
       },
     ];
 
     //  STATUS COLUMN
     if (hasActiveAccess?.("Cadre Strength")) {
       cols.push({
-        accessorKey: "isActive",
-        header: "Status",
+         header: "Status", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -66,7 +74,9 @@ const CadreStrengthTable = ({
     //  EDIT COLUMN
     if (hasEditAccess?.("Cadre Strength")) {
       cols.push({
-        header: "Edit",
+        header: "Edit", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 

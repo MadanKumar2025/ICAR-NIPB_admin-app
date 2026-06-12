@@ -111,7 +111,10 @@
 // export default InstitutionalProjectsTable;
 
 import React, { useMemo } from "react";
-import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 import { useNavigate } from "react-router-dom";
 
 const InstitutionalProjectsTable = ({
@@ -147,7 +150,9 @@ const InstitutionalProjectsTable = ({
     // =========================
     if (hasActiveAccess?.("Institutional Projects")) {
       cols.push({
-        accessorKey: "isActive",
+        size: 40,
+        minSize: 30,
+        maxSize: 70,
         header: "Status",
         Cell: ({ row }) => {
           const item = row.original;
@@ -164,10 +169,11 @@ const InstitutionalProjectsTable = ({
                 {item?.isActive ? "Active" : "Inactive"}
               </label> */}
               <label
-                className={`form-check-label ${item?.isActive ? "status-active" : "status-inactive"
-                  }`}
+                className={`form-check-label ${
+                  item?.isActive ? "status-active" : "status-inactive"
+                }`}
               >
-                {item?.isActive ? "Active" : "Inactive"}
+                {/* {item?.isActive ? "Active" : "Inactive"} */}
               </label>
             </div>
           );
@@ -181,6 +187,9 @@ const InstitutionalProjectsTable = ({
     if (hasEditAccess?.("Institutional Projects")) {
       cols.push({
         header: "Action",
+        size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -191,7 +200,7 @@ const InstitutionalProjectsTable = ({
               onClick={() => handleEdit?.(item)}
             >
               <i class="bi bi-pencil fs-6"></i>
-             <span> Edit</span>
+              <span> Edit</span>
             </div>
           );
         },
@@ -221,13 +230,7 @@ const InstitutionalProjectsTable = ({
     });
 
     return cols;
-  }, [
-    handleToggle,
-    handleEdit,
-    hasActiveAccess,
-    hasEditAccess,
-    navigate,
-  ]);
+  }, [handleToggle, handleEdit, hasActiveAccess, hasEditAccess, navigate]);
 
   const table = useMaterialReactTable({
     columns,

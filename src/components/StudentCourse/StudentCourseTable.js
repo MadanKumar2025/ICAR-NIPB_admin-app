@@ -148,8 +148,10 @@ const StudentCourseTable = ({
   
     if (hasActiveAccess?.("Student Course")) {
       cols.push({
-        accessorKey: "isActive",
-        header: "Status",
+     
+        header: "Status", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -175,7 +177,9 @@ const StudentCourseTable = ({
  
     if (hasEditAccess?.("Student Course")) {
       cols.push({
-        header: "Action",
+        header: "Action", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 

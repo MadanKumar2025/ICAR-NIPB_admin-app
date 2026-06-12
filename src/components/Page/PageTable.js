@@ -122,11 +122,12 @@ const PageTable = ({
       {
         accessorFn: (row) => row.pageTitle?.en || "-",
         header: "Page Title",
+        
       },
-      {
-        accessorFn: (row) => row.apiName || "-",
-        header: "Api Name",
-      },
+      // {
+      //   accessorFn: (row) => row.apiName || "-",
+      //   header: "Api Name",
+      // },
 
       {
         accessorFn: (row) => {
@@ -139,6 +140,9 @@ const PageTable = ({
           return matchedTemplate?.templateName || "-";
         },
         header: "Design Template",
+        size: 50,
+        minSize: 40,
+        maxSize: 80,
       },
     ];
 
@@ -147,8 +151,11 @@ const PageTable = ({
     // =========================
     if (hasActiveAccess?.("Page")) {
       cols.push({
-        accessorKey: "isActive",
+        // accessorKey: "isActive",
         header: "Status",
+        size: 50,
+        minSize: 40,
+        maxSize: 80,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -171,6 +178,9 @@ const PageTable = ({
     if (hasEditAccess?.("Page")) {
       cols.push({
         header: "Action",
+        size: 50,
+        minSize: 40,
+        maxSize: 80,
         Cell: ({ row }) => {
           const item = row.original;
 

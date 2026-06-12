@@ -38,6 +38,10 @@ function Alumni() {
     instagram: "",
     photoTitle: "",
     photo: "",
+    designation_en: "",
+    designation_hi: "",
+    passOutYear: "",
+    mobile: "",
     isApproved: true,
   });
 
@@ -72,7 +76,7 @@ function Alumni() {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/AlumniRoutes/approve/${item?._id}`,
+        `${API_URL}/AlumniRoutes/approve/${item?.id}`,
         {
           isApproved: !item?.isApproved,
           updateby: decoded?.id,
@@ -87,7 +91,7 @@ function Alumni() {
       setAlumni((prev) => ({
         ...prev,
         data: prev.data.map((row) =>
-          row?._id === item?._id
+          row?.id === item?.id
             ? { ...row, isApproved: !row?.isApproved }
             : row,
         ),
@@ -115,18 +119,26 @@ function Alumni() {
       instagram: "",
       photoTitle: "",
       photo: "",
+      designation_en: "",
+      designation_hi: "",
+      passOutYear: "",
+      mobile: "",
       isApproved: true,
     });
-    setPreview(null)
-    setIsEdit(false)
-    setEditId(null)
+    setPreview(null);
+    setIsEdit(false);
+    setEditId(null);
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (item) => {    
     setData({
       name_en: item?.name?.en,
       name_hi: item?.name?.hi,
       email: item?.email,
+      passOutYear: item?.passOutYear,
+      designation_en: item?.designation.en,
+      designation_hi: item?.designation.hi,
+      mobile: item?.mobile,
       batch_en: item?.batch?.hi,
       batch_hi: item?.batch?.hi,
       degree_en: item?.degree?.hi,
@@ -146,7 +158,7 @@ function Alumni() {
       setPreview(`${IMG_BASE_URL}/${item?.photo}`);
     }
 
-    setEditId(item?._id);
+    setEditId(item?.id);
     setIsEdit(true);
     setShowForm(true);
   };
@@ -182,7 +194,10 @@ function Alumni() {
           handleClose={handleClose}
         />
       )}
-      <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+      <div
+        className="card mb-4 custom-panel-table mt-3"
+        style={{ width: "90%", marginLeft: "5%" }}
+      >
         <AlumniTable
           data={alumni?.data || []}
           handleToggle={handleToggle}

@@ -127,8 +127,10 @@ const StaffTable = ({
     // =========================
     if (hasActiveAccess?.("Staff")) {
       cols.push({
-        accessorKey: "isActive",
-        header: "Status",
+         header: "Status",
+          size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -152,6 +154,9 @@ const StaffTable = ({
     if (hasEditAccess?.("Staff")) {
       cols.push({
         header: "Action",
+         size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 

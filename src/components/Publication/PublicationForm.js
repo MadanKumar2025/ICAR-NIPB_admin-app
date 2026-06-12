@@ -80,19 +80,25 @@ function PublicationForm({
     }
 
     // MULTILINGUAL fields (example: title_en, title_hi)
-    if (name.includes("_en") || name.includes("_hi")) {
-      const [field, lang] = name.split("_");
+    // if (name.includes("_en") || name.includes("_hi")) {
+    //   const [field, lang] = name.split("_");
 
+    //   setData((prev) => ({
+    //     ...prev,
+    //     [field]: {
+    //       ...(prev[field] || {}),
+    //       [lang]: value,
+    //     },
+    //   }));
+    //   return;
+    // }
+    if (name === "articleType_en" || name === "articleType_hi") {
       setData((prev) => ({
         ...prev,
-        [field]: {
-          ...(prev[field] || {}),
-          [lang]: value,
-        },
+        [name]: value,
       }));
       return;
     }
-
     // DEFAULT INPUT
     setData((prev) => ({
       ...prev,
@@ -111,6 +117,8 @@ function PublicationForm({
         formData.append("title_en", data?.title_en || "");
         formData.append("title_hi", data?.title_hi || "");
         formData.append("category", data?.category || "");
+        formData.append("articleType_en", data?.articleType_en || "");
+        formData.append("articleType_hi", data?.articleType_hi || "");
         formData.append("isActive", data?.isActive ? "true" : "false");
 
         if (data?.file) {
@@ -144,7 +152,7 @@ function PublicationForm({
           },
         );
         Swal.close();
-        
+
         setIsEdit(false);
         setData({
           title_en: "",
@@ -179,6 +187,8 @@ function PublicationForm({
         formData.append("year", data?.year || "");
         formData.append("title_en", data?.title_en || "");
         formData.append("title_hi", data?.title_hi || "");
+        formData.append("articleType_en", data?.articleType_en || "");
+        formData.append("articleType_hi", data?.articleType_hi || "");
         formData.append("category", data?.category || "");
         formData.append("isActive", data?.isActive ? "true" : "false");
 
@@ -195,13 +205,15 @@ function PublicationForm({
             },
           },
         );
-
+        
         setData({
           title_en: "",
           title_hi: "",
           category: "",
           year: "",
           file: null,
+          articleType_en: "",
+          articleType_hi: "",
           isActive: true,
         });
 
@@ -248,6 +260,7 @@ function PublicationForm({
     [],
   );
 
+ 
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -337,6 +350,53 @@ function PublicationForm({
                   </div> */}
                   </div>
                 )}
+                {data?.category === "ResearchPublications" && (
+                  <div className="col-sm-6">
+                    <label
+                      htmlFor="validationCustomUsername"
+                      className="form-label"
+                    >
+                      Article Type (English)
+                    </label>
+                    <select
+                      name="articleType_en"
+                      className="form-control"
+                      value={data?.articleType_en}
+                      onChange={handleChange}
+                      id="articleType_en"
+                    >
+                      <option value="">select</option>
+                      <option value="Research Articles">
+                        Research Articles
+                      </option>
+                      <option value="Review Articles">Review Articles</option>
+                      <option value="Book chapters">Book chapters</option>
+                    </select>
+                  </div>
+                )}
+                {data?.category === "ResearchPublications" && (
+                  <div className="col-sm-6">
+                    <label
+                      htmlFor="validationCustomUsername"
+                      className="form-label"
+                    >
+                      Article Type (Hindi)
+                    </label>
+                    <select
+                      name="articleType_hi"
+                      className="form-control"
+                      value={data?.articleType_hi}
+                      onChange={handleChange}
+                      id="articleType_hi"
+                    >
+                      <option value="">select</option>
+                      <option value="अनुसंधान लेख">अनुसंधान लेख</option>
+                      <option value="समीक्षा लेख">समीक्षा लेख</option>
+                      <option value="पुस्तक के अध्याय">पुस्तक के अध्याय</option>
+                    </select>
+                  </div>
+                )}
+
                 <div className="col-sm-6">
                   <label className="form-label">Is Active</label>
                   <select

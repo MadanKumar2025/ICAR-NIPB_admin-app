@@ -80,7 +80,9 @@ const DocumentUploaderTable = ({
       hasDeleteAccess?.("Document Uploader")
     ) {
       cols.push({
-        header: "Action",
+        header: "Action", size: 40,
+        minSize: 30,
+        maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 

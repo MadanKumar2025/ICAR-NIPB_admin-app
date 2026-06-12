@@ -48,7 +48,7 @@ function AlumniForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
+
     if (isEdit) {
       try {
         const formData = new FormData();
@@ -56,6 +56,10 @@ function AlumniForm({
         formData.append("name_en", data?.name_en || "");
         formData.append("name_hi", data?.name_hi || "");
         formData.append("email", data?.email || "");
+        formData.append("mobile", data?.mobile || "");
+        formData.append("passOutYear", data?.passOutYear || "");
+        formData.append("designation_en", data?.designation_en || "");
+        formData.append("designation_hi", data?.designation_hi || "");
         formData.append("batch_en", data?.batch_en || "");
         formData.append("batch_hi", data?.batch_hi || "");
         formData.append("degree_en", data?.degree_en || "");
@@ -117,6 +121,10 @@ function AlumniForm({
         formData.append("name_en", data?.name_en || "");
         formData.append("name_hi", data?.name_hi || "");
         formData.append("email", data?.email || "");
+        formData.append("mobile", data?.mobile || "");
+        formData.append("passOutYear", data?.passOutYear || "");
+        formData.append("designation_en", data?.designation_en || "");
+        formData.append("designation_hi", data?.designation_hi || "");
         formData.append("batch_en", data?.batch_en || "");
         formData.append("batch_hi", data?.batch_hi || "");
         formData.append("degree_en", data?.degree_en || "");
@@ -270,6 +278,62 @@ function AlumniForm({
                 </div>
                 <div className="col-md-6">
                   <label htmlFor="validationCustom02" className="form-label">
+                    Mobile
+                  </label>
+                  <input
+                    type="number"
+                    name="mobile"
+                    value={data?.mobile}
+                    onChange={handleChange}
+                    className="form-control"
+                    id="mobile"
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="validationCustom02" className="form-label">
+                    Pass Out Year
+                  </label>
+                  <input
+                    type="number"
+                    name="passOutYear"
+                    value={data?.passOutYear}
+                    onChange={handleChange}
+                    className="form-control"
+                    id="passOutYear"
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="validationCustom02" className="form-label">
+                    Designation (English)
+                  </label>
+                  <input
+                    type="text"
+                    name="designation_en"
+                    value={data?.designation_en}
+                    onChange={handleChange}
+                    className="form-control"
+                    id="designation_en"
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="validationCustom02" className="form-label">
+                    Designation (Hindi)
+                  </label>
+                  <input
+                    type="text"
+                    name="designation_hi"
+                    value={data?.designation_hi}
+                    onChange={handleChange}
+                    className="form-control"
+                    id="designation_hi"
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label htmlFor="validationCustom02" className="form-label">
                     Batch (English)
                   </label>
                   <input
@@ -417,7 +481,7 @@ function AlumniForm({
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label">Is Active</label>
+                  <label className="form-label">is Approved</label>
                   <select
                     name="isApproved"
                     value={data?.isApproved}
@@ -455,14 +519,14 @@ function AlumniForm({
                 </div>
               </div>
             </div>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-                <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                Save
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>

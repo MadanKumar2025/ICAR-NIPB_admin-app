@@ -19,30 +19,52 @@ const UserTable = ({
       {
         header: "#",
         Cell: ({ row }) => row.index + 1,
-        size: 50,
+        size: 70,
       },
       {
         accessorKey: "name",
         header: "Name",
+   
       },
       {
         accessorKey: "email",
         header: "Email",
       },
+      // {
+      //   accessorKey: "email",
+      //   header: "Email",
+      //   Cell: ({ cell }) => {
+      //     const email = cell.getValue();
+
+      //     return (
+      //       <div style={{ wordBreak: "break-word" }}>
+      //         {email.split("@").map((part, i) => (
+      //           <span key={i}>
+      //             {i === 0 ? part : `@${part}`}
+      //             <br />
+      //           </span>
+      //         ))}
+      //       </div>
+      //     );
+      //   },
+      // },
       {
         accessorKey: "mobileNo",
         header: "Mobile No.",
       },
-      {
-        accessorKey: "designation",
-        header: "Designation",
-      },
+      // {
+      //   accessorKey: "designation",
+      //   header: "Designation",
+      //   size: 160,
+      //   grow: false,
+      // },
     ];
 
     if (hasActiveAccess?.("User")) {
       cols.push({
-        accessorKey: "isActive",
-        header: "Status",
+         header: "Status",
+        size: 100,
+        grow: false,
         Cell: ({ row }) => {
           const item = row.original;
 
@@ -66,17 +88,15 @@ const UserTable = ({
     if (hasEditAccess?.("User")) {
       cols.push({
         header: "Action",
+        size: 105,
+        grow: false,
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <div className="table-icon-edit"
-              // className="badge text-bg-danger"
-              // style={{ cursor: "pointer" }}
-              onClick={() => handleEdit?.(item)}
-            >
+            <div className="table-icon-edit" onClick={() => handleEdit?.(item)}>
               {/* Edit */}
-               <i className="bi bi-pencil fs-5"></i>
+              <i className="bi bi-pencil fs-5"></i>
             </div>
           );
         },
@@ -85,15 +105,24 @@ const UserTable = ({
 
     cols.push({
       header: "Permission",
+      size: 130,
+      grow: false,
       Cell: ({ row }) => {
-        const item = row.original;        
+        const item = row.original;
         return (
+          // <button
+          //   className="btn btn-info nowrap-btn"
+          //   style={{ marginTop: "10px" }}
+          //   onClick={() => navigate(`/UserPermissions/${item?._id}`)}
+          // >
+          //   Page Permissions
+          // </button>
           <button
             className="btn btn-info nowrap-btn"
             style={{ marginTop: "10px" }}
             onClick={() => navigate(`/UserPermissions/${item?._id}`)}
           >
-            Page Permissions
+            Permissions
           </button>
         );
       },
@@ -105,10 +134,11 @@ const UserTable = ({
   const table = useMaterialReactTable({
     columns,
     data: data || [],
+    // enableColumnResizing: true,
+    layoutMode: "grid-no-grow",
     initialState: {
       showColumnFilters: true,
     },
-    
   });
 
   return <MaterialReactTable table={table} />;

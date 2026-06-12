@@ -1,104 +1,8 @@
-// import React, { useMemo } from "react";
-// import { MaterialReactTable } from "material-react-table";
-// import { useMaterialReactTable } from "material-react-table";
-
-// const ExternallyFundedProjectsTable = ({
-//   data = [],
-//   handleToggle,
-//   handleEdit,
-//   pagination,
-//   setPagination,
-//   hasActiveAccess,
-//   hasEditAccess
-// }) => {
-//   //  Columns
-//   const columns = useMemo(
-//     () => [
-//       {
-//         header: "#",
-//         Cell: ({ row }) => row.index + 1,
-//         size: 50,
-//       },
-//       {
-//         accessorFn: (row) => row?.title?.en || "-",
-//         header: "Title",
-//       },
-//       {
-//         accessorFn: (row) => row?.sanctionedBudget?.en || "-",
-//         header: "Sanctioned Budget",
-//       },
-//       {
-//         accessorFn: (row) => row?.principalInvestigator?.en || "-",
-//         header: "Principal Investigator",
-//       },
-//       {
-//         accessorFn: (row) => row?.fundingAgency?.en || "-",
-//         header: "Funding Agency",
-//       },
-//       {
-//         accessorKey: "isActive",
-//         header: "Status",
-//         Cell: ({ row }) => {
-//           const item = row.original;
-
-//           return (
-//             <div className="form-check form-switch">
-//               <input
-//                 className="form-check-input"
-//                 type="checkbox"
-//                 checked={Boolean(item?.isActive)}
-//                 onChange={() => handleToggle && handleToggle(item)}
-//               />
-//               <label className="form-check-label">
-//                 {item?.isActive ? "Active" : "Inactive"}
-//               </label>
-//             </div>
-//           );
-//         },
-//       },
-//       // Action Column
-//       {
-//         header: "Action",
-//         Cell: ({ row }) => {
-//           const item = row.original;
-
-//           return (
-//             <span
-//               className="badge text-bg-danger"
-//               style={{ cursor: "pointer" }}
-//               onClick={() => handleEdit?.(item)}
-//             >
-//               Edit
-//             </span>
-//           );
-//         },
-//       },
-//     ],
-//     [handleToggle, handleEdit],
-//   );
-
-//   //  Table Instance
-//   const table = useMaterialReactTable({
-//     columns,
-//     data: data || [],
-//     state: {
-//       pagination,
-//     },
-//     onPaginationChange: setPagination,
-
-//     autoResetPageIndex: false,
-//     initialState: {
-//       showColumnFilters: true,
-//     },
-//   });
-
-//   return <MaterialReactTable table={table} />;
-// };
-
-// export default ExternallyFundedProjectsTable;
-
 import React, { useMemo } from "react";
-import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 
 const ExternallyFundedProjectsTable = ({
   data = [],
@@ -109,7 +13,6 @@ const ExternallyFundedProjectsTable = ({
   hasActiveAccess,
   hasEditAccess,
 }) => {
-
   const columns = useMemo(() => {
     const cols = [
       {
@@ -123,15 +26,21 @@ const ExternallyFundedProjectsTable = ({
       },
       {
         accessorFn: (row) => row?.sanctionedBudget?.en || "-",
-        header: "Sanctioned Budget",
+        header: "Budget",
       },
       {
         accessorFn: (row) => row?.principalInvestigator?.en || "-",
-        header: "Principal Investigator",
+        header: "Investigator",
+        size: 30,
+        minSize: 25,
+        maxSize: 60,
       },
       {
         accessorFn: (row) => row?.fundingAgency?.en || "-",
         header: "Funding Agency",
+        size: 30,
+        minSize: 25,
+        maxSize: 60,
       },
     ];
 
@@ -140,7 +49,9 @@ const ExternallyFundedProjectsTable = ({
     // =========================
     if (hasActiveAccess?.("Externally Funded Projects")) {
       cols.push({
-        accessorKey: "isActive",
+        size: 30,
+        minSize: 25,
+        maxSize: 60,
         header: "Status",
         Cell: ({ row }) => {
           const item = row.original;
@@ -157,10 +68,11 @@ const ExternallyFundedProjectsTable = ({
                 {item?.isActive ? "Active" : "Inactive"}
               </label> */}
               <label
-                className={`form-check-label ${item?.isActive ? "status-active" : "status-inactive"
-                  }`}
+                className={`form-check-label ${
+                  item?.isActive ? "status-active" : "status-inactive"
+                }`}
               >
-                {item?.isActive ? "Active" : "Inactive"}
+                {/* {item?.isActive ? "Active" : "Inactive"} */}
               </label>
             </div>
           );
@@ -174,6 +86,9 @@ const ExternallyFundedProjectsTable = ({
     if (hasEditAccess?.("Externally Funded Projects")) {
       cols.push({
         header: "Action",
+        size: 30,
+        minSize: 25,
+        maxSize: 60,
         Cell: ({ row }) => {
           const item = row.original;
 
