@@ -47,6 +47,7 @@ function PreviousDirectorForm({
 
         formData.append("name_en", data?.name_en || "");
         formData.append("name_hi", data?.name_hi || "");
+        formData.append("webAddress", data?.webAddress || "");
         formData.append("workingPeriod", data?.workingPeriod || "");
         formData.append("photoTitle", data?.photoTitle || "");
         formData.append("displayOrderNumber", data?.displayOrderNumber || "");
@@ -85,6 +86,7 @@ function PreviousDirectorForm({
       formData.append("name_en", data?.name_en || "");
       formData.append("name_hi", data?.name_hi || "");
       formData.append("workingPeriod", data?.workingPeriod || "");
+      formData.append("webAddress", data?.webAddress || "");
       formData.append("photo", data?.photo || "");
       formData.append("photoTitle", data?.photoTitle || "");
       formData.append("displayOrderNumber", data?.displayOrderNumber || "");
@@ -177,6 +179,18 @@ function PreviousDirectorForm({
                   </div>
                 </div>
 
+                <div className="col-sm-6">
+                  <label className="form-label">Web Address</label>
+                  <input
+                    type="text"
+                    name="webAddress"
+                    value={data?.webAddress}
+                    onChange={handleChange}
+                    className="form-control"
+                    id="webAddress"
+                    aria-describedby="inputGroupPrepend"
+                   />
+                </div>
                 <div className="col-sm-6">
                   <label className="form-label">working Period</label>
                   <input

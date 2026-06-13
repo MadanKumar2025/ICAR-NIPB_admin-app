@@ -45,6 +45,8 @@ function Album() {
 
   const albumDataGallery = allAlbum.find((album) => album._id === albumGallery);
 
+  console.log("galleryData11", galleryData);
+
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10,
@@ -235,8 +237,6 @@ function Album() {
   };
 
   const handleEdit = (item) => {
-    console.log("item", item);
-
     setData({
       type_en: item?.type?.en,
       type_hi: item?.type?.hi,
@@ -263,21 +263,37 @@ function Album() {
     const { name, value, files } = e.target;
 
     setGalleryData((prev) => {
-      let updated = { ...prev };
+      const updated = { ...prev };
 
-      if (name === "type") {
-        updated.type = value;
-        if (value === "Photo") {
-          updated.videoUrl = "";
-        } else if (value === "Video") {
-          updated.photo = null;
-        }
-      } else if (name === "photo") {
-        updated.photo = files[0];
-      } else if (name === "videoUrl") {
-        updated.videoUrl = value;
-      } else {
-        updated[name] = value;
+      switch (name) {
+        case "type":
+          updated.type = value;
+
+          if (value === "Photo") {
+            updated.videoUrl = "";
+          }
+
+          if (value === "Video") {
+            updated.photo = null;
+            setPreviewGallery(null);
+          }
+          break;
+
+        case "photo":
+          if (files && files[0]) {
+            updated.photo = files[0];
+
+            // Preview image
+            setPreviewGallery(URL.createObjectURL(files[0]));
+          }
+          break;
+
+        case "videoUrl":
+          updated.videoUrl = value;
+          break;
+
+        default:
+          updated[name] = value;
       }
 
       return updated;
@@ -297,8 +313,8 @@ function Album() {
         formData.append("albumId", albumGallery || null);
         formData.append("isActive", galleryData?.isActive);
 
-        if (data.photo) {
-          formData.append("photo", data.photo);
+        if (galleryData?.photo) {
+          formData.append("photo", galleryData?.photo);
         }
 
         const res = await axios.put(
@@ -311,6 +327,7 @@ function Album() {
             },
           },
         );
+
         setGalleryData({
           galleryTitle_en: "",
           galleryTitle_hi: "",
@@ -318,6 +335,8 @@ function Album() {
           photo: null,
           videoUrl: "",
         });
+
+        setIsGalleryEdit(false);
         setPreview(null);
 
         formRef.current.reset();
@@ -474,8 +493,6 @@ function Album() {
     setIsGalleryEdit(true);
   };
 
-  // console.log("data",data);
-
   return (
     <>
       <div>
@@ -513,7 +530,7 @@ function Album() {
                           Outreach programme
                         </option>
                         <option value="Facilities">Facilities</option>
-                       </select>
+                      </select>
                     </div>
                     <div className="col-md-6">
                       <label
@@ -535,7 +552,7 @@ function Album() {
                           सामुदायिक कार्यक्रम
                         </option>
                         <option value="सुविधाएँ">सुविधाएँ</option>
-                       </select>
+                      </select>
                     </div>
                     <div className="col-md-6">
                       <label
@@ -702,7 +719,15 @@ function Album() {
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
         >
-          <Box style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
+          <Box
+            style={{
+              width: "90%",
+              marginLeft: "5%",
+              marginTop: "3vh",
+              maxHeight: "90vh",  
+              overflowY: "auto",
+            }}
+          >
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-header w-100 d-flex justify-content-between align-items-center">
                 <h5 className="mb-0 w-50">Add Gallery</h5>
@@ -772,17 +797,17 @@ function Album() {
                         value={galleryData?.type}
                         onChange={galleryHandleChange}
                         className="form-control"
-                        id="validationCustom03"
+                        id="type"
                       >
                         <option value="">select</option>
-                        <option value="Photo">Photo</option>
+                        <option value="photo">Photo</option>
                         <option value="video">Video</option>
                       </select>
                       <div className="invalid-feedback">
                         Please provide a Type.
                       </div>
                     </div>
-                    {galleryData?.type === "Photo" && (
+                    {galleryData?.type === "photo" && (
                       <div className="col-md-6">
                         <label
                           htmlFor="validationCustomUsername"
@@ -858,7 +883,10 @@ function Album() {
         </Modal>
         {/* Gallery */}
 
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <AlbumTable
             data={allAlbum || []}
             handleToggle={handleToggle}

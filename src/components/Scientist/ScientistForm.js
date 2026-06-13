@@ -181,6 +181,8 @@ function ScientistForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("data111",data);
+    
     const formData = new FormData();
     formData.append("scientistName_en", data.scientistName_en || "");
     formData.append("scientistName_hi", data.scientistName_hi || "");
@@ -213,8 +215,8 @@ function ScientistForm({
     formData.append("displayOrder", data?.displayOrder || "");
     formData.append("isActive", data.isActive);
 
-    if (data.photo && typeof data.photo !== "string") {
-      formData.append("photo", data.photo);
+    if (data?.photo && typeof data?.photo !== "string") {
+      formData.append("photo", data?.photo);
     }
 
     const cleanLabProfile = data.labProfile.map((item, index) => ({
@@ -252,6 +254,8 @@ function ScientistForm({
             },
           },
         );
+        console.log("response",response);
+        
       } else {
         response = await axios.post(
           `${API_URL}/ScientistRoutes/create`,
