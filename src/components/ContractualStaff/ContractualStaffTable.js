@@ -35,49 +35,89 @@ const ContractualStaffTable = ({
     ];
 
     //   STATUS COLUMN (Active Access)
-    if (hasActiveAccess?.("Contractual Staff")) {
+    // if (hasActiveAccess?.("Contractual Staff")) {
+    //   cols.push({
+    //      header: "Status", size: 40,
+    //     minSize: 30,
+    //     maxSize: 70,
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <div className="form-check form-switch">
+    //           <input
+    //             className="form-check-input"
+    //             type="checkbox"
+    //             checked={Boolean(item?.isActive)}
+    //             onChange={() => handleToggle?.(item)}
+    //           />
+    //         </div>
+    //       );
+    //     },
+    //   });
+    // }
+
+    // //   EDIT COLUMN (Edit Access)
+    // if (hasEditAccess?.("Contractual Staff")) {
+    //   cols.push({
+    //     header: "Action", size: 40,
+    //     minSize: 30,
+    //     maxSize: 70,
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <span
+    //           className="table-icon-edit"
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i className="bi bi-pencil fs-5"></i>
+    //         </span>
+    //       );
+    //     },
+    //   });
+    // }
+    if (
+      hasActiveAccess?.("Contractual Staff") ||
+      hasEditAccess?.("Contractual Staff")
+    ) {
       cols.push({
-         header: "Status", size: 40,
+        header: "Actions",
+        size: 40,
         minSize: 30,
         maxSize: 70,
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={Boolean(item?.isActive)}
-                onChange={() => handleToggle?.(item)}
-              />
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              {/* STATUS TOGGLE */}
+              {hasActiveAccess?.("Contractual Staff") && (
+                <div className="form-check form-switch m-0">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={Boolean(item?.isActive)}
+                    onChange={() => handleToggle?.(item)}
+                  />
+                </div>
+              )}
+
+              {/* EDIT ICON */}
+              {hasEditAccess?.("Contractual Staff") && (
+                <span
+                  className="table-icon-edit"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit?.(item)}
+                >
+                  <i className="bi bi-pencil fs-5"></i>
+                </span>
+              )}
             </div>
           );
         },
       });
     }
-
-    //   EDIT COLUMN (Edit Access)
-    if (hasEditAccess?.("Contractual Staff")) {
-      cols.push({
-        header: "Action", size: 40,
-        minSize: 30,
-        maxSize: 70,
-        Cell: ({ row }) => {
-          const item = row.original;
-
-          return (
-            <span
-              className="table-icon-edit"
-              onClick={() => handleEdit?.(item)}
-            >
-              <i className="bi bi-pencil fs-5"></i>
-            </span>
-          );
-        },
-      });
-    }
-
     return cols;
   }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
 

@@ -47,9 +47,9 @@ const StudentTable = ({
                 checked={Boolean(item?.isActive)}
                 onChange={() => handleToggle?.(item)}
               />
-              <label className="form-check-label">
+              {/* <label className="form-check-label">
                 {item?.isActive ? "Active" : "Inactive"}
-              </label>
+              </label> */}
             </div>
           );
         },
@@ -84,6 +84,13 @@ const StudentTable = ({
     onPaginationChange: setPagination,
 
     autoResetPageIndex: false,
+    muiTableContainerProps: {
+      sx: {
+        maxHeight: "20vh",
+        overflow: "auto",
+      },
+    },
+
     initialState: {
       showColumnFilters: true,
     },

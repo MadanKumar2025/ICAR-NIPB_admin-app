@@ -1,17 +1,20 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import ApexCharts from "apexcharts";
+
 // import "./css/adminlte.css";
 // import "./Styles/main.scss";
+import "./css/home.css";
+import "./App.css";
+
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar.js";
 import Footer from "./components/Footer.js";
 import Home from "./components/Home.js";
 import Login from "./components/Login.js";
-import "./css/home.css";
 import User from "./components/User/User.js";
 import ChangePassword from "./components/ChangePassword/ChangePassword.js";
 import ProfileUpdate from "./components/ProfileUpdate/ProfileUpdate.js";
-import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute.js";
 import Template from "./components/Template/Template.js";
 import Page from "./components/Page/Page.js";
@@ -22,7 +25,6 @@ import Event from "./components/Event/Event.js";
 import Scientist from "./components/Scientist/Scientist.js";
 import Staff from "./components/Staff/Staff.js";
 import Album from "./components/Album/Album.js";
-import "./App.css";
 import PreviousDirector from "./components/PreviousDirector/PreviousDirector.js";
 import ExternallyFundedProjects from "./components/ExternallyFundedProjects/ExternallyFundedProjects.js";
 import InstitutionalProjects from "./components/InstitutionalProjects/InstitutionalProjects.js";
@@ -68,6 +70,7 @@ import CreateScientistLogin from "./components/create Scientist Login/CreateScie
 import UpdateScientist from "./components/create Scientist Login/UpdateScientist.js";
 import Popup from "./components/Popup/Popup.js";
 import TrainingProgram from "./components/Training Program/TrainingProgram.js";
+import Professor from "./components/Professor/Professor.js";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -581,6 +584,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <TrainingProgram />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/Professor"
+                  element={
+                    <ProtectedRoute>
+                      <Professor />
                     </ProtectedRoute>
                   }
                 />

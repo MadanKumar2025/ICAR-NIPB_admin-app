@@ -13,10 +13,10 @@ body,
   font-size: var(--base-font-size) !important;
   transition: font-size 0.3s ease-in-out;
 }
-
+/* 
 * {
   font-size: inherit !important;
-}
+} */
 
 .app-sidebarBox {
   width: 20%;

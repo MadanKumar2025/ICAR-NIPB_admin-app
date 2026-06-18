@@ -441,7 +441,7 @@ function Album() {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/gallery/updateGalleryStatus/${item?._id}`,
+        `${API_URL}/gallery/updateGalleryStatus/${item?.id}`,
         {
           isActive: !item.isActive,
           updateby: decoded.id,
@@ -455,7 +455,7 @@ function Album() {
 
       setAllGallery((prev) =>
         prev.map((row) =>
-          row._id === item._id ? { ...row, isActive: !row.isActive } : row,
+          row.id === item.id ? { ...row, isActive: !row.isActive } : row,
         ),
       );
     } catch (error) {
@@ -491,6 +491,24 @@ function Album() {
 
     setGalleryeditId(item?._id);
     setIsGalleryEdit(true);
+  };
+
+  const AlbumhandleClose = () => {
+    setData({
+      type_en: "",
+      type_hi: "",
+      title_en: "",
+      title_hi: "",
+      venue_en: "",
+      venue_hi: "",
+      publishDate: "",
+      expiryDate: "",
+      coverPic: null,
+      isActive: true,
+    });
+    setPreview(null);
+    setIsEdit(false);
+    setEditId(null);
   };
 
   return (
@@ -696,11 +714,17 @@ function Album() {
                   </div>
                 </div>
 
-                <div className="card-footer">
+                <div className="card-footer d-flex">
                   <button className="btn btn-info" type="submit">
                     {/* {isEdit ? "Update User" : "Submit form"} */}
                     {isEdit ? "Update" : "Save"}
                     {/* Save */}
+                  </button>
+                  <button
+                    className="btn btn-info ms-auto"
+                    onClick={AlbumhandleClose}
+                  >
+                    Close
                   </button>
                 </div>
               </form>
@@ -724,7 +748,7 @@ function Album() {
               width: "90%",
               marginLeft: "5%",
               marginTop: "3vh",
-              maxHeight: "90vh",  
+              maxHeight: "90vh",
               overflowY: "auto",
             }}
           >

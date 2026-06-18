@@ -248,7 +248,7 @@ const AlbumTable = ({
               <div
                 className="btn btn-info nowrap-btn"
                 onClick={() => {
-                  setAlbumGallery?.(item?._id);
+                  setAlbumGallery?.(item?.id);
                   handleOpen?.();
                 }}
                 style={{ cursor: "pointer" }}

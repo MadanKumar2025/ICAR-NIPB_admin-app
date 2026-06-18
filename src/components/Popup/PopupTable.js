@@ -12,7 +12,7 @@ const PopupTable = ({
   setPagination,
   hasEditAccess,
   hasActiveAccess,
-  IMG_BASE_URL
+  IMG_BASE_URL,
 }) => {
   const columns = useMemo(() => {
     const cols = [
@@ -25,7 +25,7 @@ const PopupTable = ({
         accessorFn: (row) => row?.title || "-",
         header: "Title",
       },
-    {
+      {
         accessorFn: (row) => row?.photo || "-",
         header: "Preview",
         Cell: ({ row }) => {
@@ -54,52 +54,86 @@ const PopupTable = ({
       },
     ];
 
-    if (hasActiveAccess?.("Popup")) {
+    // if (hasActiveAccess?.("Popup")) {
+    //   cols.push({
+    //     accessorKey: "isActive",
+    //     header: "Status",
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <div className="form-check form-switch">
+    //           <input
+    //             className="form-check-input"
+    //             type="checkbox"
+    //             checked={Boolean(item?.isActive)}
+    //             onChange={() => handleToggle?.(item)}
+    //           />
+    //           {/* <label className="form-check-label">
+    //             {item?.isActive ? "Active" : "Inactive"}
+    //           </label> */}
+    //         </div>
+    //       );
+    //     },
+    //   });
+    // }
+
+    // // ACTION COLUMN (EDIT ACCESS)
+
+    // if (hasEditAccess?.("Popup")) {
+    //   cols.push({
+    //     header: "Action",
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <span
+    //           // className="badge text-bg-danger"
+    //           // style={{ cursor: "pointer" }}
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           {/* Edit */}
+    //           <i className="bi bi-pencil fs-4"></i>
+    //         </span>
+    //       );
+    //     },
+    //   });
+    // }
+
+    if (hasActiveAccess?.("Popup") || hasEditAccess?.("Popup")) {
       cols.push({
-        accessorKey: "isActive",
-        header: "Status",
+        header: "Actions",
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <div className="form-check form-switch">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                checked={Boolean(item?.isActive)}
-                onChange={() => handleToggle?.(item)}
-              />
-              {/* <label className="form-check-label">
-                {item?.isActive ? "Active" : "Inactive"}
-              </label> */}
+            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+              {/* STATUS TOGGLE */}
+              {hasActiveAccess?.("Popup") && (
+                <div className="form-check form-switch m-0">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    checked={Boolean(item?.isActive)}
+                    onChange={() => handleToggle?.(item)}
+                  />
+                </div>
+              )}
+
+              {/* EDIT ICON */}
+              {hasEditAccess?.("Popup") && (
+                <span
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit?.(item)}
+                >
+                  <i className="bi bi-pencil fs-4"></i>
+                </span>
+              )}
             </div>
           );
         },
       });
     }
-
-    // ACTION COLUMN (EDIT ACCESS)
-
-    if (hasEditAccess?.("Popup")) {
-      cols.push({
-        header: "Action",
-        Cell: ({ row }) => {
-          const item = row.original;
-
-          return (
-            <span
-              // className="badge text-bg-danger"
-              // style={{ cursor: "pointer" }}
-              onClick={() => handleEdit?.(item)}
-            >
-              {/* Edit */}
-              <i className="bi bi-pencil fs-4"></i>
-            </span>
-          );
-        },
-      });
-    }
-
     return cols;
   }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
 

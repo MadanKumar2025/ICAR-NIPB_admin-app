@@ -109,7 +109,7 @@ const TemplateTable = ({ data = [], handleEdit, hasEditAccess }) => {
           return (
             <div
               className="table-text-edit"
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer",fontSize:'16px' }}
               onClick={() => handleEdit?.(item)}
             >
              <i class="bi bi-pencil fs-6"></i>

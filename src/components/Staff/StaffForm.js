@@ -396,7 +396,7 @@ function StaffForm({
                       <option value="Administrative Staff">
                         Administrative Staff
                       </option>
-                      <option value="Professor">Professor</option>
+                      {/* <option value="Professor">Professor</option> */}
                       {/* <option value="Faculty">Faculty</option> */}
                       <option value="Honorary Scientist">
                         Honorary Scientist
@@ -419,7 +419,7 @@ function StaffForm({
                       <option value="प्रशासनिक कर्मचारी">
                         प्रशासनिक कर्मचारी
                       </option>
-                      <option value="प्रोफेसर">प्रोफेसर</option>
+                      {/* <option value="प्रोफेसर">प्रोफेसर</option> */}
                       {/* <option value="फैकल्टी">फैकल्टी</option> */}
                       <option value="मानद वैज्ञानिक">मानद वैज्ञानिक</option>
                     </select>
@@ -530,7 +530,7 @@ function StaffForm({
                     </label>
                     <div className="input-group has-validation">
                       <input
-                        type="email"
+                        type="text"
                         name="email"
                         value={data?.email}
                         onChange={handleChange}

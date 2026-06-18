@@ -93,7 +93,7 @@ function Scientist() {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/ScientistRoutes/updateStatus/${item?._id}`,
+        `${API_URL}/ScientistRoutes/updateStatus/${item?.id}`,
         {
           isActive: !item.isActive,
           updateby: decoded.id,
@@ -108,7 +108,7 @@ function Scientist() {
 
       setAllScientist((prev) =>
         prev.map((row) =>
-          row._id === item._id ? { ...row, isActive: !row.isActive } : row,
+          row.id === item.id ? { ...row, isActive: !row.isActive } : row,
         ),
       );
     } catch (error) {
@@ -117,7 +117,6 @@ function Scientist() {
   };
 
   const handleEdit = (item) => {
-    console.log("item",item)
     setData({
       scientistName_en: item?.scientistName?.en || "",
       scientistName_hi: item?.scientistName?.hi || "",
@@ -246,7 +245,7 @@ function Scientist() {
     navigate(`/CreateScientistLogin/${id}`);
   };
 
-   return (
+  return (
     <>
       <div>
         <div className="d-flex justify-content-end">
@@ -281,7 +280,10 @@ function Scientist() {
             handleClose={handleClose}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <ScientistTable
             data={allScientist || []}
             handleToggle={handleToggle}

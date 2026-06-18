@@ -16,6 +16,7 @@ function Student({ setOpen, open, studentInCourse }) {
     studentName_en: "",
     studentName_hi: "",
     rollNo: "",
+    yearOfJoining: null,
     guideName_en: "",
     guideName_hi: "",
     isActive: true,
@@ -37,14 +38,16 @@ function Student({ setOpen, open, studentInCourse }) {
     }));
   };
 
-  const handleEdit = (item) => {
-    console.log("item", item);
-
+  const handleEdit = (item) => {    
     setData({
       studentName_en: item?.studentName?.en || "",
       studentName_hi: item?.studentName?.hi || "",
       rollNo: item?.rollNo || "",
-      guideName_en: item?.guideName?.hi || "",
+       yearOfJoining: item?.yearOfJoining
+      ? item.yearOfJoining.substring(0, 10)
+      : "",
+
+      guideName_en: item?.guideName?.en || "",
       guideName_hi: item?.guideName?.hi || "",
       isActive: item?.isActive,
     });
@@ -66,6 +69,7 @@ function Student({ setOpen, open, studentInCourse }) {
           studentName_en: data?.studentName_en,
           studentName_hi: data?.studentName_hi || null,
           rollNo: data?.rollNo || "",
+          yearOfJoining: data?.yearOfJoining || "",
           guideName_en: data?.guideName_en || "",
           guideName_hi: data?.guideName_hi || "",
           studentCourseId: studentInCourse || null,
@@ -85,6 +89,7 @@ function Student({ setOpen, open, studentInCourse }) {
           studentName_en: "",
           studentName_hi: "",
           rollNo: "",
+          yearOfJoining: "",
           guideName_en: "",
           guideName_hi: "",
           isActive: true,
@@ -99,6 +104,7 @@ function Student({ setOpen, open, studentInCourse }) {
           studentName_en: data?.studentName_en,
           studentName_hi: data?.studentName_hi || null,
           rollNo: data?.rollNo || "",
+          yearOfJoining: data?.yearOfJoining || "",
           guideName_en: data?.guideName_en || "",
           guideName_hi: data?.guideName_hi || "",
           studentCourseId: studentInCourse || null,
@@ -118,6 +124,7 @@ function Student({ setOpen, open, studentInCourse }) {
           studentName_en: "",
           studentName_hi: "",
           rollNo: "",
+          yearOfJoining: "",
           guideName_en: "",
           guideName_hi: "",
           isActive: true,
@@ -161,9 +168,7 @@ function Student({ setOpen, open, studentInCourse }) {
     }
   }, [open]);
 
-
-
-    const handleToggle = async (item) => {
+  const handleToggle = async (item) => {
     try {
       const decoded = jwtDecode(token);
 
@@ -276,6 +281,19 @@ function Student({ setOpen, open, studentInCourse }) {
                 />
               </div>
               <div className="col-md-6">
+                <label htmlFor="validationCustom03" className="form-label">
+                  Year of Joining
+                </label>
+                <input
+                  type="date"
+                  name="yearOfJoining"
+                  value={data?.yearOfJoining}
+                  onChange={handleChange}
+                  className="form-control"
+                  id="yearOfJoining"
+                />
+              </div>
+              <div className="col-md-6">
                 <label className="form-label">Is Active</label>
                 <select
                   name="isActive"
@@ -296,7 +314,10 @@ function Student({ setOpen, open, studentInCourse }) {
             </button>
           </div>
         </form>
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%", height: "40vh" }}
+        >
           <StudentTable
             data={student?.data || []}
             handleToggle={handleToggle}
