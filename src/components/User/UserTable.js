@@ -11,6 +11,7 @@ const UserTable = ({
   handleEdit,
   hasEditAccess,
   hasActiveAccess,
+  hasAddAccess,
 }) => {
   const navigate = useNavigate();
 
@@ -24,7 +25,6 @@ const UserTable = ({
       {
         accessorKey: "name",
         header: "Name",
-   
       },
       {
         accessorKey: "email",
@@ -62,7 +62,7 @@ const UserTable = ({
 
     if (hasActiveAccess?.("User")) {
       cols.push({
-         header: "Status",
+        header: "Status",
         size: 100,
         grow: false,
         Cell: ({ row }) => {
@@ -103,33 +103,42 @@ const UserTable = ({
       });
     }
 
-    cols.push({
-      header: "Permission",
-      size: 130,
-      grow: false,
-      Cell: ({ row }) => {
-        const item = row.original;
-        return (
-          // <button
-          //   className="btn btn-info nowrap-btn"
-          //   style={{ marginTop: "10px" }}
-          //   onClick={() => navigate(`/UserPermissions/${item?._id}`)}
-          // >
-          //   Page Permissions
-          // </button>
-          <button
-            className="btn btn-info nowrap-btn"
-            style={{ marginTop: "10px" }}
-            onClick={() => navigate(`/UserPermissions/${item?._id}`)}
-          >
-            Permissions
-          </button>
-        );
-      },
-    });
+    if (hasAddAccess("User")) {
+      cols.push({
+        header: "Permission",
+        size: 130,
+        grow: false,
+        Cell: ({ row }) => {
+          const item = row.original;
+          return (
+            // <button
+            //   className="btn btn-info nowrap-btn"
+            //   style={{ marginTop: "10px" }}
+            //   onClick={() => navigate(`/UserPermissions/${item?._id}`)}
+            // >
+            //   Page Permissions
+            // </button>
+            <button
+              className="btn btn-info nowrap-btn"
+              style={{ marginTop: "10px" }}
+              onClick={() => navigate(`/UserPermissions/${item?._id}`)}
+            >
+              Permissions
+            </button>
+          );
+        },
+      });
+    }
 
     return cols;
-  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess, navigate]);
+  }, [
+    handleToggle,
+    handleEdit,
+    hasEditAccess,
+    hasActiveAccess,
+    hasAddAccess,
+    navigate,
+  ]);
 
   const table = useMaterialReactTable({
     columns,

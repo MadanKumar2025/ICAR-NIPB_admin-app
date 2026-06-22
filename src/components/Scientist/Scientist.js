@@ -257,12 +257,12 @@ function Scientist() {
               marginRight: "4vw",
             }}
           >
-            {hasAddAccess("Scientist") && (
+            {(hasAddAccess("Scientist") || hasAddAccess("Faculty")) && (
               <button
                 className="btn btn-info"
                 onClick={() => setShowForm(true)}
               >
-                Create Scientist
+                Create
               </button>
             )}
           </div>

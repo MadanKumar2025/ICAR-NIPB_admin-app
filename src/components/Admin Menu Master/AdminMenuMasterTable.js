@@ -55,22 +55,22 @@ const AdminMenuMasterTable = ({
     //  }
  
  
-    //  if (hasEditAccess?.("Help")) {
-    //    cols.push({
-    //      header: "Action",
-    //      Cell: ({ row }) => {
-    //        const item = row.original;
+    //  if (hasEditAccess?.("AdminMenuMaster")) {
+       cols.push({
+         header: "Action",
+         Cell: ({ row }) => {
+           const item = row.original;
  
-    //        return (
-    //          <span
-    //            style={{ cursor: "pointer" }}
-    //            onClick={() => handleEdit?.(item)}
-    //          >
-    //            <i className="bi bi-pencil fs-4"></i>
-    //          </span>
-    //        );
-    //      },
-    //    });
+           return (
+             <span
+               style={{ cursor: "pointer" }}
+               onClick={() => handleEdit?.(item)}
+             >
+               <i className="bi bi-pencil fs-4"></i>
+             </span>
+           );
+         },
+       });
     //  }
  
      return cols;

@@ -10,6 +10,7 @@ function AdminMenuMasterForm({
   setPreview,
   isEdit,
   editId,
+  adminMenuMaster,
   getAdminMenuMasters,
   setAdminMenuMaster,
   preview,
@@ -48,31 +49,34 @@ function AdminMenuMasterForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    // editId
     if (isEdit) {
       try {
-        const formData = new FormData();
-
-        formData.append("photoTitle", data?.photoTitle || "");
-        formData.append("relatedLink", data?.relatedLink || "");
-        formData.append("isActive", data?.isActive);
-        if (data?.photo) {
-          formData.append("photo", data?.photo);
-        }
-
-        const res = await axios.put(
-          `${API_URL}/AssociatedOrganizationRoutes/update/${editId}`,
-          formData,
+        const response = await axios.put(
+          `${API_URL}/AdminMenuMasterRoutes/update/${editId}`,
+          data,
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
+              "Content-Type": "application/json",
             },
           },
         );
 
-        setPreview(null);
-        formRef.current.reset();
+        Swal.fire({
+          icon: "success",
+          title: "Admin Menu Master",
+          text:
+            response.data.message || " Admin Menu Master UpDate Successfully.",
+          confirmButtonColor: "#3085d6",
+        });
+
+        // setAdminMenuMaster(response?.data?.data);
+        setAdminMenuMaster(
+          Array.isArray(response?.data?.data)
+            ? response.data.data
+            : response?.data?.data?.data || [],
+        );
         await getAdminMenuMasters();
         handleClose();
       } catch (error) {
@@ -156,6 +160,54 @@ function AdminMenuMasterForm({
           >
             <div className="card-body">
               <div className="row g-3">
+                <div className="col-md-6">
+                  <label htmlFor="validationCustom01" className="form-label">
+                    Menu Type
+                  </label>
+                  <select
+                    name="menuType"
+                    className="form-control"
+                    value={data?.menuType}
+                    onChange={handleChange}
+                    // disabled={data?.menuCategory === "footer"}
+                  >
+                    <option value="">select</option>
+                    <option value="parent">Parent Menu</option>
+                    <option value="child">Child Menu</option>
+                  </select>
+                  <div className="valid-feedback">Looks good!</div>
+                </div>
+                {data?.menuType === "child" && (
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom02" className="form-label">
+                      Parent Menu
+                    </label>
+                    <select
+                      name="parentMenuId"
+                      className="form-control"
+                      value={String(data?.parentMenuId || "")}
+                      onChange={handleChange}
+                    >
+                      <option value={""}>select</option>
+                      {Array.isArray(adminMenuMaster) &&
+                        adminMenuMaster
+                          ?.filter(
+                            (item) =>
+                              item?.isActive === true &&
+                              item?.menuType === "parent" &&
+                              item?.menuCategory === data?.menuCategory,
+                          )
+                          .map((item, index) => {
+                            return (
+                              <option key={index} value={String(item?._id)}>
+                                {item?.menuName}
+                              </option>
+                            );
+                          })}
+                      ;
+                    </select>
+                  </div>
+                )}
                 <div className="col-sm-6">
                   <label htmlFor="validationCustom02" className="form-label">
                     Menu Name
@@ -184,7 +236,7 @@ function AdminMenuMasterForm({
                       value={data?.url}
                       onChange={handleChange}
                       className="form-control"
-                      required
+                      // required
                     />
                   </div>
                 </div>
@@ -222,14 +274,14 @@ function AdminMenuMasterForm({
                 </div>
               </div>
             </div>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-                 <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                Save
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>

@@ -144,7 +144,11 @@ function Publication() {
               marginRight: "4vw",
             }}
           >
-            {hasAddAccess("Publication") && (
+            {(hasAddAccess("Research Publications") ||
+              hasAddAccess("Annual Report") ||
+              hasAddAccess("Newsletters") ||
+              hasAddAccess("Others") ||
+              hasAddAccess("Hindi Patrika")) && (
               <button
                 className="btn btn-info"
                 onClick={() => setShowForm(true)}

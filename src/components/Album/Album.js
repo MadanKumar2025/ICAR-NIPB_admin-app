@@ -514,7 +514,7 @@ function Album() {
   return (
     <>
       <div>
-        {hasAddAccess("Album") && (
+        {(hasAddAccess("Album") || hasAddAccess("Facilities")) && (
           <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-header">

@@ -171,6 +171,7 @@ function User() {
             handleEdit={handleEdit}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasAddAccess={hasAddAccess}
           />
         </div>
       </div>

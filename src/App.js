@@ -224,6 +224,14 @@ function App() {
                   }
                 />
                 <Route
+                  path="/faculty"
+                  element={
+                    <ProtectedRoute>
+                      <Scientist />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
                   path="/CreateScientistLogin/:id"
                   element={
                     <ProtectedRoute>
@@ -248,6 +256,30 @@ function App() {
                   }
                 />
                 <Route
+                  path="/technicalStaff"
+                  element={
+                    <ProtectedRoute>
+                      <Staff />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/honoraryScientist"
+                  element={
+                    <ProtectedRoute>
+                      <Staff />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/administrativeStaff"
+                  element={
+                    <ProtectedRoute>
+                      <Staff />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
                   path="/administrativeStaff"
                   element={
                     <ProtectedRoute>
@@ -257,6 +289,14 @@ function App() {
                 />
                 <Route
                   path="/album"
+                  element={
+                    <ProtectedRoute>
+                      <Album />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/facilities"
                   element={
                     <ProtectedRoute>
                       <Album />
@@ -304,14 +344,14 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-                <Route
+                {/* <Route
                   path="/technologiesDeveloped"
                   element={
                     <ProtectedRoute>
                       <TechnologiesDeveloped />
                     </ProtectedRoute>
                   }
-                />
+                /> */}
                 <Route
                   path="/studentCourse"
                   element={
@@ -347,6 +387,38 @@ function App() {
                 />
                 <Route
                   path="/publication"
+                  element={
+                    <ProtectedRoute>
+                      <Publication />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/AnnualReport"
+                  element={
+                    <ProtectedRoute>
+                      <Publication />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/Newsletters"
+                  element={
+                    <ProtectedRoute>
+                      <Publication />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/HindiPatrika"
+                  element={
+                    <ProtectedRoute>
+                      <Publication />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/Others"
                   element={
                     <ProtectedRoute>
                       <Publication />

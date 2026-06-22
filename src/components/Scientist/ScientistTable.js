@@ -34,7 +34,7 @@ const ScientistTable = ({
     ];
 
     // STATUS COLUMN (ACTIVE ACCESS)
-    if (hasActiveAccess?.("Scientist")) {
+    if (hasActiveAccess?.("Scientist") ||hasActiveAccess?.("Faculty") ) {
       cols.push({
         accessorKey: "isActive",
         header: "Status",
@@ -58,10 +58,8 @@ const ScientistTable = ({
       });
     }
 
-    // =========================
-    // ACTION COLUMN (EDIT ACCESS)
-    // =========================
-    if (hasEditAccess?.("Scientist")) {
+ 
+    if (hasEditAccess?.("Scientist") || hasEditAccess?.("Faculty")) {
       cols.push({
         header: "Action",
         size: 60,

@@ -21,6 +21,8 @@ function AdminMenuMaster() {
     menuName: "",
     url: "",
     displayOrderNumber: "",
+    parentMenuId: "",
+    menuType: "",
     isActive: true,
   });
 
@@ -88,19 +90,6 @@ function AdminMenuMaster() {
     }
   };
 
-  const handleEdit = (item) => {
-    setData({
-      photoTitle: item?.photoTitle,
-      relatedLink: item?.relatedLink,
-      photo: item?.photo,
-      isActive: item?.isActive ?? true,
-    });
-
-    setEditId(item?.id);
-    setIsEdit(true);
-    setShowForm(true);
-  };
-
   const handleClose = () => {
     setShowForm(false);
     setData({
@@ -110,6 +99,30 @@ function AdminMenuMaster() {
       isActive: true,
     });
   };
+
+  const handleEdit = (item) => {
+    //  console.log("item",item);
+    setData({
+      menuType: item?.menuType || "",
+      menuName: item?.menuName || "",
+      displayOrderNumber: item?.displayOrderNumber || "",
+      parentMenuId: item?.parentMenuId?._id || "",
+      url: item?.url || "",
+
+      isActive: item?.isActive ?? true,
+    });
+
+    // setIsPage(isPageValue);
+    setIsEdit(true);
+    setEditId(item?._id);
+    setShowForm(true);
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  // console.log("data",data);
 
   return (
     <>
@@ -144,9 +157,13 @@ function AdminMenuMaster() {
             setAdminMenuMaster={setAdminMenuMaster}
             preview={preview}
             handleClose={handleClose}
+            adminMenuMaster={adminMenuMaster}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <AdminMenuMasterTable
             data={adminMenuMaster || []}
             handleToggle={handleToggle}

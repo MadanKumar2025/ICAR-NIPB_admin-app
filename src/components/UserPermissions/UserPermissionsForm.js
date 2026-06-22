@@ -154,6 +154,8 @@ function UserPermissionsForm({
     }
   };
 
+  console.log("data",data);
+  
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -230,16 +232,16 @@ function UserPermissionsForm({
                 ))}
               </tbody>
             </table>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  {/* {isEdit ? "Update User" : "Submit form"} */}
-                  {isEdit ? "Update" : "Save"}
-                  {/* Save */}
-                   {/*<button className="btn btn-info auto" onClick={handleClose}>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                {/* {isEdit ? "Update User" : "Submit form"} */}
+                {isEdit ? "Update" : "Save"}
+                {/* Save */}
+                {/*<button className="btn btn-info auto" onClick={handleClose}>
                   Close
                 </button>*/}
-                </button>
-              </div>
+              </button>
+            </div>
           </form>
         </div>
       </div>

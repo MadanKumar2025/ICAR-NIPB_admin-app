@@ -17,6 +17,8 @@ function Director() {
     phone: "",
     education_en: "",
     education_hi: "",
+    message_en: "",
+    message_hi: "",
     photoTitle: "",
     photo: null,
     acting: true,
@@ -40,6 +42,8 @@ function Director() {
       setData({
         name_en: response?.data?.data[0]?.name?.en,
         name_hi: response?.data?.data[0]?.name?.hi,
+        message_en: response?.data?.data[0]?.message?.en,
+        message_hi: response?.data?.data[0]?.message?.hi,
         workingPeriod: response?.data?.data[0]?.workingPeriod,
         photoTitle: response?.data?.data[0]?.photoTitle,
         email: response?.data?.data[0]?.email,

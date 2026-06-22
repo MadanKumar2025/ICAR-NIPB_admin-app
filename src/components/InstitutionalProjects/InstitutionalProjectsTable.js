@@ -125,6 +125,7 @@ const InstitutionalProjectsTable = ({
   setPagination,
   hasActiveAccess,
   hasEditAccess,
+  hasAddAccess,
 }) => {
   const navigate = useNavigate();
 
@@ -210,27 +211,36 @@ const InstitutionalProjectsTable = ({
     // =========================
     // SUB PROJECT BUTTON (ALWAYS AVAILABLE OR CAN BE LOCKED LATER)
     // =========================
-    cols.push({
-      header: "Sub Project",
-      Cell: ({ row }) => {
-        const item = row.original;
+    if (hasAddAccess("Institutional Projects")) {
+      cols.push({
+        header: "Sub Project",
+        Cell: ({ row }) => {
+          const item = row.original;
 
-        return (
-          <div
-            className="btn btn-info nowrap-btn"
-            style={{ cursor: "pointer" }}
-            onClick={() =>
-              navigate(`/institutionalProjectsDetails/${item?._id}`)
-            }
-          >
-            Add Sub Project
-          </div>
-        );
-      },
-    });
+          return (
+            <div
+              className="btn btn-info nowrap-btn"
+              style={{ cursor: "pointer" }}
+              onClick={() =>
+                navigate(`/institutionalProjectsDetails/${item?._id}`)
+              }
+            >
+              Add Sub Project
+            </div>
+          );
+        },
+      });
+    }
 
     return cols;
-  }, [handleToggle, handleEdit, hasActiveAccess, hasEditAccess, navigate]);
+  }, [
+    handleToggle,
+    handleEdit,
+    hasActiveAccess,
+    hasEditAccess,
+    hasAddAccess,
+    navigate,
+  ]);
 
   const table = useMaterialReactTable({
     columns,

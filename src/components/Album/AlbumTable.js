@@ -180,7 +180,7 @@ const AlbumTable = ({
 
     // STATUS COLUMN (ACTIVE ACCESS)
 
-    if (hasActiveAccess?.("Album")) {
+    if (hasActiveAccess?.("Album")||hasActiveAccess?.("Facilities")) {
       cols.push({
         header: "Status",
         size: 40,
@@ -208,7 +208,7 @@ const AlbumTable = ({
 
     // EDIT ACTION (EDIT ACCESS)
 
-    if (hasEditAccess?.("Album")) {
+    if (hasEditAccess?.("Album")||hasEditAccess?.("Facilities")) {
       cols.push({
         header: "Action",
         size: 40,
@@ -237,7 +237,7 @@ const AlbumTable = ({
 
     // GALLERY ACTION (NO RESTRICT LOGIC APPLIED, BUT SAFE)
 
-    if (hasEditAccess?.("Album") || hasAddAccess?.("Album")) {
+    if (hasEditAccess?.("Album") || hasAddAccess?.("Facilities")) {
       cols.push({
         header: "Gallery",
         Cell: ({ row }) => {

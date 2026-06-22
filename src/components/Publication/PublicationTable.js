@@ -69,7 +69,7 @@ const PublicationTable = ({
       //     );
       //   },
       // },
-    
+
       {
         accessorKey: "file",
         header: "File",
@@ -99,10 +99,13 @@ const PublicationTable = ({
       },
     ];
 
-    // =========================
-    // STATUS COLUMN (ACTIVE ACCESS)
-    // =========================
-    if (hasActiveAccess?.("Publication")) {
+    if (
+      hasActiveAccess?.("Research Publications") ||
+      hasActiveAccess?.("Annual Report") ||
+      hasActiveAccess?.("Newsletters") ||
+      hasActiveAccess?.("Hindi Patrika") ||
+      hasActiveAccess?.("Others")
+    ) {
       cols.push({
         header: "Status",
         size: 30,
@@ -125,10 +128,13 @@ const PublicationTable = ({
       });
     }
 
-    // =========================
-    // ACTION COLUMN (EDIT ACCESS)
-    // =========================
-    if (hasEditAccess?.("Publication")) {
+    if (
+      hasEditAccess?.("Research Publications") ||
+      hasEditAccess?.("Annual Report") ||
+      hasEditAccess?.("Newsletters") ||
+      hasEditAccess?.("Hindi Patrika") ||
+      hasEditAccess?.("Others")
+    ) {
       cols.push({
         header: "Action",
         size: 30,

@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useRef } from "react";
+import JoditEditor from "jodit-react";
+import { useMemo, useRef } from "react";
 import Swal from "sweetalert2";
 
 function DirectorForm({
@@ -18,6 +19,7 @@ function DirectorForm({
   const API_URL = process.env.REACT_APP_API_URL;
   const token = localStorage.getItem("token");
   const formRef = useRef();
+  const editor = useRef(null);
 
   const handleChange = (e) => {
     const { name, type, files } = e.target;
@@ -47,6 +49,8 @@ function DirectorForm({
 
       formData.append("name_en", data?.name_en || "");
       formData.append("name_hi", data?.name_hi || "");
+      formData.append("message_en", data?.message_en || "");
+      formData.append("message_hi", data?.message_hi || "");
       formData.append("workingPeriod", data?.workingPeriod || "");
       formData.append("photoTitle", data?.photoTitle || "");
       formData.append("email", data?.email || "");
@@ -88,6 +92,14 @@ function DirectorForm({
     }
   };
 
+    const config = useMemo(
+      () => ({
+        readonly: false,
+        showPoweredBy: false,
+        placeholder: "",
+      }),
+      [],
+    );
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -160,7 +172,7 @@ function DirectorForm({
                 <div className="col-md-6">
                   <label className="form-label">Email</label>
                   <input
-                    type="email"
+                    type="text"
                     name="email"
                     value={data?.email}
                     onChange={handleChange}
@@ -261,6 +273,44 @@ function DirectorForm({
                       }}
                     />
                   )}
+                </div>
+                 <div>
+                  <label className="form-label fw-bold">
+                    Message (English)
+                  </label>
+                  <div className="custom-main-editor">
+                    <JoditEditor
+                      ref={editor}
+                      value={data?.message_en}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          message_en: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="form-label fw-bold">Message (Hindi)</label>
+                  <div className="custom-main-editor">
+                    <JoditEditor
+                      ref={editor}
+                      value={data?.message_hi}
+                      config={config}
+                      tabIndex={1}
+                      onBlur={(newContent) => {
+                        setData((prev) => ({
+                          ...prev,
+                          message_hi: newContent,
+                        }));
+                      }}
+                      onChange={() => {}}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

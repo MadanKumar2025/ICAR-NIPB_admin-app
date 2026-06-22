@@ -16,6 +16,7 @@ function OrganizationDetails() {
 
   const [data, setData] = useState({
     organizationName: { en: "", hi: "" },
+    officeHours: { en: "", hi: "" },
     tagLine: { en: "", hi: "" },
     logo1: null,
     logo1Title: "",
@@ -137,6 +138,9 @@ function OrganizationDetails() {
     e.preventDefault();
     if (isEdit) {
       try {
+        console.log("qqq");
+        console.log("data", data);
+
         const formData = new FormData();
         const allowedTypes = [
           "image/jpeg",
@@ -156,11 +160,6 @@ function OrganizationDetails() {
 
         formData.append("tagLine_en", data?.tagLine?.en || "");
         formData.append("tagLine_hi", data?.tagLine?.hi || "");
-
-        // if (data.logo1) {
-        //   formData.append("logo1", data.logo1);
-        // }
-        console.log("data.logo1", data.logo1);
 
         if (data.logo1) {
           // Check if it's a File object
@@ -228,6 +227,14 @@ function OrganizationDetails() {
         formData.append("googleMapLink", data?.googleMapLink || "");
         formData.append("paymentUrl", data?.paymentUrl || "");
 
+        if (data?.officeHours?.en) {
+          formData.append("officeHours_en", data.officeHours.en);
+        }
+
+        if (data?.officeHours?.hi) {
+          formData.append("officeHours_hi", data.officeHours.hi);
+        }
+
         const response = await axios.put(
           `${API_URL}/organization/update/${editId}`,
           formData,
@@ -239,9 +246,12 @@ function OrganizationDetails() {
           },
         );
 
+        console.log("response", response);
+
         // reset state
         setData({
           organizationName: { en: "", hi: "" },
+          officeHours: { en: "", hi: "" },
           tagLine: { en: "", hi: "" },
           logo1: null,
           logo1Title: "",
@@ -264,6 +274,7 @@ function OrganizationDetails() {
           instagramLink: "",
           googleMapLink: "",
           paymentUrl: "",
+
           isActive: false,
         });
 
@@ -297,6 +308,9 @@ function OrganizationDetails() {
 
       formData.append("addressLine1_en", data.addressLine1.en || "");
       formData.append("addressLine1_hi", data.addressLine1.hi || "");
+
+      formData.append("officeHours_en", data?.officeHours?.en || "");
+      formData.append("officeHours_hi", data?.officeHours?.hi || "");
 
       formData.append("addressLine2_en", data.addressLine2.en || "");
       formData.append("addressLine2_hi", data.addressLine2.hi || "");
@@ -340,7 +354,7 @@ function OrganizationDetails() {
           },
         );
 
-        console.log("response", response);
+        // console.log("response", response);
 
         setData({
           organizationName: { en: "", hi: "" },
@@ -366,6 +380,8 @@ function OrganizationDetails() {
           instagramLink: "",
           googleMapLink: "",
           paymentUrl: "",
+          officeHours_hi: "",
+          officeHours_en: "",
           isActive: false,
         });
         // setPreview(null);
@@ -473,6 +489,32 @@ function OrganizationDetails() {
                     <div className="valid-feedback">
                       Please provide a Tag Line
                     </div>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom02" className="form-label">
+                      Office Hours (English)
+                    </label>
+                    <input
+                      type="text"
+                      name="officeHours_en"
+                      value={data?.officeHours?.en}
+                      onChange={handleChange}
+                      className="form-control"
+                      id="validationCustom02"
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom02" className="form-label">
+                      Office Hours (Hindi)
+                    </label>
+                    <input
+                      type="text"
+                      name="officeHours_hi"
+                      value={data?.officeHours?.hi}
+                      onChange={handleChange}
+                      className="form-control"
+                      id="validationCustom02"
+                    />
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="validationCustom05" className="form-label">

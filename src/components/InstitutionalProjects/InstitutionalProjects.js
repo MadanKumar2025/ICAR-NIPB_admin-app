@@ -158,6 +158,7 @@ function InstitutionalProjects() {
             setPagination={setPagination}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasAddAccess={hasAddAccess}
           />
         </div>
       </div>

@@ -25,7 +25,7 @@ function Staff() {
     designation_hi: "",
     phone: "",
     email: "",
-    displayOrder:"",
+    displayOrder: "",
     education_en: "",
     education_hi: "",
     research_en: "",
@@ -37,7 +37,6 @@ function Staff() {
     awards: [{ en: "", hi: "" }],
     ipr: [{ en: "", hi: "" }],
     isActive: true,
- 
   });
 
   const [pagination, setPagination] = useState({
@@ -103,7 +102,7 @@ function Staff() {
     }
   };
 
-  const handleEdit = (item) => {    
+  const handleEdit = (item) => {
     setData({
       department_en: item?.department?.en,
       department_hi: item?.department?.hi,
@@ -147,7 +146,7 @@ function Staff() {
       designation_hi: "",
       phone: "",
       email: "",
-      displayOrder:"",
+      displayOrder: "",
       education_en: "",
       education_hi: "",
       research_en: "",
@@ -160,7 +159,7 @@ function Staff() {
       ipr: [{ en: "", hi: "" }],
       isActive: true,
     });
-    setEditId(null)
+    setEditId(null);
   };
 
   return (
@@ -175,7 +174,10 @@ function Staff() {
               marginRight: "4vw",
             }}
           >
-            {hasAddAccess("Staff") && (
+            {(hasAddAccess("Staff") ||
+              hasAddAccess("Technical Staff") ||
+              hasAddAccess("Honorary Scientist") ||
+              hasAddAccess("Administrative Staff")) && (
               <button
                 className="btn btn-info"
                 onClick={() => setShowForm(true)}
@@ -198,7 +200,10 @@ function Staff() {
             handleClose={handleClose}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <StaffTable
             data={allStaff || []}
             handleToggle={handleToggle}

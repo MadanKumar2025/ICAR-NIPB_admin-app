@@ -10,6 +10,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
   const API_URL = process.env.REACT_APP_API_URL;
   const [user, setUser] = useState(null);
   const [permissions, setPermissions] = useState([]);
+  const [openMenuId, setOpenMenuId] = useState(null);
 
   const token = localStorage.getItem("token");
 
@@ -27,12 +28,12 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
   /* menu click close sidebar */
   const handleMenuClick = (url) => {
-  navigate(url);
+    navigate(url);
 
-  if (window.innerWidth <= 1024) {
-    toggleSidebar();
-  }
-};
+    if (window.innerWidth <= 1024) {
+      toggleSidebar();
+    }
+  };
 
   const getPermissions = async (page = 1) => {
     try {
@@ -91,6 +92,17 @@ function Sidebar({ isOpen, toggleSidebar }) {
     (item) => item?.userId?._id === user,
   );
 
+  const menuPermissions = userPermissions?.menuPermissions || [];
+
+  const parents = menuPermissions.filter(
+    (item) => item?.pageAccess && item?.menuId?.menuType === "parent",
+  );
+  const handleParentClick = (id) => {
+    setOpenMenuId(openMenuId === id ? null : id);
+  };
+
+  // console.log("userPermissions", userPermissions);
+
   return (
     <div
       // className={`app-sidebar bg-body-secondary shadow ${!isOpen ? "collapsed" : ""}`}
@@ -116,28 +128,92 @@ function Sidebar({ isOpen, toggleSidebar }) {
             data-accordion="false"
             id="navigation"
           >
-            {userPermissions?.menuPermissions?.map((item, index) => {
+            {parents.map((parent, index) => {
+              const parentMenu = parent.menuId;
+
+              const children = menuPermissions.filter(
+                (item) =>
+                  item?.pageAccess &&
+                  item?.menuId?.menuType === "child" &&
+                  item?.menuId?.parentMenuId === parentMenu?._id,
+              );
+
+              const isOpen = openMenuId === parentMenu?._id;
+
+              return (
+                <li
+                  className={`nav-item ${isOpen ? "menu-open" : ""}`}
+                  key={parentMenu?._id || index}
+                >
+                  {/* Parent Click */}
+                  <div
+                    className="nav-link"
+                    // onClick={() => handleParentClick(parentMenu?._id)}
+                    onClick={() => {
+                      handleParentClick(parentMenu?._id);
+                      handleMenuClick(parent.menuId?.url);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <p style={{ display: "flex" }}>
+                      <i className="nav-icon bi bi-folder"></i>
+                      {parentMenu?.menuName}
+                    </p>
+                    <p>
+                      {children.length > 0 && (
+                        <i
+                          className={`bi ${
+                            isOpen ? "bi-chevron-down" : "bi-chevron-right"
+                          } ms-auto`}
+                        ></i>
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Child Menu */}
+                  {isOpen && children.length > 0 && (
+                    <ul className="nav nav-treeview">
+                      {children.map((child, i) => (
+                        <li className="nav-item" key={child.menuId?._id || i}>
+                          <Link
+                            to={child.menuId?.url}
+                            className={`nav-link ${
+                              pathname === child.menuId?.url ? "active" : ""
+                            }`}
+                            onClick={() => handleMenuClick(child.menuId?.url)}
+                          >
+                            <i className="far fa-circle nav-icon"></i>
+                            <p>{child.menuId?.menuName}</p>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              );
+            })}
+            {/* {userPermissions?.menuPermissions?.map((item, index) => {
               const menu = item?.menuId;
 
               if (!item?.pageAccess) return null;
               if (menu?.url?.includes(":id")) return null;
               return (
                 <li className="nav-item" key={menu?._id || index}>
-                  {/* <Link
-                    to={menu?.url || "#"}
-                    className={`nav-link ${pathname === menu?.url && "active"}`}
-                  > */}
                   <Link
-  to={menu?.url || "#"}
-  className={`nav-link ${pathname === menu?.url ? "active" : ""}`}
-  onClick={() => handleMenuClick(menu?.url)}
->
+                    to={menu?.url || "#"}
+                    className={`nav-link ${pathname === menu?.url ? "active" : ""}`}
+                    onClick={() => handleMenuClick(menu?.url)}
+                  >
                     <i className="nav-icon bi bi-palette"></i>
                     <p>{menu?.menuName}</p>
                   </Link>
                 </li>
               );
-            })}
+            })} */}
           </ul>
           <ul
             className="nav sidebar-menu flex-column"
@@ -156,290 +232,6 @@ function Sidebar({ isOpen, toggleSidebar }) {
         </nav>
       </div>
     </div>
-
-    // <div
-    //   className={`app-sidebar bg-body-secondary shadow ${!isOpen ? "collapsed" : ""}`}
-    //   // className={`app-sidebarBox bg-body-secondary shadow ${!isOpen ? "collapsed" : ""}`}
-    //   data-bs-theme="dark"
-    // >
-    //   <div className="sidebar-brand">
-    //     <a href="/index.html" className="brand-link">
-    //       <span className="brand-text fw-light">Admin ICAR-NIPB</span>
-    //     </a>
-    //   </div>
-    //   <div className="sidebar-wrapper">
-    //     <nav className="mt-2">
-    //       <ul
-    //         className="nav sidebar-menu flex-column"
-    //         data-lte-toggle="treeview"
-    //         role="navigation"
-    //         aria-label="Main navigation"
-    //         data-accordion="false"
-    //         id="navigation"
-    //       >
-    //         <li className="nav-item">
-    //           <Link
-    //             to={"/"}
-    //             className={`nav-link ${pathname === "/" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Dashboard</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to={"/user"}
-    //             className={`nav-link ${pathname === "/user" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>User</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/changepassword"
-    //             className={`nav-link ${pathname === "/changepassword" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Change Password</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/profileupdate"
-    //             className={`nav-link ${pathname === "/profileupdate" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Profile Update</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/template"
-    //             className={`nav-link ${pathname === "/template" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Template</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/page"
-    //             className={`nav-link ${pathname === "/page" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Page</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/menu"
-    //             className={`nav-link ${pathname === "/menu" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Menu</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/organizationDetails"
-    //             className={`nav-link ${pathname === "/organizationDetails" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Organization Details</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/news"
-    //             className={`nav-link ${pathname === "/news" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>News</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/event"
-    //             className={`nav-link ${pathname === "/event" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Event</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/scientist"
-    //             className={`nav-link ${pathname === "/scientist" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Scientist</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/staff"
-    //             className={`nav-link ${pathname === "/staff" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Staff</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/administrativeStaff"
-    //             className={`nav-link ${pathname === "/administrativeStaff" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Administrative Staff</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/album"
-    //             className={`nav-link ${pathname === "/album" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Album</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/director"
-    //             className={`nav-link ${pathname === "/director" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Director</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/previousDirector"
-    //             className={`nav-link ${pathname === "/previousDirector" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Previous Director</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/externallyFundedProjects"
-    //             className={`nav-link ${pathname === "/externallyFundedProjects" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Externally Funded Projects</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/institutionalProjects"
-    //             className={`nav-link ${pathname === "/institutionalProjects" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Institutional Projects</p>
-    //           </Link>
-    //         </li>
-
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/technologiesDeveloped"
-    //             className={`nav-link ${pathname === "/technologiesDeveloped" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Technologies Developed</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/studentCourse"
-    //             className={`nav-link ${pathname === "/studentCourse" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Student Course</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/designation"
-    //             className={`nav-link ${pathname === "/designation" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Designation</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/documentUploader"
-    //             className={`nav-link ${pathname === "/documentUploader" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Document Uploader</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/publication"
-    //             className={`nav-link ${pathname === "/publication" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Publication</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/alumni"
-    //             className={`nav-link ${pathname === "/alumni" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Alumni</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/contractualStaff"
-    //             className={`nav-link ${pathname === "/contractualStaff" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Contractual Staff</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/feedback"
-    //             className={`nav-link ${pathname === "feedback" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Feedback</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/externalLink"
-    //             className={`nav-link ${pathname === "externalLink" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>External Link</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <Link
-    //             to="/collaborations"
-    //             className={`nav-link ${pathname === "collaborations" && "active"}`}
-    //           >
-    //             <i className="nav-icon bi bi-palette"></i>
-    //             <p>Collaborations</p>
-    //           </Link>
-    //         </li>
-    //         <li className="nav-item">
-    //           <a className="nav-link" onClick={handleLogout}>
-    //             <i className="nav-icon bi bi-box-arrow-in-right"></i>
-    //             <p>Logout</p>
-    //           </a>
-    //         </li>
-    //       </ul>
-    //     </nav>
-    //   </div>
-    // </div>
   );
 }
 

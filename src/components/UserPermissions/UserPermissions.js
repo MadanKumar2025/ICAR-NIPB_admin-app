@@ -159,7 +159,7 @@ function UserPermissions() {
     setData(mergedData);
   }, [defaultData, userData]);
   
-   
+    
   return (
     <>
       <div>
