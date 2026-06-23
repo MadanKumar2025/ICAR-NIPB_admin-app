@@ -32,6 +32,7 @@ function Album() {
     venue_hi: "",
     publishDate: "",
     expiryDate: "",
+    displayOrderNo: "",
     coverPic: null,
     isActive: true,
   });
@@ -40,12 +41,13 @@ function Album() {
     galleryTitle_hi: "",
     type: "",
     photo: null,
+    document: null,
     videoUrl: "",
   });
 
   const albumDataGallery = allAlbum.find((album) => album._id === albumGallery);
 
-  console.log("galleryData11", galleryData);
+  // console.log("galleryData11", galleryData);
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -89,6 +91,7 @@ function Album() {
         formData.append("venue_hi", data?.venue_hi || "");
         formData.append("publishDate", data?.publishDate || "");
         formData.append("expiryDate", data?.expiryDate || "");
+        formData.append("displayOrderNo", data?.displayOrderNo);
         formData.append("isActive", data?.isActive);
 
         if (data.coverPic) {
@@ -114,6 +117,7 @@ function Album() {
           publishDate: "",
           expiryDate: "",
           coverPic: null,
+          displayOrderNo: "",
           isActive: true,
         });
         setPreview(null);
@@ -138,6 +142,7 @@ function Album() {
       formData.append("venue_hi", data?.venue_hi || "");
       formData.append("publishDate", data?.publishDate || "");
       formData.append("expiryDate", data?.expiryDate || "");
+      formData.append("displayOrderNo", data?.displayOrderNo || "");
       formData.append("coverPic", data?.coverPic || "");
       formData.append("isActive", data?.isActive);
 
@@ -161,6 +166,7 @@ function Album() {
           publishDate: "",
           expiryDate: "",
           coverPic: null,
+          displayOrderNo: null,
           isActive: true,
         });
         setPreview(null);
@@ -244,6 +250,7 @@ function Album() {
       title_hi: item?.title?.hi,
       venue_en: item?.venue?.en,
       venue_hi: item?.venue?.hi,
+      displayOrderNo: item?.displayOrderNo,
       publishDate: item?.publishDate ? item.publishDate.split("T")[0] : "",
       expiryDate: item?.expiryDate ? item.expiryDate.split("T")[0] : "",
       isActive: item?.isActive ?? true,
@@ -253,11 +260,52 @@ function Album() {
       setPreview(`${IMG_BASE_URL}/${item?.coverPic}`);
     }
 
-    setEditId(item?._id);
+    setEditId(item?.id);
     setIsEdit(true);
   };
 
   // Gallery
+
+  // const galleryHandleChange = (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   setGalleryData((prev) => {
+  //     const updated = { ...prev };
+
+  //     switch (name) {
+  //       case "type":
+  //         updated.type = value;
+
+  //         if (value === "Photo") {
+  //           updated.videoUrl = "";
+  //         }
+
+  //         if (value === "Video") {
+  //           updated.photo = null;
+  //           setPreviewGallery(null);
+  //         }
+  //         break;
+
+  //       case "photo":
+  //         if (files && files[0]) {
+  //           updated.photo = files[0];
+
+  //           // Preview image
+  //           setPreviewGallery(URL.createObjectURL(files[0]));
+  //         }
+  //         break;
+
+  //       case "videoUrl":
+  //         updated.videoUrl = value;
+  //         break;
+
+  //       default:
+  //         updated[name] = value;
+  //     }
+
+  //     return updated;
+  //   });
+  // };
 
   const galleryHandleChange = (e) => {
     const { name, value, files } = e.target;
@@ -266,28 +314,49 @@ function Album() {
       const updated = { ...prev };
 
       switch (name) {
+        // ================= TYPE CHANGE =================
         case "type":
           updated.type = value;
 
-          if (value === "Photo") {
+          if (value === "photo") {
             updated.videoUrl = "";
+            updated.document = null;
           }
 
-          if (value === "Video") {
+          if (value === "video") {
             updated.photo = null;
+            updated.document = null;
+            setPreviewGallery(null);
+          }
+
+          if (value === "document") {
+            updated.photo = null;
+            updated.videoUrl = "";
             setPreviewGallery(null);
           }
           break;
 
+        // ================= PHOTO =================
         case "photo":
           if (files && files[0]) {
             updated.photo = files[0];
+            updated.document = null;
 
-            // Preview image
             setPreviewGallery(URL.createObjectURL(files[0]));
           }
           break;
 
+        // ================= DOCUMENT =================
+        case "document":
+          if (files && files[0]) {
+            updated.document = files[0];
+            updated.photo = null;
+
+            setPreviewGallery(null);
+          }
+          break;
+
+        // ================= VIDEO =================
         case "videoUrl":
           updated.videoUrl = value;
           break;
@@ -316,7 +385,9 @@ function Album() {
         if (galleryData?.photo) {
           formData.append("photo", galleryData?.photo);
         }
-
+        if (galleryData?.document) {
+          formData.append("document", galleryData.document);
+        }
         const res = await axios.put(
           `${API_URL}/gallery/updateGallery/${galleryeditId}`,
           formData,
@@ -333,6 +404,7 @@ function Album() {
           galleryTitle_hi: "",
           type: "",
           photo: null,
+          document: null,
           videoUrl: "",
         });
 
@@ -359,7 +431,9 @@ function Album() {
       formData.append("videoUrl", galleryData?.videoUrl || "");
       formData.append("albumId", albumGallery || null);
       formData.append("isActive", galleryData?.isActive);
-
+      if (galleryData?.document) {
+        formData.append("document", galleryData.document);
+      }
       try {
         const response = await axios.post(
           `${API_URL}/gallery/create`,
@@ -377,6 +451,7 @@ function Album() {
           galleryTitle_hi: "",
           type: "",
           photo: null,
+          document: null,
           videoUrl: "",
         });
         setPreview(null);
@@ -471,6 +546,7 @@ function Album() {
       galleryTitle_hi: "",
       type: "",
       photo: null,
+      document: null,
       videoUrl: "",
     });
   };
@@ -481,6 +557,7 @@ function Album() {
       galleryTitle_hi: item?.title?.hi,
       type: item?.type,
       photo: item?.photo,
+      document: item?.document,
       videoUrl: item?.videoUrl,
       isActive: item?.isActive ?? true,
     });
@@ -510,6 +587,8 @@ function Album() {
     setIsEdit(false);
     setEditId(null);
   };
+
+  // console.log("data", data);
 
   return (
     <>
@@ -673,6 +752,22 @@ function Album() {
                     </div>
                     <div className="col-md-6">
                       <label
+                        htmlFor="validationCustom02"
+                        className="form-label"
+                      >
+                        Display Order No.
+                      </label>
+                      <input
+                        type="number"
+                        name="displayOrderNo"
+                        value={data?.displayOrderNo}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                      />
+                    </div>
+                    <div className="col-md-6">
+                      <label
                         htmlFor="validationCustomUsername"
                         className="form-label"
                       >
@@ -826,6 +921,7 @@ function Album() {
                         <option value="">select</option>
                         <option value="photo">Photo</option>
                         <option value="video">Video</option>
+                        <option value="document">Document</option>
                       </select>
                       <div className="invalid-feedback">
                         Please provide a Type.
@@ -847,6 +943,30 @@ function Album() {
                           className="form-control"
                           id="validationCustom03"
                         />
+                        {previewGallery && (
+                          <a
+                            href={previewGallery}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            View Document
+                          </a>
+                        )}
+                      </div>
+                    )}
+                    {galleryData?.type === "document" && (
+                      <div className="col-md-6">
+                        <label className="form-label">
+                          Document (PDF/DOC/DOCX)
+                        </label>
+
+                        <input
+                          type="file"
+                          name="document"
+                          onChange={galleryHandleChange}
+                          className="form-control"
+                        />
+
                         {previewGallery && (
                           <a
                             href={previewGallery}
