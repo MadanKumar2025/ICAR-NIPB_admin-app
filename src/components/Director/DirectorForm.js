@@ -157,7 +157,7 @@ function DirectorForm({
                 </div>
 
                 <div className="col-md-6">
-                  <label className="form-label">working Period</label>
+                  <label className="form-label">Working Period</label>
                   <input
                     type="text"
                     name="workingPeriod"

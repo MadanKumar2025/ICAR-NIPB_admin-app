@@ -213,7 +213,7 @@ function VigilanceOfficerForm({
                     id="type_en"
                   >
                     <option value="">select</option>
-                    <option value="vigilanceOfficer">vigilance officer</option>
+                    <option value="vigilanceOfficer">Vigilance Officer</option>
                     <option value="TransparencyOfficer">
                       Transparency officer
                     </option>

@@ -419,7 +419,7 @@ function ScientistForm({
                       htmlFor="validationCustomUsername"
                       className="form-label"
                     >
-                      phone 1
+                      Phone 1
                     </label>
                     <div className="input-group has-validation">
                       <input
@@ -437,7 +437,7 @@ function ScientistForm({
                       htmlFor="validationCustomUsername"
                       className="form-label"
                     >
-                      phone 2
+                      Phone 2
                     </label>
                     <div className="input-group has-validation">
                       <input

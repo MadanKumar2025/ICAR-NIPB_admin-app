@@ -1,10 +1,45 @@
-import { useEffect, useRef } from "react";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
 function Home() {
+  const API_URL = process.env.REACT_APP_API_URL;
+  const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
+  const [preview, setPreview] = useState(null);
+
+  const [data, setData] = useState([]);
+
+  const token = localStorage.getItem("token");
+  const decoded = jwtDecode(token);
+  const userId = decoded.id;
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await axios.get(`${API_URL}/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setData(res?.data?.data);
+        // Existing photo preview
+        if (res?.data?.data.photo) {
+          setPreview(`${IMG_BASE_URL}/${res?.data?.data.photo}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchUser();
+  }, [API_URL, userId]);
+  console.log("data", data);
 
   return (
     <>
-      <main className="app-main">
+      {/* <main className="app-main">
         <div className="app-content-header">
           <div className="container-fluid">
             <div className="row">
@@ -718,7 +753,91 @@ function Home() {
             </div>
           </div>
         </div>
-      </main>
+      </main> */}
+      {/* <div className="container py-5 w-50 ">
+        <div
+          className="border border-3 rounded p-4 mx-auto"
+          style={{ maxwidth: "500px" }}
+        >
+           <div className="d-flex justify-content-center mb-4">
+            <div
+              className="  border-2 rounded d-flex align-items-center justify-content-center"
+              style={{ width: "120px", height: "100px" }}
+            >
+              <img
+                className="w-100"
+                src={`${process.env.REACT_APP_API_BASE_URL_img}/${data?.photo}`}
+                alt={data?.imageTitle}
+              />
+            </div>
+          </div>
+
+           <div
+            className="border border-2 rounded mb-4 test-center"
+            style={{ height: "120px" }}
+          >
+            <p>Name :- {data?.name}</p>
+            <p>Mobile No. :- {data?.mobileNo}</p>
+            <p>Email :- {data?.email}</p>
+          </div>
+
+           <div
+            className="border border-2 rounded d-flex align-items-center justify-content-center"
+            style={{ height: "100px" }}
+          >
+            Section 2
+          </div>
+        </div>
+      </div> */}
+      <div className="container py-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-sm-10 col-md-8 col-lg-5">
+            <div className="card border-0 shadow-lg rounded-4">
+              {/* Header */}
+              <div className="bg-dark text-white rounded-top-4 text-center py-4 rounded-top-4 text-center py-4">
+                <div
+                  className="mx-auto rounded-circle overflow-hidden border border-4 border-white bg-white"
+                  style={{ width: "120px", height: "120px" }}
+                >
+                  <img
+                    src={`${process.env.REACT_APP_API_BASE_URL_img}/${data?.photo}`}
+                    alt={data?.imageTitle}
+                    className="w-100 h-100 object-fit-cover"
+                  />
+                </div>
+
+                <h4 className="text-white mt-3 mb-0">{data?.name}</h4>
+
+                <small className="text-white-50">Profile Information</small>
+              </div>
+
+              {/* Body */}
+              <div className="card-body p-4">
+                <div className="border rounded-3 p-3 mb-3">
+                  <div className="d-flex justify-content-between">
+                    <strong>📱 Mobile</strong>
+                    <span>{data?.mobileNo}</span>
+                  </div>
+                </div>
+
+                <div className="border rounded-3 p-3 mb-3">
+                  <div className="d-flex justify-content-between">
+                    <strong>📧 Email</strong>
+                    <span>{data?.email}</span>
+                  </div>
+                </div>
+
+                <div className="border rounded-3 p-3">
+                  <div className="d-flex justify-content-between">
+                    <strong>👤 Name</strong>
+                    <span>{data?.name}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }

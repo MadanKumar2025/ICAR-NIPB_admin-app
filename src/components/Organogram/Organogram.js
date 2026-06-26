@@ -219,7 +219,7 @@ function Organogram() {
                 <div className="row g-3">
                   <div className="col-md-6">
                     <label htmlFor="validationCustom05" className="form-label">
-                      photo
+                      Photo
                     </label>
                     <input
                       type="file"
@@ -243,7 +243,7 @@ function Organogram() {
                   </div>
                   <div className="col-md-6">
                     <label htmlFor="validationCustom01" className="form-label">
-                      photoTitle
+                      Photo Title
                     </label>
                     <input
                       type="text"

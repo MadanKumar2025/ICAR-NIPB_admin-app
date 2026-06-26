@@ -1,6 +1,8 @@
-
 import React, { useMemo } from "react";
-import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 
 const BannerTable = ({
   data = [],
@@ -11,7 +13,6 @@ const BannerTable = ({
   hasEditAccess,
   hasActiveAccess,
 }) => {
-
   const columns = useMemo(() => {
     const cols = [
       {
@@ -27,24 +28,29 @@ const BannerTable = ({
         accessorFn: (row) => row?.subTitle?.en || "-",
         header: "Sub-Title",
       },
-    //   {
-    //     accessorKey: "acting",
-    //     header: "Acting Status",
-    //     Cell: ({ row }) => {
-    //       const item = row.original;
+      {
+        header: "Banner Image",
+        Cell: ({ row }) => {
+          const image = row.original.bannerImage;
 
-    //       return (
-    //         <label className="form-check-label">
-    //           {item?.acting ? "Acting" : "Inactive"}
-    //         </label>
-    //       );
-    //     },
-    //   },
+          return (
+            <img
+              src={`${process.env.REACT_APP_API_BASE_URL_img}/${image}`}
+              alt="Banner"
+              style={{
+                width: "100px",
+                height: "60px",
+                objectFit: "cover",
+                borderRadius: "4px",
+              }}
+            />
+          );
+        },
+      },
     ];
-    
+
     if (hasActiveAccess?.("Banner")) {
       cols.push({
-        accessorKey: "isActive",
         header: "Status",
         Cell: ({ row }) => {
           const item = row.original;
@@ -57,17 +63,14 @@ const BannerTable = ({
                 checked={Boolean(item?.isActive)}
                 onChange={() => handleToggle?.(item)}
               />
-              {/* <label className="form-check-label">
-                {item?.isActive ? "Active" : "Inactive"}
-              </label> */}
             </div>
           );
         },
       });
     }
- 
+
     // ACTION COLUMN (EDIT ACCESS)
-  
+
     if (hasEditAccess?.("Banner")) {
       cols.push({
         header: "Action",
@@ -77,11 +80,9 @@ const BannerTable = ({
           return (
             <span
               className="table-icon-edit"
-              // style={{ cursor: "pointer" }}
               onClick={() => handleEdit?.(item)}
             >
-              {/* Edit */}
-                <i className="bi bi-pencil fs-5"></i>
+              <i className="bi bi-pencil fs-5"></i>
             </span>
           );
         },

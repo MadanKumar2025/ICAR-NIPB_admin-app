@@ -328,6 +328,7 @@ function Page() {
       behavior: "smooth",
     });
   };
+console.log("allPage",allPage);
 
   return (
     <>

@@ -623,6 +623,7 @@ function Album() {
                       >
                         <option value="">select</option>
                         <option value="Album">Album</option>
+                        <option value="StudentCorner">Student Corner</option>
                         <option value="Outreach Programme">
                           Outreach programme
                         </option>
@@ -645,6 +646,7 @@ function Album() {
                       >
                         <option value="">select</option>
                         <option value="एल्बम">एल्बम</option>
+                        <option value="विद्यार्थी कॉर्नर">विद्यार्थी कॉर्नर</option>
                         <option value="सामुदायिक कार्यक्रम">
                           सामुदायिक कार्यक्रम
                         </option>

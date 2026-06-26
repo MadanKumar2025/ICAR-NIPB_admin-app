@@ -207,7 +207,7 @@ function ExternallyFundedProjectsForm({
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">
-                    principal Investigator (English)
+                    Principal Investigator (English)
                   </label>
                   <input
                     type="text"
@@ -220,7 +220,7 @@ function ExternallyFundedProjectsForm({
                 </div>
                 <div className="col-md-6">
                   <label className="form-label">
-                    principal Investigator (Hindi)
+                    Principal Investigator (Hindi)
                   </label>
                   <input
                     type="text"

@@ -192,7 +192,7 @@ function PreviousDirectorForm({
                    />
                 </div>
                 <div className="col-sm-6">
-                  <label className="form-label">working Period</label>
+                  <label className="form-label">Working Period</label>
                   <input
                     type="text"
                     name="workingPeriod"

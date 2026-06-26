@@ -16,6 +16,8 @@ function PublicationForm({
   addSubProject,
   deleteSubProject,
   handleSubProjectChange,
+  previewImage,
+  setPreviewImage,
 }) {
   const API_URL = process.env.REACT_APP_API_URL;
   const token = localStorage.getItem("token");
@@ -33,29 +35,35 @@ function PublicationForm({
   // };
 
   const handleChange = (e) => {
-    const { name, type, files, checked, value } = e.target;
+    const { name, type, files, checked, value, image } = e.target;
 
     // FILE INPUT
     if (type === "file") {
       const file = files?.[0];
 
       const maxSize = 50 * 1024 * 1024;
+
       if (file && file.size > maxSize) {
         Swal.fire({
           icon: "warning",
           title: "File Too Large",
           text: "File size must be less than 50MB",
         });
-
         return;
       }
+
       setData((prev) => ({
         ...prev,
         [name]: file || null,
       }));
 
-      if (file) {
-        setPreview(URL.createObjectURL(file));
+      // separate preview logic
+      if (name === "image") {
+        setPreviewImage(URL.createObjectURL(file));
+      }
+
+      if (name === "file") {
+        setPreviewImage(URL.createObjectURL(file));
       }
 
       return;
@@ -124,6 +132,9 @@ function PublicationForm({
         if (data?.file) {
           formData.append("file", data.file);
         }
+        if (data?.image) {
+          formData.append("image", data.image);
+        }
         Swal.fire({
           title: "Uploading...",
           html: "0%",
@@ -160,6 +171,7 @@ function PublicationForm({
           category: "",
           year: "",
           file: null,
+          image: null,
           isActive: true,
         });
 
@@ -195,6 +207,9 @@ function PublicationForm({
         if (data?.file) {
           formData.append("file", data.file);
         }
+        if (data?.image) {
+          formData.append("image", data.image);
+        }
 
         const response = await axios.post(
           `${API_URL}/PublicationsRoutes/create`,
@@ -205,13 +220,14 @@ function PublicationForm({
             },
           },
         );
-        
+
         setData({
           title_en: "",
           title_hi: "",
           category: "",
           year: "",
           file: null,
+          image: null,
           articleType_en: "",
           articleType_hi: "",
           isActive: true,
@@ -260,7 +276,6 @@ function PublicationForm({
     [],
   );
 
- 
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -274,7 +289,7 @@ function PublicationForm({
               <div className="row g-3">
                 <div className="col-md-6">
                   <label htmlFor="validationCustom01" className="form-label">
-                    category
+                    Category
                   </label>
                   <select
                     name="category"
@@ -428,6 +443,32 @@ function PublicationForm({
                     />
                     {preview && (
                       <a href={preview} target="_blank" rel="noreferrer">
+                        View Document
+                      </a>
+                    )}
+                  </div>
+                )}
+                {(data?.category === "AnnualReport" ||
+                  data?.category === "Newsletters" ||
+                  data?.category === "HindiPatrika") && (
+                  <div className="col-md-6">
+                    <label
+                      htmlFor="validationCustomUsername"
+                      className="form-label"
+                    >
+                      Cover Image
+                    </label>
+
+                    <input
+                      type="file"
+                      name="image"
+                      onChange={handleChange}
+                      className="form-control"
+                      id="image"
+                      // required
+                    />
+                    {previewImage && (
+                      <a href={previewImage} target="_blank" rel="noreferrer">
                         View Document
                       </a>
                     )}

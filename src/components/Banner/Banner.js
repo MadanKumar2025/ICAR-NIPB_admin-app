@@ -127,6 +127,8 @@ function Banner() {
     });
   };
 
+  console.log("banner",banner);
+  
   return (
     <>
       <div>

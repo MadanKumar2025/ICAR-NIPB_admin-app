@@ -12,6 +12,7 @@ function Publication() {
 
   const [publication, setPublication] = useState([]);
   const [preview, setPreview] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
 
   const [data, setData] = useState({
     title_en: "",
@@ -19,6 +20,7 @@ function Publication() {
     category: "",
     year: "",
     file: null,
+    image: null,
     articleType_en: "",
     articleType_hi: "",
     isActive: true,
@@ -38,6 +40,7 @@ function Publication() {
       category: "",
       year: "",
       file: null,
+      image: null,
       articleType_en: "",
       articleType_hi: "",
       isActive: true,
@@ -115,11 +118,16 @@ function Publication() {
       year: item?.year || "",
       category: item?.category,
       file: item?.file,
+      image: item?.image,
       isActive: item?.isActive ?? true,
     });
 
-    if (item?.file !== null) {
-      setPreview(`${IMG_BASE_URL}/${item?.file}`);
+    if (item?.file) {
+      setPreview(`${IMG_BASE_URL}/files/${item.file}`);
+    }
+
+    if (item?.image) {
+      setPreviewImage(`${IMG_BASE_URL}/files/${item.image}`);
     }
 
     setIsEdit(true);
@@ -163,6 +171,8 @@ function Publication() {
             data={data}
             setData={setData}
             preview={preview}
+            previewImage={previewImage}
+            setPreviewImage={setPreviewImage}
             setPreview={setPreview}
             isEdit={isEdit}
             setIsEdit={setIsEdit}

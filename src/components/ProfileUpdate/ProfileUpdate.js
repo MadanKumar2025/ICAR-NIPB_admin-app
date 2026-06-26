@@ -6,8 +6,8 @@ import { usePermissions } from "../User_Management/UserManagement.js";
 
 function ProfileUpdate() {
   const API_URL = process.env.REACT_APP_API_URL;
-    const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
- const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
+  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
   const [preview, setPreview] = useState(null);
 
   const [data, setData] = useState({
@@ -15,7 +15,7 @@ function ProfileUpdate() {
     mobileNo: "",
     designation: "",
     photo: "",
-    imageTitle:""
+    imageTitle: "",
   });
 
   const token = localStorage.getItem("token");
@@ -96,7 +96,7 @@ function ProfileUpdate() {
             Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
 
       Swal.fire({
@@ -146,7 +146,10 @@ function ProfileUpdate() {
               </div>
 
               <div className="col-sm-6">
-                <label htmlFor="validationCustomUsername" className="form-label">
+                <label
+                  htmlFor="validationCustomUsername"
+                  className="form-label"
+                >
                   Mobile No.
                 </label>
                 <div className="input-group has-validation">
@@ -219,18 +222,18 @@ function ProfileUpdate() {
                   />
                 )}
 
-                <div className="invalid-feedback">
-                  Please provide a Photo.
-                </div>
+                <div className="invalid-feedback">Please provide a Photo.</div>
               </div>
             </div>
           </div>
 
           <div className="card-footer">
-          {(hasAddAccess("Profile Update") ||
-                hasEditAccess("Profile Update")) && (    <button className="btn btn-info" type="submit">
-              Submit
-            </button>)}
+            {(hasAddAccess("Profile Update") ||
+              hasEditAccess("Profile Update")) && (
+              <button className="btn btn-info" type="submit">
+                Submit
+              </button>
+            )}
           </div>
         </form>
       </div>
