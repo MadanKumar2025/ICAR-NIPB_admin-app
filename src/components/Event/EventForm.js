@@ -32,8 +32,8 @@ function EventForm({
 
         formData.append("name_en", data.name.en);
         formData.append("name_hi", data.name.hi);
-        formData.append("eventBannerPhoto", data?.eventBannerPhoto || "");
-        formData.append("eventPhoto", data?.eventPhoto || "");
+        // formData.append("eventBannerPhoto", data?.eventBannerPhoto || "");
+        // formData.append("eventPhoto", data?.eventPhoto || "");
         formData.append("startTime", data?.startTime || "");
         formData.append("endTime", data?.endTime || "");
         formData.append("location_en", data.location.en);
@@ -48,11 +48,11 @@ function EventForm({
         formData.append("registrationEndTime", data?.registrationEndTime || "");
         formData.append("isActive", data?.isActive);
 
-        if (data.eventBannerPhoto) {
-          formData.append("eventBannerPhoto", data.eventBannerPhoto);
+        if (data?.eventBannerPhoto) {
+          formData.append("eventBannerPhoto", data?.eventBannerPhoto);
         }
-        if (data.eventPhoto) {
-          formData.append("eventPhoto", data.eventPhoto);
+        if (data?.eventPhoto) {
+          formData.append("eventPhoto", data?.eventPhoto);
         }
 
         const res = await axios.put(
@@ -150,7 +150,7 @@ function EventForm({
         Swal.fire({
           icon: "success",
           title: "Organization Details",
-          text: response.data.message || "Organization Details Successfully.",
+          text: response.data.message || "Event Details Successfully.",
           confirmButtonColor: "#3085d6",
         });
         getEventData();
