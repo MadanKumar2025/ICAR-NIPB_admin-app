@@ -31,7 +31,7 @@ const TrainingProgramTable = ({
     //   },
     ];
 
-     if (hasActiveAccess?.("TrainingProgram")) {
+     if (hasActiveAccess?.("Training Program")) {
        cols.push({
          accessorKey: "isActive",
          header: "Status",
@@ -52,7 +52,7 @@ const TrainingProgramTable = ({
        });
      }
 
-     if (hasEditAccess?.("TrainingProgram")) {
+     if (hasEditAccess?.("Training Program")) {
        cols.push({
          header: "Action",
          Cell: ({ row }) => {

@@ -49,6 +49,8 @@ function AdminMenuMasterForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("data",data);
+    
     // editId
     if (isEdit) {
       try {

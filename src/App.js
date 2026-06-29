@@ -296,6 +296,14 @@ function App() {
                   }
                 />
                 <Route
+                  path="/Outreachprogramme"
+                  element={
+                    <ProtectedRoute>
+                      <Album />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
                   path="/facilities"
                   element={
                     <ProtectedRoute>

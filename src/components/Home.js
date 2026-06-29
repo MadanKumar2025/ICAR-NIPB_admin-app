@@ -35,8 +35,7 @@ function Home() {
 
     fetchUser();
   }, [API_URL, userId]);
-  console.log("data", data);
-
+ 
   return (
     <>
       {/* <main className="app-main">
