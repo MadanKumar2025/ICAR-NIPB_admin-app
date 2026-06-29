@@ -218,7 +218,7 @@ function EventForm({
                     required
                   />
                 </div>
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                   <label htmlFor="validationCustom03" className="form-label">
                     Location (English)
                   </label>
@@ -250,8 +250,9 @@ function EventForm({
                   <div className="invalid-feedback">
                     कृपया स्थान (हिंदी में) प्रदान करें।
                   </div>
-                </div>
-                <div className="col-md-6">
+                </div> */}
+                
+                {/* <div className="col-md-6">
                   <label htmlFor="validationCustom02" className="form-label">
                     Banner Photo
                   </label>
@@ -271,7 +272,8 @@ function EventForm({
                       View Document
                     </a>
                   )}
-                </div>
+                </div> */}
+                
                 <div className="col-md-6">
                   <label
                     htmlFor="validationCustomUsername"
@@ -297,7 +299,8 @@ function EventForm({
                     </a>
                   )}
                 </div>
-                <div className="col-md-6">
+               
+                {/* <div className="col-md-6">
                   <label htmlFor="validationCustom03" className="form-label">
                     Event Start Time
                   </label>
@@ -326,9 +329,9 @@ function EventForm({
                   <div className="invalid-feedback">
                     Please provide a Event End Time & Date.
                   </div>
-                </div>
+                </div> */}
 
-                <div className="col-md-6">
+                {/* <div className="col-md-6">
                   <label htmlFor="validationCustom03" className="form-label">
                     Event Registration Start Date
                   </label>
@@ -359,7 +362,8 @@ function EventForm({
                   <div className="invalid-feedback">
                     Please provide a Registration End Time.
                   </div>
-                </div>
+                </div> */}
+
                 <div className="col-md-6">
                   <label className="form-label">Is Active</label>
                   <select
@@ -378,7 +382,8 @@ function EventForm({
                     <option value="false">Inactive</option>
                   </select>
                 </div>
-                <div className="col-md-6">
+
+                {/* <div className="col-md-6">
                   <label htmlFor="validationCustom03" className="form-label">
                     Event Registration Link
                   </label>
@@ -393,7 +398,7 @@ function EventForm({
                   <div className="invalid-feedback">
                     Please provide a Registration Link.
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
