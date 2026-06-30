@@ -12,6 +12,7 @@ function OrganizationDetails() {
   const [preview, setPreview] = useState({
     logo1: null,
     logo2: null,
+    isoPhoto:null,
   });
 
   const [data, setData] = useState({
@@ -39,6 +40,8 @@ function OrganizationDetails() {
     instagramLink: "",
     googleMapLink: "",
     paymentUrl: "",
+    isoNumber: "",
+    isoPhoto:null,
   });
 
   const token = localStorage.getItem("token");
@@ -60,6 +63,7 @@ function OrganizationDetails() {
       setPreview({
         logo1: `${IMG_BASE_URL}/${response?.data?.data[0]?.logo1}`,
         logo2: `${IMG_BASE_URL}/${response?.data?.data[0]?.logo2}`,
+        isoPhoto: `${IMG_BASE_URL}/${response?.data?.data[0]?.isoPhoto}`,
       });
 
       setData(response?.data?.data[0]);
@@ -138,9 +142,6 @@ function OrganizationDetails() {
     e.preventDefault();
     if (isEdit) {
       try {
-        console.log("qqq");
-        console.log("data", data);
-
         const formData = new FormData();
         const allowedTypes = [
           "image/jpeg",
@@ -198,6 +199,25 @@ function OrganizationDetails() {
             formData.append("logo2", data.logo2);
           }
         }
+
+        if (data.isoPhoto) {
+          // Check if it's a File object (new upload)
+          if (data.isoPhoto instanceof File) {
+            if (!allowedTypes.includes(data.isoPhoto.type)) {
+              Swal.fire({
+                icon: "error",
+                title: "Invalid File Type",
+                text: "Iso Photo must be an image (JPG, PNG).",
+              });
+              return;
+            }
+            formData.append("isoPhoto", data.isoPhoto);
+          }
+          // If it's a string (default image), just append it
+          else if (typeof data.isoPhoto === "string") {
+            formData.append("isoPhoto", data.isoPhoto);
+          }
+        }
         formData.append("logo2Title", data?.logo2Title || "");
 
         formData.append("addressLine1_en", data?.addressLine1?.en || "");
@@ -226,6 +246,7 @@ function OrganizationDetails() {
         formData.append("instagramLink", data?.instagramLink || "");
         formData.append("googleMapLink", data?.googleMapLink || "");
         formData.append("paymentUrl", data?.paymentUrl || "");
+        formData.append("isoNumber", data?.isoNumber || "");
 
         if (data?.officeHours?.en) {
           formData.append("officeHours_en", data.officeHours.en);
@@ -246,8 +267,7 @@ function OrganizationDetails() {
           },
         );
 
-        console.log("response", response);
-
+ 
         // reset state
         setData({
           organizationName: { en: "", hi: "" },
@@ -274,6 +294,8 @@ function OrganizationDetails() {
           instagramLink: "",
           googleMapLink: "",
           paymentUrl: "",
+          isoPhoto: null,
+          isoNumber: "",
 
           isActive: false,
         });
@@ -335,10 +357,12 @@ function OrganizationDetails() {
       formData.append("instagramLink", data.instagramLink || "#");
       formData.append("googleMapLink", data.googleMapLink || "#");
       formData.append("paymentUrl", data.paymentUrl || "#");
+      formData.append("isoNumber", data.isoNumber || "#");
 
       // File uploads
       if (data.logo1) formData.append("logo1", data.logo1);
       if (data.logo2) formData.append("logo2", data.logo2);
+      if (data.isoPhoto) formData.append("isoPhoto", data.isoPhoto);
       formData.append("logo1Title", data.logo1Title || "");
       formData.append("logo2Title", data.logo2Title || "");
 
@@ -382,6 +406,10 @@ function OrganizationDetails() {
           paymentUrl: "",
           officeHours_hi: "",
           officeHours_en: "",
+
+          isoNumber: "",
+          isoPhoto:null,
+          
           isActive: false,
         });
         // setPreview(null);
@@ -406,6 +434,8 @@ function OrganizationDetails() {
     }
   };
 
+  console.log("data",data);
+  
   return (
     <>
       <div>
@@ -602,6 +632,47 @@ function OrganizationDetails() {
                     <div className="invalid-feedback">
                       Please provide a Logo 2 title.
                     </div>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom05" className="form-label">
+                      Iso Photo
+                    </label>
+                    <input
+                      type="file"
+                      name="isoPhoto"
+                      onChange={handleChange}
+                      className="form-control upload-image-input"
+                      id="isoPhoto"
+                    />
+                    {preview && (
+                      <img
+                        src={preview?.isoPhoto}
+                        alt="Preview"
+                        style={{
+                          marginTop: "10px",
+                          width: "100px",
+                          height: "100px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    )}
+                    <div className="invalid-feedback">
+                      Please provide a Iso Photo.
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <label htmlFor="isoNumber" className="form-label">
+                     Iso Number
+                    </label>
+                    <input
+                      type="text"
+                      name="isoNumber"
+                      value={data?.isoNumber}
+                      onChange={handleChange}
+                      className="form-control"
+                      id="isoNumber"
+                    />
+                   
                   </div>
                   <div className="col-md-6">
                     <label
