@@ -81,7 +81,7 @@ const AssociatedOrganizationTable = ({
     // =========================
     // STATUS COLUMN (ACTIVE ACCESS)
     // =========================
-    if (hasActiveAccess?.("AssociatedOrganization")) {
+    if (hasActiveAccess?.("Associated Organization")) {
       cols.push({
         accessorKey: "isActive",
         header: "Status",
@@ -105,7 +105,7 @@ const AssociatedOrganizationTable = ({
     // =========================
     // ACTION COLUMN (EDIT ACCESS)
     // =========================
-    if (hasEditAccess?.("AssociatedOrganization")) {
+    if (hasEditAccess?.("Associated Organization")) {
       cols.push({
         header: "Action",
         Cell: ({ row }) => {
