@@ -173,6 +173,7 @@ function Scientist() {
         },
         ImageTitle: lab?.ImageTitle || "",
         photo: lab?.photo1 || null, // backend me photo1 hai
+        previewImage: lab?.photo1 ? `${IMG_BASE_URL}/${lab.photo1}` : "",
       })) || [
         {
           name: { en: "", hi: "" },
@@ -188,6 +189,11 @@ function Scientist() {
     });
 
     // IMAGE PREVIEW
+    // if (item?.photo) {
+    //   setPreview(`${IMG_BASE_URL}/${item.photo}`);
+    // } else {
+    //   setPreview(null);
+    // }
     if (item?.photo) {
       setPreview(`${IMG_BASE_URL}/${item.photo}`);
     } else {

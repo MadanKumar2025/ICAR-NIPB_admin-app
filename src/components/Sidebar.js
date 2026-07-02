@@ -110,11 +110,31 @@ function Sidebar({ isOpen, toggleSidebar }) {
       data-bs-theme="dark"
       // style={{ zIndex: 2, position: "relative", }}
     >
-      <div className="sidebar-brand d-flex justify-content-between">
-        <Link to={"/"} className="brand-link">
-          {/* <span className="brand-text fw-light">Admin ICAR-NIPB</span> */}
-          <span className="brand-text fw-light">Admin</span>
+      {/* <div className="sidebar-brand d-flex justify-content-between">
+        <Link
+          to={"/"}
+          className="brand-link"
+        
+        >
+           <span >Admin</span>
         </Link>
+        <div className="closeLogo" onClick={toggleSidebar}>
+          <i className="bi bi-asterisk"></i>
+        </div>
+      </div> */}
+      <div className="sidebar-brand d-flex justify-content-between">
+        <Link
+          to={"/"}
+          className="brand-link"
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <p style={{ margin: 0 }}>Admin</p>
+        </Link>
+
         <div className="closeLogo" onClick={toggleSidebar}>
           <i className="bi bi-asterisk"></i>
         </div>

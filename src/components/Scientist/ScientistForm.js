@@ -87,6 +87,89 @@ function ScientistForm({
     getDesignation();
   }, []);
 
+  // const handleLabProfileChange = (index, e) => {
+  //   const { name, value, files } = e.target;
+
+  //   const updated = [...data.labProfile];
+
+  //   const item = {
+  //     ...updated[index],
+  //     name: { ...updated[index]?.name },
+  //     position: { ...updated[index]?.position },
+  //     duration: { ...updated[index]?.duration },
+  //     project: { ...updated[index]?.project },
+  //   };
+
+  //   console.log("index",index);
+
+  //   if (name === "photo") {
+  //     const file = files?.[0] || null;
+
+  //     item.photo = file;
+
+  //     if (file) {
+  //       item.previewImage = URL.createObjectURL(file);
+  //     }
+  //   } else {
+  //     switch (name) {
+  //       case "name_en":
+  //         item.name.en = value;
+  //         break;
+
+  //       case "name_hi":
+  //         item.name.hi = value;
+  //         break;
+
+  //       case "position_en":
+  //         item.position.en = value;
+  //         break;
+
+  //       case "position_hi":
+  //         item.position.hi = value;
+  //         break;
+
+  //       case "duration_en":
+  //         item.duration.en = value;
+  //         break;
+
+  //       case "duration_hi":
+  //         item.duration.hi = value;
+  //         break;
+
+  //       case "project_en":
+  //         item.project.en = value;
+  //         break;
+
+  //       case "project_hi":
+  //         item.project.hi = value;
+  //         break;
+
+  //       case "ImageTitle":
+  //         item.ImageTitle = value;
+  //         break;
+
+  //       default:
+  //         break;
+  //     }
+  //   }
+
+  //   if (name === "photo") {
+  //     const file = files?.[0] || null;
+  //     item.photo = file;
+
+  //     if (file) {
+  //       item.previewImage = URL.createObjectURL(file); // NEW NAME
+  //     }
+  //   }
+
+  //   updated[index] = item;
+
+  //   setData({
+  //     ...data,
+  //     labProfile: updated,
+  //   });
+  // };
+
   const handleLabProfileChange = (index, e) => {
     const { name, value, files } = e.target;
 
@@ -101,56 +184,51 @@ function ScientistForm({
     };
 
     if (name === "photo") {
-      item.photo = files?.[0] || null;
+      const file = files?.[0] || null;
+
+      item.photo = file;
+
+      if (file) {
+        item.previewImage = URL.createObjectURL(file);
+      }
     } else {
       switch (name) {
         case "name_en":
           item.name.en = value;
           break;
-
         case "name_hi":
           item.name.hi = value;
           break;
-
         case "position_en":
           item.position.en = value;
           break;
-
         case "position_hi":
           item.position.hi = value;
           break;
-
         case "duration_en":
           item.duration.en = value;
           break;
-
         case "duration_hi":
           item.duration.hi = value;
           break;
-
         case "project_en":
           item.project.en = value;
           break;
-
         case "project_hi":
           item.project.hi = value;
           break;
-
         case "ImageTitle":
           item.ImageTitle = value;
-          break;
-
-        default:
           break;
       }
     }
 
     updated[index] = item;
 
-    setData({
-      ...data,
+    setData((prev) => ({
+      ...prev,
       labProfile: updated,
-    });
+    }));
   };
 
   const addLabProfile = () => {
@@ -165,6 +243,7 @@ function ScientistForm({
           project: { en: "", hi: "" },
           ImageTitle: "",
           photo: null,
+          previewImage: "",
         },
       ],
     }));
@@ -180,9 +259,6 @@ function ScientistForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("data111",data);
-    
     const formData = new FormData();
     formData.append("scientistName_en", data.scientistName_en || "");
     formData.append("scientistName_hi", data.scientistName_hi || "");
@@ -254,8 +330,7 @@ function ScientistForm({
             },
           },
         );
-        console.log("response",response);
-        
+        console.log("response", response);
       } else {
         response = await axios.post(
           `${API_URL}/ScientistRoutes/create`,
@@ -1192,6 +1267,17 @@ function ScientistForm({
                             }}
                           />
                         )} */}
+                        {item?.previewImage && (
+                          <img
+                            src={item.previewImage}
+                            alt="Preview"
+                            style={{
+                              marginLeft: "20px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
+                          />
+                        )}
                       </div>
 
                       {/* Actions */}
