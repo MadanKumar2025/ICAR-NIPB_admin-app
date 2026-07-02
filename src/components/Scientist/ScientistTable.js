@@ -115,7 +115,7 @@ const ScientistTable = ({
                 </button> */}
                 <button
                   className="btn btn-info btn-sm nowrap-btn"
-                  onClick={() => handleCreateLogin?.(item?._id)}
+                  onClick={() => handleCreateLogin?.(item?.id)}
                 >
                   Create Login
                 </button>

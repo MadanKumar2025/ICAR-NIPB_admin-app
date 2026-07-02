@@ -200,6 +200,8 @@ function CreateScientistLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("createUser",createUser);
+    
     try {
       const formData = new FormData();
 
@@ -210,8 +212,8 @@ function CreateScientistLogin() {
       formData.append("designation", createUser?.designation);
       formData.append("imageTitle", createUser?.imageTitle);
       formData.append("scientistId", id);
-      formData.append("photo", createUser.photo);
-      formData.append("existingPhoto", createUser.existingPhoto);
+      formData.append("photo", createUser?.photo);
+      formData.append("existingPhoto", createUser?.existingPhoto);
 
       const response = await axios.post(
         `${API_URL}/createScientistLogin`,
@@ -224,9 +226,11 @@ function CreateScientistLogin() {
         },
       );
 
+      console.log("response",response);
+      
       // Directly get user ID from response
       const userId = response?.data?.data?._id;
-      console.log("Created User ID:", userId);
+      // console.log("Created User ID:", userId);
 
       // Reset form
       setCreateUser({
@@ -241,7 +245,7 @@ function CreateScientistLogin() {
       formRef.current.reset();
       setPreview(null);
 
-      // ✅ Immediately call permission API
+      //  Immediately call permission API
       if (userId) {
         const payload = {
           userId: userId,
@@ -343,7 +347,7 @@ function CreateScientistLogin() {
                       id="validationCustomUsername"
                       onChange={handleChange}
                       aria-describedby="inputGroupPrepend"
-                      required
+                      // required
                     />
                     <div className="invalid-feedback">
                       Please choose a Mobile No..
