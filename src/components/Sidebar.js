@@ -112,7 +112,8 @@ function Sidebar({ isOpen, toggleSidebar }) {
     >
       <div className="sidebar-brand d-flex justify-content-between">
         <Link to={"/"} className="brand-link">
-          <span className="brand-text fw-light">Admin ICAR-NIPB</span>
+          {/* <span className="brand-text fw-light">Admin ICAR-NIPB</span> */}
+          <span className="brand-text fw-light">Admin</span>
         </Link>
         <div className="closeLogo" onClick={toggleSidebar}>
           <i className="bi bi-asterisk"></i>

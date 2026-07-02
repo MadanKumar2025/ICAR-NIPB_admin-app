@@ -33,9 +33,12 @@ function Header({ toggleSidebar }) {
       {/* <nav className="app-header navbar navbar-expand bg-body"> */}
       <nav className=" navbar navbar-expand panel-navbar">
         {/* <nav className="app-header"> */}
-        <div className="container-fluid">
+        <div
+          className="container-fluid"
+          style={{ display: "flex", justifyContent: "center", fontSize:"24px"}}
+        >
           {/* Left Navbar */}
-          <ul className="navbar-nav">
+          {/* <ul className="navbar-nav">
             <li className="nav-item navbar-toggle">
               <a className="nav-link" onClick={toggleSidebar} href="#">
                 <i className="bi bi-list"></i>
@@ -52,7 +55,8 @@ function Header({ toggleSidebar }) {
                 +A
               </button>
             </div>
-          </ul>
+          </ul> */}
+          <b>ICAR-National Institute for Plant Biotechnology (NIPB)</b>
 
           {/* <ul className="navbar-nav ms-auto">
             <li className="nav-item">

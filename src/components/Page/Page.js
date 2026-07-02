@@ -328,7 +328,7 @@ function Page() {
       behavior: "smooth",
     });
   };
-console.log("allPage",allPage);
+// console.log("allPage",allPage);
 
   return (
     <>
