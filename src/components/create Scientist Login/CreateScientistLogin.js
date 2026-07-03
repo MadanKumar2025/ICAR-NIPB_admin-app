@@ -51,8 +51,6 @@ function CreateScientistLogin() {
     },
   ]);
 
-  console.log("data1", data);
-
   const { id } = useParams();
   const token = localStorage.getItem("token");
   const formRef = useRef();
@@ -184,8 +182,7 @@ function CreateScientistLogin() {
             },
           },
         );
-
-        console.log("Permissions Response:", permResponse);
+ 
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -205,9 +202,6 @@ function CreateScientistLogin() {
       });
     }
   };
-
-  // console.log("data", data);
-
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
