@@ -124,6 +124,8 @@ function Scientist() {
   };
 
   const handleEdit = (item) => {
+    console.log("item", item);
+
     setData({
       scientistName_en: item?.scientistName?.en || "",
       scientistName_hi: item?.scientistName?.hi || "",
@@ -192,21 +194,39 @@ function Scientist() {
         },
       ],
 
-      galleryPhotos: item?.galleryPhotos?.map((img) => ({
-        galleryPhotostitle: img?.galleryPhotostitle || "",
-        galleryPhotos: null,
-        orderNumberGallery: img?.orderNumberGallery || 0,
-        previewImage: img?.galleryPhotos
-          ? `${IMG_BASE_URL}/${img.galleryPhotos}`
-          : "",
-      })) || [
-        {
-          galleryPhotostitle: "",
-          galleryPhotos: null,
-          orderNumberGallery: 0,
-          previewImage: "",
-        },
-      ],
+      // galleryPhotos: item?.galleryPhotos?.map((img) => ({
+      //   galleryPhotostitle: img?.galleryPhotostitle || "",
+      //   galleryPhotos: null,
+      //   orderNumberGallery: img?.orderNumberGallery || 0,
+      //   previewImage: img?.galleryPhotos
+      //     ? `${IMG_BASE_URL}/${img.galleryPhotos}`
+      //     : "",
+      // })) || [
+      //   {
+      //     galleryPhotostitle: "",
+      //     galleryPhotos: null,
+      //     orderNumberGallery: 0,
+      //     previewImage: "",
+      //   },
+      // ],
+      galleryPhotos:
+        item?.galleryPhotos && item.galleryPhotos.length > 0
+          ? item.galleryPhotos.map((img) => ({
+              galleryPhotostitle: img?.galleryPhotostitle || "",
+              galleryPhotos: null,
+              orderNumberGallery: img?.orderNumberGallery || 0,
+              previewImage: img?.galleryPhotos
+                ? `${IMG_BASE_URL}/${img.galleryPhotos}`
+                : "",
+            }))
+          : [
+              {
+                galleryPhotostitle: "",
+                galleryPhotos: null,
+                orderNumberGallery: 0,
+                previewImage: "",
+              },
+            ],
 
       isActive: item?.isActive ?? true,
     });
