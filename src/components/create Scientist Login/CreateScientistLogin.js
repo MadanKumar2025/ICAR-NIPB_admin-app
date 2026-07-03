@@ -24,14 +24,34 @@ function CreateScientistLogin() {
     existingPhoto: "",
   });
 
-  const [data, setData] = useState({
-    menuId: "6a100437d7a80cd908e2e640",
-    pageAccess: true,
-    addAccess: true,
-    editAccess: true,
-    activeAccess: true,
-    deleteAccess: true,
-  });
+  const [data, setData] = useState([
+    {
+      menuId: "6a100437d7a80cd908e2e640",
+      pageAccess: true,
+      addAccess: true,
+      editAccess: true,
+      activeAccess: true,
+      deleteAccess: true,
+    },
+    {
+      menuId: "69e5b05edaaa4293dd68f7e1",
+      pageAccess: true,
+      addAccess: true,
+      editAccess: true,
+      activeAccess: true,
+      deleteAccess: true,
+    },
+    {
+      menuId: "69e5b072daaa4293dd68f7e9",
+      pageAccess: true,
+      addAccess: true,
+      editAccess: true,
+      activeAccess: true,
+      deleteAccess: true,
+    },
+  ]);
+
+  console.log("data1", data);
 
   const { id } = useParams();
   const token = localStorage.getItem("token");
@@ -95,113 +115,8 @@ function CreateScientistLogin() {
     }
   };
 
-  // console.log("createUser", createUser);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const formData = new FormData();
-
-  //     formData.append("name", createUser?.name);
-  //     formData.append("email", createUser?.email);
-  //     formData.append("mobileNo", createUser?.mobileNo);
-  //     formData.append("password", createUser?.password);
-  //     formData.append("designation", createUser?.designation);
-  //     formData.append("imageTitle", createUser?.imageTitle);
-  //     formData.append("scientistId", id);
-  //     formData.append("photo", createUser.photo);
-  //     formData.append("existingPhoto", createUser.existingPhoto);
-
-  //     // for (let pair of formData.entries()) {
-  //     //   console.log(pair[0], pair[1]);
-  //     // }
-
-  //     const response = await axios.post(
-  //       `${API_URL}/createScientistLogin`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       },
-  //     );
-
-  //     console.log("response1111", response?.data?.data?._id);
-  //     setOne(response?.data?.data?._id);
-
-  //     setCreateUser({
-  //       name: "",
-  //       email: "",
-  //       mobileNo: "",
-  //       password: "",
-  //       designation: "",
-  //       photo: null,
-  //       imageTitle: "",
-  //     });
-
-  //     formRef.current.reset();
-  //     setPreview(null);
-  //     navigate(-1);
-  //   } catch (error) {
-  //     console.log("FULL ERROR:", error);
-  //     console.log("SERVER ERROR:", error?.response?.data);
-
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Error",
-  //       text: error?.response?.data?.message || "Server error",
-  //     });
-  //   }
-  //   console.log("one", one);
-
-  //   if (one) {
-  //     try {
-  //       const payload = {
-  //         userId: one,
-  //         menuPermissions: [data],
-  //       };
-
-  //       const response = await axios.post(
-  //         `${API_URL}/UserPermissionsRoutes/create`,
-  //         payload,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //             "Content-Type": "application/json",
-  //           },
-  //         },
-  //       );
-
-  //       console.log("response", response);
-
-  //       Swal.fire({
-  //         icon: "success",
-  //         title: "Success",
-  //         text: "User updated successfully",
-  //       });
-
-  //       // getUserPermissions();
-  //       // getPermissions();
-  //     } catch (error) {
-  //       console.log("FULL ERROR:", error);
-  //       console.log("SERVER ERROR:", error?.response?.data);
-
-  //       Swal.fire({
-  //         icon: "error",
-  //         title: "Error",
-  //         text: error?.response?.data?.message || "Server error",
-  //       });
-  //     }
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log("createUser",createUser);
-    
     try {
       const formData = new FormData();
 
@@ -225,12 +140,8 @@ function CreateScientistLogin() {
           },
         },
       );
-
-      console.log("response",response);
-      
       // Directly get user ID from response
       const userId = response?.data?.data?._id;
-      // console.log("Created User ID:", userId);
 
       // Reset form
       setCreateUser({
@@ -247,9 +158,20 @@ function CreateScientistLogin() {
 
       //  Immediately call permission API
       if (userId) {
+        // const payload = {
+        //   userId: userId,
+        //   menuPermissions: [data],
+        // };
         const payload = {
           userId: userId,
-          menuPermissions: [data],
+          menuPermissions: data?.map((item) => ({
+            menuId: item?.menuId,
+            pageAccess: item?.pageAccess,
+            addAccess: item?.addAccess,
+            editAccess: item?.editAccess,
+            activeAccess: item?.activeAccess,
+            deleteAccess: item?.deleteAccess,
+          })),
         };
 
         const permResponse = await axios.post(
@@ -323,7 +245,7 @@ function CreateScientistLogin() {
                   <input
                     type="email"
                     name="email"
-                    value={createUser.email || "" }
+                    value={createUser.email || ""}
                     onChange={handleChange}
                     className="form-control"
                     id="validationCustom02"
@@ -342,7 +264,7 @@ function CreateScientistLogin() {
                     <input
                       type="number"
                       name="mobileNo"
-                      value={createUser.mobileNo || "" }
+                      value={createUser.mobileNo || ""}
                       className="form-control"
                       id="validationCustomUsername"
                       onChange={handleChange}
@@ -361,7 +283,7 @@ function CreateScientistLogin() {
                   <input
                     type="password"
                     name="password"
-                    value={createUser.password || "" }
+                    value={createUser.password || ""}
                     onChange={handleChange}
                     className="form-control"
                     id="validationCustom03"
@@ -377,7 +299,7 @@ function CreateScientistLogin() {
                   <input
                     type="text"
                     name="designation"
-                    value={createUser.designation || "" }
+                    value={createUser.designation || ""}
                     onChange={handleChange}
                     className="form-control"
                     id="validationCustom03"
@@ -394,7 +316,7 @@ function CreateScientistLogin() {
                   <input
                     type="text"
                     name="imageTitle"
-                    value={createUser?.imageTitle || "" }
+                    value={createUser?.imageTitle || ""}
                     onChange={handleChange}
                     className="form-control"
                     id="validationCustom03"
@@ -434,11 +356,11 @@ function CreateScientistLogin() {
                 </div>
               </div>
             </div>
-              <div className="card-footer">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-              </div>
+            <div className="card-footer">
+              <button className="btn btn-info" type="submit">
+                Save
+              </button>
+            </div>
           </form>
         </div>
       </div>
