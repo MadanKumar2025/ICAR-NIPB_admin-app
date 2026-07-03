@@ -53,6 +53,13 @@ function Scientist() {
         photo: null,
       },
     ],
+    galleryPhotos: [
+      {
+        galleryPhotostitle: "",
+        galleryPhotos: null,
+        orderNumberGallery: 0,
+      },
+    ],
     isActive: true,
   });
 
@@ -185,6 +192,22 @@ function Scientist() {
         },
       ],
 
+      galleryPhotos: item?.galleryPhotos?.map((img) => ({
+        galleryPhotostitle: img?.galleryPhotostitle || "",
+        galleryPhotos: null,
+        orderNumberGallery: img?.orderNumberGallery || 0,
+        previewImage: img?.galleryPhotos
+          ? `${IMG_BASE_URL}/${img.galleryPhotos}`
+          : "",
+      })) || [
+        {
+          galleryPhotostitle: "",
+          galleryPhotos: null,
+          orderNumberGallery: 0,
+          previewImage: "",
+        },
+      ],
+
       isActive: item?.isActive ?? true,
     });
 
@@ -240,6 +263,13 @@ function Scientist() {
           project: { en: "", hi: "" },
           ImageTitle: "",
           photo: null,
+        },
+      ],
+      galleryPhotos: [
+        {
+          galleryPhotostitle: "",
+          galleryPhotos: null,
+          orderNumberGallery: "",
         },
       ],
       isActive: true,

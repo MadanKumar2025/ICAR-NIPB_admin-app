@@ -254,6 +254,69 @@ function ScientistForm({
     setData({ ...data, labProfile: updated });
   };
 
+  // console.log("data", data);
+
+  // this is use for gallery Photos
+  const handleGalleryPhotosChange = (index, e) => {
+    const { name, value, files } = e.target;
+
+    const updated = [...data.galleryPhotos];
+
+    const item = {
+      ...updated[index],
+      galleryPhotostitle: updated[index]?.galleryPhotostitle || "",
+      galleryPhotos: updated[index]?.galleryPhotos || null,
+      orderNumberGallery: updated[index]?.orderNumberGallery || "",
+      previewImage: updated[index]?.previewImage || null,
+    };
+
+    if (name === "galleryPhotos") {
+      const file = files?.[0] || null;
+
+      item.galleryPhotos = file;
+
+      if (file) {
+        item.previewImage = URL.createObjectURL(file);
+      }
+    } else {
+      switch (name) {
+        case "galleryPhotostitle":
+          item.galleryPhotostitle = value;
+          break;
+
+        case "orderNumberGallery":
+          item.orderNumberGallery = value;
+          break;
+      }
+    }
+
+    updated[index] = item;
+
+    setData((prev) => ({
+      ...prev,
+      galleryPhotos: updated,
+    }));
+  };
+
+  const addGalleryPhotos = () => {
+    setData((prev) => ({
+      ...prev,
+      galleryPhotos: [
+        ...prev.galleryPhotos,
+        {
+          galleryPhotostitle: "",
+          galleryPhotos: null,
+          orderNumberGallery: "",
+        },
+      ],
+    }));
+  };
+
+  const deletegalleryPhotos = (index) => {
+    const updated = data.galleryPhotos.filter((_, i) => i !== index);
+    setData({ ...data, galleryPhotos: updated });
+  };
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -313,9 +376,26 @@ function ScientistForm({
         formData.append(`labProfilePhotos_${index}`, item.photo);
       }
     });
+
+    const cleangalleryPhotos = data?.galleryPhotos.map((item, index) => ({
+      galleryPhotostitle: item?.galleryPhotostitle || "",
+      orderNumberGallery: Number(item?.orderNumberGallery || 0),
+      photoKey: `galleryPhotos_${index}`,
+    }));
+
+    formData.append("galleryPhotos", JSON.stringify(cleangalleryPhotos));
+
+    // files
+    data?.galleryPhotos.forEach((item, index) => {
+      if (item?.galleryPhotos && typeof item.galleryPhotos !== "string") {
+        formData.append(`galleryPhotos_${index}`, item.galleryPhotos);
+      }
+    });
+
     // for (let [key, value] of formData.entries()) {
     //   console.log("key, value", key, value);
     // }
+
     try {
       let response;
 
@@ -429,6 +509,7 @@ function ScientistForm({
                 <Tab label="Awards & Honors" />
                 <Tab label="Externally funded Projects" />
                 <Tab label="Lab Profile and Lab photo" />
+                <Tab label="Gallery Photos" />
               </Tabs>
               {/* <Tabs
                 value={tab}
@@ -1130,7 +1211,6 @@ function ScientistForm({
               </div>
             </CustomTabPanel>
             {/* TAB 7 */}
-
             <CustomTabPanel value={tab} index={6}>
               <div className="card-body tab-panel-body">
                 <div className="row g-3">
@@ -1250,34 +1330,26 @@ function ScientistForm({
                       {/* Photo */}
                       <div className="col-sm-9 col-md-5">
                         <label className="form-label">Photo</label>
-                        <input
-                          type="file"
-                          name="photo"
-                          onChange={(e) => handleLabProfileChange(index, e)}
-                          className="form-control upload-image-input"
-                        />
-                        {/* {preview && (
-                          <img
-                            src={preview}
-                            alt="Preview"
-                            style={{
-                              marginLeft: "20px",
-                              height: "50px",
-                              objectFit: "cover",
-                            }}
+                        <div className="d-flex align-items-center gap-3">
+                          <input
+                            type="file"
+                            name="photo"
+                            onChange={(e) => handleLabProfileChange(index, e)}
+                            className="form-control upload-image-input"
                           />
-                        )} */}
-                        {item?.previewImage && (
-                          <img
-                            src={item.previewImage}
-                            alt="Preview"
-                            style={{
-                              marginLeft: "20px",
-                              height: "50px",
-                              objectFit: "cover",
-                            }}
-                          />
-                        )}
+
+                          {item?.previewImage && (
+                            <img
+                              src={item.previewImage}
+                              alt="Preview"
+                              style={{
+                                marginLeft: "20px",
+                                height: "50px",
+                                objectFit: "cover",
+                              }}
+                            />
+                          )}
+                        </div>
                       </div>
 
                       {/* Actions */}
@@ -1304,6 +1376,92 @@ function ScientistForm({
                         <div
                           type="button"
                           onClick={addLabProfile}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <i className="bi bi-plus-circle fs-4"></i>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CustomTabPanel>
+            {/* TAB 8 */}
+            <CustomTabPanel value={tab} index={7}>
+              <div className="card-body tab-panel-body">
+                <div className="row g-3">
+                  {data?.galleryPhotos?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="row g-3 align-items-center border p-3"
+                    >
+                      <div className="col-md-5">
+                        <label className="form-label">
+                          Gallery Photos Title
+                        </label>
+                        <input
+                          type="text"
+                          name="galleryPhotostitle"
+                          value={item?.galleryPhotostitle || ""}
+                          onChange={(e) => handleGalleryPhotosChange(index, e)}
+                          className="form-control"
+                        />
+                      </div>
+
+                      {/* Photo */}
+                      <div className="col-sm-9 col-md-5">
+                        <label className="form-label">Photo</label>
+                        <div className="d-flex align-items-center gap-3">
+                          <input
+                            type="file"
+                            name="galleryPhotos"
+                            onChange={(e) =>
+                              handleGalleryPhotosChange(index, e)
+                            }
+                            className="form-control upload-image-input"
+                          />
+
+                          {item?.previewImage && (
+                            <img
+                              src={item.previewImage}
+                              alt="Preview"
+                              style={{
+                                marginTop: "10px",
+                                height: "50px",
+                                width: "50px",
+                                objectFit: "cover",
+                                borderRadius: "6px",
+                                border: "1px solid #ddd",
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="col-sm-3 col-md-2 d-flex align-items-center gap-3 mt-4 pt-sm-4">
+                        {/* Delete */}
+                        <div
+                          type="button"
+                          onClick={() =>
+                            data?.galleryPhotos?.length > 1 &&
+                            deletegalleryPhotos(index)
+                          }
+                          style={{
+                            cursor:
+                              data?.galleryPhotos?.length > 1
+                                ? "pointer"
+                                : "not-allowed",
+                            opacity: data?.galleryPhotos?.length > 1 ? 1 : 0.5,
+                          }}
+                        >
+                          <i className="bi bi-trash fs-4"></i>
+                        </div>
+
+                        {/* Add */}
+                        <div
+                          type="button"
+                          onClick={addGalleryPhotos}
                           style={{ cursor: "pointer" }}
                         >
                           <i className="bi bi-plus-circle fs-4"></i>
