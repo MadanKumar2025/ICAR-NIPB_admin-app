@@ -153,7 +153,7 @@ function UserPermissionsForm({
       }
     }
   };
-    
+
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
