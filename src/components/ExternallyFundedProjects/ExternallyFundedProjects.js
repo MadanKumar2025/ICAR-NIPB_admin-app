@@ -8,7 +8,7 @@ import { usePermissions } from "../User_Management/UserManagement";
 function ExternallyFundedProjects() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-    const { hasAddAccess,hasActiveAccess,hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
 
   const [externallyFundedProjects, setExternallyFundedProjects] = useState([]);
 
@@ -83,7 +83,7 @@ function ExternallyFundedProjects() {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/externallyFundedProject/updateExternallyFP/${item?._id}`,
+        `${API_URL}/externallyFundedProject/updateExternallyFP/${item?.id}`,
         {
           isActive: !item?.isActive,
           updateby: decoded?.id,
@@ -98,7 +98,7 @@ function ExternallyFundedProjects() {
       setExternallyFundedProjects((prev) => ({
         ...prev,
         data: prev.data.map((row) =>
-          row?._id === item?._id ? { ...row, isActive: !row?.isActive } : row,
+          row?.id === item?.id ? { ...row, isActive: !row?.isActive } : row,
         ),
       }));
     } catch (error) {
@@ -119,7 +119,7 @@ function ExternallyFundedProjects() {
       isActive: item?.isActive ?? true,
     });
     setIsEdit(true);
-    setEditId(item?._id);
+    setEditId(item?.id);
     setShowForm(true);
 
     window.scrollTo({
@@ -134,11 +134,20 @@ function ExternallyFundedProjects() {
         <div className="d-flex justify-content-end">
           <div
             className="card-footer"
-            style={{ marginTop: "2vh", marginBottom: "2vh" , marginRight: "4vw",}}
+            style={{
+              marginTop: "2vh",
+              marginBottom: "2vh",
+              marginRight: "4vw",
+            }}
           >
-          {hasAddAccess("Externally Funded Projects") && (   <button className="btn btn-info" onClick={() => setShowForm(true)}>
-              Create Externally Funded Projects
-            </button>)}
+            {hasAddAccess("Externally Funded Projects") && (
+              <button
+                className="btn btn-info"
+                onClick={() => setShowForm(true)}
+              >
+                Create Externally Funded Projects
+              </button>
+            )}
           </div>
         </div>
         {showForm && (
@@ -152,7 +161,10 @@ function ExternallyFundedProjects() {
             editId={editId}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <ExternallyFundedProjectsTable
             data={externallyFundedProjects?.data || []}
             handleToggle={handleToggle}

@@ -410,8 +410,7 @@ function ScientistForm({
             },
           },
         );
-        console.log("response", response);
-      } else {
+       } else {
         response = await axios.post(
           `${API_URL}/ScientistRoutes/create`,
           formData,
@@ -423,9 +422,6 @@ function ScientistForm({
           },
         );
       }
-
-      console.log("response", response);
-
       formRef.current.reset();
 
       Swal.fire({

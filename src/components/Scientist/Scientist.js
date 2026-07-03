@@ -124,8 +124,6 @@ function Scientist() {
   };
 
   const handleEdit = (item) => {
-    console.log("item", item);
-
     setData({
       scientistName_en: item?.scientistName?.en || "",
       scientistName_hi: item?.scientistName?.hi || "",
