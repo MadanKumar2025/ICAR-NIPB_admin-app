@@ -35,15 +35,17 @@ function Login() {
     }
   };
   return (
-    <><img src="/admin/qw.png" alt="Logo" />
+    <>
+    <div className="d-flex justify-content-center align-items-center">
+      <img src="/admin/qw.png" alt="Logo" />
+      </div>
       <div className="login-page bg-body-secondary">
-         
         <div className="login-box">
           <div className="login-logo">
             {/* <a >
               <b>ICAR</b>-NIPB Login
               </a> */}
-              {/* <img src="/admin/qw.png" alt="Logo" /> */}
+            {/* <img src="/admin/qw.png" alt="Logo" /> */}
           </div>
           <div className="card">
             <div className="card-body login-card-body rounded-2">
