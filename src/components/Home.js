@@ -814,7 +814,7 @@ function Home() {
               <div className="card-body p-4">
                 <div className="border rounded-3 p-3 mb-3">
                   <div className="d-flex justify-content-between">
-                    <strong>📱 Mobile</strong>
+                    <strong>📱 Mobile :- </strong>
                     <span>{data?.mobileNo}</span>
                   </div>
                 </div>
