@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 function Login() {
-    const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL;
   const [data, setData] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
@@ -16,17 +16,12 @@ function Login() {
     });
   };
 
-
-  
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        `${API_URL}/auth/login`,
-        data,
-      );
+      const response = await axios.post(`${API_URL}/auth/login`, data);
       const token = response.data.token;
-      
+
       localStorage.setItem("token", token);
       navigate("/");
     } catch (error) {
@@ -40,13 +35,15 @@ function Login() {
     }
   };
   return (
-    <>
+    <><img src="/admin/qw.png" alt="Logo" />
       <div className="login-page bg-body-secondary">
+         
         <div className="login-box">
           <div className="login-logo">
-            <a href="/index2.html">
-              <b>ICAR</b>-NIPB
-            </a>
+            {/* <a >
+              <b>ICAR</b>-NIPB Login
+              </a> */}
+              {/* <img src="/admin/qw.png" alt="Logo" /> */}
           </div>
           <div className="card">
             <div className="card-body login-card-body rounded-2">

@@ -77,7 +77,7 @@ function Patents() {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/PatentsRoutes/updateStatus/${item?._id}`,
+        `${API_URL}/PatentsRoutes/updateStatus/${item?.id}`,
         {
           isActive: !item?.isActive,
           updateby: decoded?.id,
@@ -92,7 +92,7 @@ function Patents() {
       setPatents((prev) => ({
         ...prev,
         data: prev.data.map((row) =>
-          row?._id === item?._id ? { ...row, isActive: !row?.isActive } : row,
+          row?.id === item?.id ? { ...row, isActive: !row?.isActive } : row,
         ),
       }));
     } catch (error) {
@@ -110,7 +110,7 @@ function Patents() {
     });
 
     setIsEdit(true);
-    setEditId(item?._id);
+    setEditId(item?.id);
     setShowForm(true);
 
     window.scrollTo({
