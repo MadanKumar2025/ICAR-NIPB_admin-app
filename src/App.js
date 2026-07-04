@@ -102,7 +102,6 @@ function App() {
     <>
       {isLogin ? (
         <Routes>
-          {/* <Route path="/login" element={<Login />} /> */}
           <Route
             path="/login"
             element={token ? <Navigate to="/" replace /> : <Login />}
@@ -110,13 +109,10 @@ function App() {
         </Routes>
       ) : (
         <div className="layout-fixed sidebar-expand-lg bg-body-tertiary">
-          {/* <div className="app-wrapper"> */}
           <div style={{ display: "flex" }}>
-            {/* {isSidebarOpen && <Sidebar />} */}
             <div style={{ width: isSidebarOpen ? "17.5%" : "0%" }}>
               {isSidebarOpen && <Sidebar toggleSidebar={toggleSidebar} />}
             </div>
-            {/* <div> */}
             <div
               style={{
                 width: isSidebarOpen ? "82.5%" : "100%",
