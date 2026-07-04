@@ -45,7 +45,7 @@ const NewsForm = ({
 
         if (data?.DocumentType === "Link") {
           formData.append("link", data?.link || "");
-          formData.append("documentFile", ""); 
+          formData.append("documentFile", "");
         }
 
         if (data?.DocumentType === "Document") {
@@ -105,20 +105,18 @@ const NewsForm = ({
       //   formData.append("documentFile", data?.documentFile);
       // }
 
+      if (data?.DocumentType === "Link") {
+        formData.append("link", data?.link || "");
+        formData.append("documentFile", "");
+      }
 
-      
-        if (data?.DocumentType === "Link") {
-          formData.append("link", data?.link || "");
-          formData.append("documentFile", ""); 
+      if (data?.DocumentType === "Document") {
+        formData.append("link", "");
+        if (data?.documentFile instanceof File) {
+          formData.append("documentFile", data.documentFile);
         }
+      }
 
-        if (data?.DocumentType === "Document") {
-          formData.append("link", "");
-          if (data?.documentFile instanceof File) {
-            formData.append("documentFile", data.documentFile);
-          }
-        }
-        
       try {
         const response = await axios.post(`${API_URL}/news/create`, formData, {
           headers: {
