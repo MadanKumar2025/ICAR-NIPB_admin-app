@@ -95,16 +95,30 @@ const NewsForm = ({
       formData.append("type", data?.type || "");
       formData.append("title_en", data?.title_en || "");
       formData.append("title_hi", data?.title_hi || "");
-      formData.append("link", data?.link || "");
+      // formData.append("link", data?.link || "");
       formData.append("publishDate", data?.publishDate || "");
       formData.append("expiryDate", data?.expiryDate || "");
       formData.append("markAsNew", data?.markAsNew || "");
       formData.append("isActive", data?.isActive);
 
-      if (data?.documentFile) {
-        formData.append("documentFile", data?.documentFile);
-      }
+      // if (data?.documentFile) {
+      //   formData.append("documentFile", data?.documentFile);
+      // }
 
+
+      
+        if (data?.DocumentType === "Link") {
+          formData.append("link", data?.link || "");
+          formData.append("documentFile", ""); 
+        }
+
+        if (data?.DocumentType === "Document") {
+          formData.append("link", "");
+          if (data?.documentFile instanceof File) {
+            formData.append("documentFile", data.documentFile);
+          }
+        }
+        
       try {
         const response = await axios.post(`${API_URL}/news/create`, formData, {
           headers: {
