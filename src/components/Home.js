@@ -35,7 +35,7 @@ function Home() {
 
     fetchUser();
   }, [API_URL, userId]);
- 
+
   return (
     <>
       {/* <main className="app-main">

@@ -28,17 +28,31 @@ const NewsForm = ({
       try {
         const formData = new FormData();
 
+        console.log("handleSubmit Data ", data);
+
         formData.append("type", data?.type || "");
         formData.append("title_en", data?.title_en || "");
         formData.append("title_hi", data?.title_hi || "");
-        formData.append("link", data?.link || "");
+        // formData.append("link", data?.link || "");
         formData.append("publishDate", data?.publishDate || "");
         formData.append("expiryDate", data?.expiryDate || "");
         formData.append("markAsNew", data?.markAsNew);
         formData.append("isActive", data?.isActive);
 
-        if (data.documentFile) {
-          formData.append("documentFile", data.documentFile);
+        // if (data.documentFile) {
+        //   formData.append("documentFile", data.documentFile);
+        // }
+
+        if (data?.DocumentType === "Link") {
+          formData.append("link", data?.link || "");
+          formData.append("documentFile", ""); 
+        }
+
+        if (data?.DocumentType === "Document") {
+          formData.append("link", "");
+          if (data?.documentFile instanceof File) {
+            formData.append("documentFile", data.documentFile);
+          }
         }
 
         const res = await axios.put(
@@ -134,6 +148,8 @@ const NewsForm = ({
     }
   };
 
+  console.log("data ", data);
+
   return (
     <>
       <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
@@ -195,44 +211,65 @@ const NewsForm = ({
                   />
                 </div>
                 <div className="col-md-6">
-                  <label
-                    htmlFor="validationCustomUsername"
-                    className="form-label"
-                  >
-                    Link
+                  <label htmlFor="validationCustom01" className="form-label">
+                    URL Type
                   </label>
-                  <div className="input-group has-validation">
+                  <select
+                    name="DocumentType"
+                    className="form-control"
+                    value={data?.DocumentType}
+                    onChange={handleChange}
+                    id="validationCustom03"
+                    required
+                  >
+                    <option value="">select</option>
+                    <option value="Link">Link</option>
+                    <option value="Document">Document</option>
+                  </select>
+                </div>
+                {data?.DocumentType === "Link" && (
+                  <div className="col-md-6">
+                    <label
+                      htmlFor="validationCustomUsername"
+                      className="form-label"
+                    >
+                      Link
+                    </label>
+                    <div className="input-group has-validation">
+                      <input
+                        type="text"
+                        name="link"
+                        value={data?.link}
+                        onChange={handleChange}
+                        className="form-control"
+                        id="validationCustomUsername"
+                        aria-describedby="inputGroupPrepend"
+                      />
+                    </div>
+                  </div>
+                )}
+                {data?.DocumentType === "Document" && (
+                  <div className="col-md-6">
+                    <label htmlFor="validationCustom03" className="form-label">
+                      Document
+                    </label>
                     <input
-                      type="text"
-                      name="link"
-                      value={data?.link}
+                      type="file"
+                      name="documentFile"
                       onChange={handleChange}
                       className="form-control"
-                      id="validationCustomUsername"
-                      aria-describedby="inputGroupPrepend"
+                      id="validationCustom03"
                     />
+                    {preview && (
+                      <a href={preview} target="_blank" rel="noreferrer">
+                        View Document
+                      </a>
+                    )}
+                    <div className="invalid-feedback">
+                      Please provide a Document.
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <label htmlFor="validationCustom03" className="form-label">
-                    Document
-                  </label>
-                  <input
-                    type="file"
-                    name="documentFile"
-                    onChange={handleChange}
-                    className="form-control"
-                    id="validationCustom03"
-                  />
-                  {preview && (
-                    <a href={preview} target="_blank" rel="noreferrer">
-                      View Document
-                    </a>
-                  )}
-                  <div className="invalid-feedback">
-                    Please provide a Document.
-                  </div>
-                </div>
+                )}
                 <div className="col-md-6">
                   <label htmlFor="validationCustom03" className="form-label">
                     publish Date
@@ -295,7 +332,10 @@ const NewsForm = ({
                     onChange={handleChange}
                     id="validationCustom05"
                   />
-                  <label htmlFor="validationCustom05" className="form-label m-0">
+                  <label
+                    htmlFor="validationCustom05"
+                    className="form-label m-0"
+                  >
                     Mark As New
                   </label>
 
@@ -305,16 +345,16 @@ const NewsForm = ({
                 </div>
               </div>
             </div>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  {/* {isEdit ? "Update User" : "Submit form"} */}
-                  {/* {isEdit ? "Update" : "Save"} */}
-                  Save
-                </button>
-                 <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                {/* {isEdit ? "Update User" : "Submit form"} */}
+                {/* {isEdit ? "Update" : "Save"} */}
+                Save
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>

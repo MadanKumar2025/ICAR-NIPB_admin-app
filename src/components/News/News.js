@@ -27,6 +27,7 @@ function News() {
     expiryDate: "",
     isActive: true,
     markAsNew: "",
+    DocumentType: "",
   });
 
   const [pagination, setPagination] = useState({
@@ -63,9 +64,57 @@ function News() {
     getNewsData();
   }, []);
 
+  // const handleChange = (e) => {
+  //   const { name, type, files, checked, value } = e.target;
+
+  //   if (type === "file" && files.length > 0) {
+  //     const file = files[0];
+
+  //     setData((prev) => ({
+  //       ...prev,
+  //       [name]: file,
+  //     }));
+
+  //     const fileURL = URL.createObjectURL(file);
+  //     setPreview(fileURL);
+  //   } else if (type === "checkbox") {
+  //     setData((prev) => ({
+  //       ...prev,
+  //       [name]: checked,
+  //     }));
+  //   } else if (name === "isActive") {
+  //     setData((prev) => ({
+  //       ...prev,
+  //       isActive: value === "true",
+  //     }));
+  //   } else {
+  //     setData((prev) => ({
+  //       ...prev,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
+
   const handleChange = (e) => {
     const { name, type, files, checked, value } = e.target;
 
+    // Document Type change
+    if (name === "DocumentType") {
+      setData((prev) => ({
+        ...prev,
+        DocumentType: value,
+        link: value === "Document" ? "" : prev.link,
+        documentFile: value === "Link" ? "" : prev.documentFile,
+      }));
+
+      if (value === "Link") {
+        setPreview(null);
+      }
+
+      return;
+    }
+
+    // File
     if (type === "file" && files.length > 0) {
       const file = files[0];
 
@@ -76,17 +125,23 @@ function News() {
 
       const fileURL = URL.createObjectURL(file);
       setPreview(fileURL);
-    } else if (type === "checkbox") {
+    }
+    // Checkbox
+    else if (type === "checkbox") {
       setData((prev) => ({
         ...prev,
         [name]: checked,
       }));
-    } else if (name === "isActive") {
+    }
+    // Active
+    else if (name === "isActive") {
       setData((prev) => ({
         ...prev,
         isActive: value === "true",
       }));
-    } else {
+    }
+    // Normal Input
+    else {
       setData((prev) => ({
         ...prev,
         [name]: value,
@@ -94,21 +149,56 @@ function News() {
     }
   };
 
+  // const handleEdit = (item) => {
+  //   setData({
+  //     type: item?.type,
+  //     title_en: item?.title?.en || "",
+  //     title_hi: item?.title?.hi || "",
+  //     link: item?.link,
+  //     documentFile: item?.documentFile,
+  //     publishDate: item?.publishDate ? item.publishDate.split("T")[0] : "",
+  //     expiryDate: item?.expiryDate ? item.expiryDate.split("T")[0] : "",
+  //     markAsNew: item?.markAsNew,
+  //     isActive: item?.isActive ?? true,
+  //   });
+
+  //   if (item?.documentFile !== null) {
+  //     setPreview(`${IMG_BASE_URL}/files/${item?.documentFile}`);
+  //   }
+
+  //   setEditId(item?.id);
+  //   setIsEdit(true);
+  //   setShowForm(true);
+  // };
+
   const handleEdit = (item) => {
+    // Check Document Type
+    let documentType = "";
+
+    if (item?.link && item.link.trim() !== "") {
+      documentType = "Link";
+    } else if (item?.documentFile) {
+      documentType = "Document";
+    }
+
     setData({
-      type: item?.type,
+      type: item?.type || "",
       title_en: item?.title?.en || "",
       title_hi: item?.title?.hi || "",
-      link: item?.link,
-      documentFile: item?.documentFile,
+      DocumentType: documentType,
+      link: item?.link || "",
+      documentFile: item?.documentFile || "",
       publishDate: item?.publishDate ? item.publishDate.split("T")[0] : "",
       expiryDate: item?.expiryDate ? item.expiryDate.split("T")[0] : "",
-      markAsNew: item?.markAsNew,
+      markAsNew: item?.markAsNew || false,
       isActive: item?.isActive ?? true,
     });
 
-    if (item?.documentFile !== null) {
-      setPreview(`${IMG_BASE_URL}/files/${item?.documentFile}`);
+    // Preview only if document exists
+    if (item?.documentFile) {
+      setPreview(`${IMG_BASE_URL}/files/${item.documentFile}`);
+    } else {
+      setPreview(null);
     }
 
     setEditId(item?.id);
@@ -154,10 +244,12 @@ function News() {
       publishDate: "",
       expiryDate: "",
       markAsNew: "",
+      DocumentType: "",
       isActive: true,
     });
     setPreview(null);
   };
+
   return (
     <>
       <div>
@@ -170,9 +262,14 @@ function News() {
               marginRight: "4vw",
             }}
           >
-          {hasAddAccess("News") && (   <button className="btn btn-info" onClick={() => setShowForm(true)}>
-              Create News
-            </button>)}
+            {hasAddAccess("News") && (
+              <button
+                className="btn btn-info"
+                onClick={() => setShowForm(true)}
+              >
+                Create News
+              </button>
+            )}
           </div>
         </div>
 
@@ -190,7 +287,10 @@ function News() {
           />
         )}
 
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <NewsTable
             data={allNews || []}
             handleToggle={handleToggle}
