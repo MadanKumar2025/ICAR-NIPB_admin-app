@@ -103,8 +103,8 @@ function News() {
       setData((prev) => ({
         ...prev,
         DocumentType: value,
-        link: value === "Document" ? "" : prev.link,
-        documentFile: value === "Link" ? "" : prev.documentFile,
+        link: value === "Document" ? " " : prev.link,
+        documentFile: value === "Link" ? " " : prev.documentFile,
       }));
 
       if (value === "Link") {
