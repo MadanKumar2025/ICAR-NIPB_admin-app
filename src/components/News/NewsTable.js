@@ -106,10 +106,7 @@ const NewsTable = ({
       });
     }
 
-    // =========================
-    // ACTION COLUMN (EDIT ACCESS)
-    // =========================
-    if (hasEditAccess?.("News")) {
+     if (hasEditAccess?.("News")) {
       cols.push({
         header: "Action",
         size: 50,
