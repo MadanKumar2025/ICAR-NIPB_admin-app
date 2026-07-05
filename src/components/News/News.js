@@ -250,6 +250,7 @@ function News() {
     setEditId(null);
     setIsEdit(false);
     setPreview(null);
+    
   };
 
   return (
