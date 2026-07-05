@@ -123,7 +123,7 @@ const NewsTable = ({
                 onClick={() => handleEdit?.(item)}
               >
                 <i class="bi bi-pencil fs-6"></i>
-               <span> Edit
+               <span>
               </span>
             </div>
           );

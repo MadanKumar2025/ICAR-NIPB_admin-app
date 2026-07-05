@@ -247,6 +247,8 @@ function News() {
       DocumentType: "",
       isActive: true,
     });
+    setEditId(null);
+    setIsEdit(false);
     setPreview(null);
   };
 

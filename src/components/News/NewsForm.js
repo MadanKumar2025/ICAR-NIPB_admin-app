@@ -82,6 +82,7 @@ const NewsForm = ({
         formRef.current.reset();
         await getNewsData();
         handleClose();
+        
       } catch (error) {
         Swal.fire({
           icon: "error",
@@ -125,7 +126,7 @@ const NewsForm = ({
           },
         });
 
-        console.log("response", response);
+        // console.log("response", response);
 
         setData({
           type: "",
