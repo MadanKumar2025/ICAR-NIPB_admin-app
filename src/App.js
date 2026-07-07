@@ -71,6 +71,7 @@ import UpdateScientist from "./components/create Scientist Login/UpdateScientist
 import Popup from "./components/Popup/Popup.js";
 import TrainingProgram from "./components/Training Program/TrainingProgram.js";
 import Professor from "./components/Professor/Professor.js";
+import ForgotPassword from "./components/ForgotPassword.js";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -128,6 +129,14 @@ function App() {
                   element={
                     <ProtectedRoute>
                       <Home />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/forgotPassword"
+                  element={
+                    <ProtectedRoute>
+                      <ForgotPassword />
                     </ProtectedRoute>
                   }
                 />

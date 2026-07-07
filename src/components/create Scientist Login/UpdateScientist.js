@@ -61,6 +61,13 @@ function UpdateScientist() {
         photo: null,
       },
     ],
+    galleryPhotos: [
+      {
+        galleryPhotostitle: "",
+        galleryPhotos: null,
+        orderNumberGallery: 0,
+      },
+    ],
     isActive: true,
   });
 
@@ -103,14 +110,14 @@ function UpdateScientist() {
   }, [userId]);
 
   const getScientistData = async (id) => {
-    try {
+  if (!id) return;
+    try {      
       const response = await axios.get(`${API_URL}/ScientistRoutes/get/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("response?.data?.data", response?.data?.data);
-
+ 
       setData({
         scientistName_en: response?.data?.data?.scientistName?.en || "",
         scientistName_hi: response?.data?.data?.scientistName?.hi || "",
@@ -179,6 +186,21 @@ function UpdateScientist() {
             photo: null,
           },
         ],
+        galleryPhotos: response?.data?.data?.galleryPhotos?.map((img) => ({
+          galleryPhotostitle: img?.galleryPhotostitle || "",
+          galleryPhotos: img?.galleryPhotos || null,
+          orderNumberGallery: img?.orderNumberGallery || 0,
+          previewImage: img?.galleryPhotos
+            ? `${IMG_BASE_URL}/${img.galleryPhotos}`
+            : "",
+        })) || [
+          {
+            galleryPhotostitle: "",
+            galleryPhotos: null,
+            orderNumberGallery: 0,
+            previewImage: "",
+          },
+        ],
 
         isActive: response?.data?.data?.isActive ?? true,
       });
@@ -204,47 +226,6 @@ function UpdateScientist() {
       getScientistData(scientistId);
     }
   }, [scientistId]);
-
-  const handleClose = () => {
-    setShowForm(false);
-    setData({
-      scientistName_en: "",
-      scientistName_hi: "",
-      designationId: "",
-      phone1: "",
-      phone2: "",
-      email1: "",
-      email2: "",
-      education_en: "",
-      education_hi: "",
-      majorCourses_en: "",
-      majorCourses_hi: "",
-      photoTitle: "",
-      researchInterest_en: "",
-      researchInterest_hi: "",
-      publications_en: "",
-      publications_hi: "",
-      IPR_en: "",
-      IPR_hi: "",
-      awards_en: "",
-      awards_hi: "",
-      externallyFundedProjects_en: "",
-      externallyFundedProjects_hi: "",
-      photo: null,
-      labProfile: [
-        {
-          name: { en: "", hi: "" },
-          position: { en: "", hi: "" },
-          duration: { en: "", hi: "" },
-          project: { en: "", hi: "" },
-          ImageTitle: "",
-          photo: null,
-        },
-      ],
-      isActive: true,
-    });
-    setPreview(null);
-  };
 
   const [designation, setDesignation] = useState([]);
   const [tab, setTab] = useState(0);
@@ -389,6 +370,66 @@ function UpdateScientist() {
     setData({ ...data, labProfile: updated });
   };
 
+  const handleGalleryPhotosChange = (index, e) => {
+    const { name, value, files } = e.target;
+
+    const updated = [...data.galleryPhotos];
+
+    const item = {
+      ...updated[index],
+      galleryPhotostitle: updated[index]?.galleryPhotostitle || "",
+      galleryPhotos: updated[index]?.galleryPhotos || null,
+      orderNumberGallery: updated[index]?.orderNumberGallery || "",
+      previewImage: updated[index]?.previewImage || null,
+    };
+
+    if (name === "galleryPhotos") {
+      const file = files?.[0] || null;
+
+      item.galleryPhotos = file;
+
+      if (file) {
+        item.previewImage = URL.createObjectURL(file);
+      }
+    } else {
+      switch (name) {
+        case "galleryPhotostitle":
+          item.galleryPhotostitle = value;
+          break;
+
+        case "orderNumberGallery":
+          item.orderNumberGallery = value;
+          break;
+      }
+    }
+
+    updated[index] = item;
+
+    setData((prev) => ({
+      ...prev,
+      galleryPhotos: updated,
+    }));
+  };
+
+  const addGalleryPhotos = () => {
+    setData((prev) => ({
+      ...prev,
+      galleryPhotos: [
+        ...prev.galleryPhotos,
+        {
+          galleryPhotostitle: "",
+          galleryPhotos: null,
+          orderNumberGallery: "",
+        },
+      ],
+    }));
+  };
+
+  const deletegalleryPhotos = (index) => {
+    const updated = data.galleryPhotos.filter((_, i) => i !== index);
+    setData({ ...data, galleryPhotos: updated });
+  };
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -430,6 +471,20 @@ function UpdateScientist() {
       formData.append("photo", data.photo);
     }
 
+     const cleangalleryPhotos = data?.galleryPhotos.map((item, index) => ({
+      galleryPhotostitle: item?.galleryPhotostitle || "",
+      orderNumberGallery: Number(item?.orderNumberGallery || 0),
+      photoKey: `galleryPhotos_${index}`,
+    }));
+
+    formData.append("galleryPhotos", JSON.stringify(cleangalleryPhotos));
+
+    // files
+    data?.galleryPhotos.forEach((item, index) => {
+      if (item?.galleryPhotos && typeof item.galleryPhotos !== "string") {
+        formData.append(`galleryPhotos_${index}`, item.galleryPhotos);
+      }
+    });
     const cleanLabProfile = data.labProfile.map((item, index) => ({
       name: item.name,
       position: item.position,
@@ -485,7 +540,7 @@ function UpdateScientist() {
     }
   };
 
-   const config = useMemo(
+  const config = useMemo(
     () => ({
       readonly: false,
       showPoweredBy: false,
@@ -544,6 +599,7 @@ function UpdateScientist() {
                 <Tab label="Awards & Honors" />
                 <Tab label="Externally funded Projects" />
                 <Tab label="Lab Profile and Lab photo" />
+                <Tab label="Gallery Photos" />
               </Tabs>
             </Box>
 
@@ -823,7 +879,7 @@ function UpdateScientist() {
                         }));
                       }}
                     /> */}
-                      <JoditEditor
+                    <JoditEditor
                       ref={editor}
                       value={data?.researchInterest_en}
                       config={config}
@@ -836,12 +892,6 @@ function UpdateScientist() {
                       }}
                       onChange={() => {}}
                     />
-
-
-
-
-
-
                   </div>
                   <div></div>
                   <div className="col-md-12">
@@ -865,7 +915,7 @@ function UpdateScientist() {
                         }));
                       }}
                     /> */}
-                     <JoditEditor
+                    <JoditEditor
                       ref={editor}
                       value={data?.researchInterest_hi}
                       config={config}
@@ -878,12 +928,6 @@ function UpdateScientist() {
                       }}
                       onChange={() => {}}
                     />
-
-
-
-
-
-
                   </div>
                 </div>
               </div>
@@ -949,7 +993,7 @@ function UpdateScientist() {
                         }));
                       }}
                     /> */}
-                      <JoditEditor
+                    <JoditEditor
                       ref={editor}
                       value={data.publications_hi}
                       config={config}
@@ -990,7 +1034,7 @@ function UpdateScientist() {
                       }}
                     />
                      */}
-                     <JoditEditor
+                    <JoditEditor
                       ref={editor}
                       value={data?.IPR_en}
                       config={config}
@@ -1067,7 +1111,7 @@ function UpdateScientist() {
                         }));
                       }}
                     /> */}
-                     <JoditEditor
+                    <JoditEditor
                       ref={editor}
                       value={data.awards_en}
                       config={config}
@@ -1143,7 +1187,7 @@ function UpdateScientist() {
                         }));
                       }}
                     /> */}
-                   <JoditEditor
+                    <JoditEditor
                       ref={editor}
                       value={data.externallyFundedProjects_en}
                       config={config}
@@ -1197,6 +1241,93 @@ function UpdateScientist() {
               </div>
             </CustomTabPanel>
             {/* TAB 7 */}
+
+            {/* TAB 8 */}
+            <CustomTabPanel value={tab} index={7}>
+              <div className="card-body tab-panel-body">
+                <div className="row g-3">
+                  {data?.galleryPhotos?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="row g-3 align-items-center border p-3"
+                    >
+                      <div className="col-md-5">
+                        <label className="form-label">
+                          Gallery Photos Title
+                        </label>
+                        <input
+                          type="text"
+                          name="galleryPhotostitle"
+                          value={item?.galleryPhotostitle || ""}
+                          onChange={(e) => handleGalleryPhotosChange(index, e)}
+                          className="form-control"
+                        />
+                      </div>
+
+                      {/* Photo */}
+                      <div className="col-sm-9 col-md-5">
+                        <label className="form-label">Photo</label>
+                        <div className="d-flex align-items-center gap-3">
+                          <input
+                            type="file"
+                            name="galleryPhotos"
+                            onChange={(e) =>
+                              handleGalleryPhotosChange(index, e)
+                            }
+                            className="form-control upload-image-input"
+                          />
+
+                          {item?.previewImage && (
+                            <img
+                              src={item.previewImage}
+                              alt="Preview"
+                              style={{
+                                marginTop: "10px",
+                                height: "50px",
+                                width: "50px",
+                                objectFit: "cover",
+                                borderRadius: "6px",
+                                border: "1px solid #ddd",
+                              }}
+                            />
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="col-sm-3 col-md-2 d-flex align-items-center gap-3 mt-4 pt-sm-4">
+                        {/* Delete */}
+                        <div
+                          type="button"
+                          onClick={() =>
+                            data?.galleryPhotos?.length > 1 &&
+                            deletegalleryPhotos(index)
+                          }
+                          style={{
+                            cursor:
+                              data?.galleryPhotos?.length > 1
+                                ? "pointer"
+                                : "not-allowed",
+                            opacity: data?.galleryPhotos?.length > 1 ? 1 : 0.5,
+                          }}
+                        >
+                          <i className="bi bi-trash fs-4"></i>
+                        </div>
+
+                        {/* Add */}
+                        <div
+                          type="button"
+                          onClick={addGalleryPhotos}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <i className="bi bi-plus-circle fs-4"></i>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CustomTabPanel>
 
             <CustomTabPanel value={tab} index={6}>
               <div className="card-body">
@@ -1370,11 +1501,11 @@ function UpdateScientist() {
                 </div>
               </div>
             </CustomTabPanel>
-              <div className="card-footer">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-              </div>
+            <div className="card-footer">
+              <button className="btn btn-info" type="submit">
+                Save
+              </button>
+            </div>
           </form>
         </div>
       </div>
