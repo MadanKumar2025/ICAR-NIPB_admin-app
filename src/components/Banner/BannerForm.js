@@ -51,8 +51,10 @@ function BannerForm({
         formData.append("subTitle_hi", data?.subTitle_hi || "");
         formData.append("displayOrderNo", data?.displayOrderNo || "");
         formData.append("bannerTitle", data?.bannerTitle || "");
+
         formData.append("publishDate", data?.publishDate || "");
         formData.append("expiryDate", data?.expiryDate || "");
+
         formData.append("isActive", data?.isActive);
 
         if (data?.photo) {
@@ -68,18 +70,21 @@ function BannerForm({
             },
           },
         );
-
+ 
         setIsEdit(false);
         setPreview(null);
         handleClose();
 
         await getBanner();
       } catch (error) {
-        console.error("Update failed:", error);
+        console.error("Update failed:", error.response?.data);
+
         Swal.fire({
           icon: "error",
+
           title: "Error",
-          text: error || "Server error",
+
+          text: error.response?.data?.message || "Server error",
         });
       }
     } else {
