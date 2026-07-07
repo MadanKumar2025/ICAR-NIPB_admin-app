@@ -18,6 +18,8 @@ function Banner() {
     subTitle_hi: "",
     displayOrderNo: "",
     bannerTitle: "",
+    publishDate: "",
+    expiryDate: "",
     photo: null,
     isActive: true,
   });
@@ -28,6 +30,7 @@ function Banner() {
   const [editId, setEditId] = useState(null);
 
   const [isEdit, setIsEdit] = useState(false);
+
   const handleClose = () => {
     setShowForm(false);
     setData({
@@ -37,6 +40,8 @@ function Banner() {
       subTitle_hi: "",
       displayOrderNo: "",
       bannerTitle: "",
+      publishDate: "",
+      expiryDate: "",
       photo: null,
       isActive: true,
     });
@@ -74,7 +79,7 @@ function Banner() {
     getBanner();
   }, []);
 
-  const handleToggle = async (item) => {    
+  const handleToggle = async (item) => {
     try {
       const decoded = jwtDecode(token);
 
@@ -112,6 +117,9 @@ function Banner() {
       bannerTitle: item?.bannerTitle || true,
       photo: item?.bannerImage || "",
       isActive: item?.isActive ?? true,
+      publishDate: item?.publishDate ? item.publishDate.split("T")[0] : "",
+
+      expiryDate: item?.expiryDate ? item.expiryDate.split("T")[0] : "",
     });
     if (item?.bannerImage !== null) {
       setPreview(`${IMG_BASE_URL}/${item?.bannerImage}`);
@@ -127,8 +135,6 @@ function Banner() {
     });
   };
 
-  console.log("banner",banner);
-  
   return (
     <>
       <div>
@@ -164,7 +170,10 @@ function Banner() {
             preview={preview}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <BannerTable
             data={banner?.data || []}
             handleToggle={handleToggle}

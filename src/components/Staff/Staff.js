@@ -73,13 +73,11 @@ function Staff() {
   }, []);
 
   const handleToggle = async (item) => {
-    console.log("item", item);
-
     try {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/staff/staffStatus/${item?._id}`,
+        `${API_URL}/staff/staffStatus/${item?.id}`,
         {
           isActive: !item.isActive,
           updateby: decoded.id,
@@ -90,11 +88,9 @@ function Staff() {
           },
         },
       );
-      console.log("res", res);
-
       setAllStaff((prev) =>
         prev.map((row) =>
-          row._id === item._id ? { ...row, isActive: !row.isActive } : row,
+          row.id === item.id ? { ...row, isActive: !row.isActive } : row,
         ),
       );
     } catch (error) {
@@ -102,7 +98,7 @@ function Staff() {
     }
   };
 
-  const handleEdit = (item) => {
+  const handleEdit = (item) => {    
     setData({
       department_en: item?.department?.en,
       department_hi: item?.department?.hi,

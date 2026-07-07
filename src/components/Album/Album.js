@@ -45,9 +45,7 @@ function Album() {
     videoUrl: "",
   });
 
-  const albumDataGallery = allAlbum.find((album) => album._id === albumGallery);
-
-  // console.log("galleryData11", galleryData);
+  const albumDataGallery = allAlbum.find((album) => album.id === albumGallery);
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -220,7 +218,7 @@ function Album() {
       const decoded = jwtDecode(token);
 
       const res = await axios.put(
-        `${API_URL}/album/updateStatus/${item?._id}`,
+        `${API_URL}/album/updateStatus/${item?.id}`,
         {
           isActive: !item.isActive,
           updateby: decoded.id,
@@ -234,7 +232,7 @@ function Album() {
 
       setAllAlbum((prev) =>
         prev.map((row) =>
-          row._id === item._id ? { ...row, isActive: !row.isActive } : row,
+          row.id === item.id ? { ...row, isActive: !row.isActive } : row,
         ),
       );
     } catch (error) {
@@ -593,7 +591,9 @@ function Album() {
   return (
     <>
       <div>
-        {(hasAddAccess("Album") || hasAddAccess("Facilities")|| hasAddAccess("Outreach programme")) && (
+        {(hasAddAccess("Album") ||
+          hasAddAccess("Facilities") ||
+          hasAddAccess("Outreach programme")) && (
           <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-header">
@@ -646,7 +646,9 @@ function Album() {
                       >
                         <option value="">select</option>
                         <option value="एल्बम">एल्बम</option>
-                        <option value="विद्यार्थी कॉर्नर">विद्यार्थी कॉर्नर</option>
+                        <option value="विद्यार्थी कॉर्नर">
+                          विद्यार्थी कॉर्नर
+                        </option>
                         <option value="सामुदायिक कार्यक्रम">
                           सामुदायिक कार्यक्रम
                         </option>
@@ -863,9 +865,9 @@ function Album() {
                 </div>
               </div>
 
-              <h1 style={{ paddingLeft: "1.5vw", marginTop: "1vh" }}>
+              <h3 style={{ paddingLeft: "1.5vw", marginTop: "1vh" }}>
                 Album Name :- {albumDataGallery?.title?.en}
-              </h1>
+              </h3>
 
               <form
                 className="needs-validation"

@@ -51,7 +51,8 @@ function BannerForm({
         formData.append("subTitle_hi", data?.subTitle_hi || "");
         formData.append("displayOrderNo", data?.displayOrderNo || "");
         formData.append("bannerTitle", data?.bannerTitle || "");
-        // formData.append("photo", data?.photo || "");
+        formData.append("publishDate", data?.publishDate || "");
+        formData.append("expiryDate", data?.expiryDate || "");
         formData.append("isActive", data?.isActive);
 
         if (data?.photo) {
@@ -90,6 +91,8 @@ function BannerForm({
       formData.append("subTitle_hi", data?.subTitle_hi || "");
       formData.append("displayOrderNo", data?.displayOrderNo || "");
       formData.append("bannerTitle", data?.bannerTitle || "");
+      formData.append("publishDate", data?.publishDate || "");
+      formData.append("expiryDate", data?.expiryDate || "");
       formData.append("photo", data?.photo || "");
       formData.append("isActive", data?.isActive);
 
@@ -199,6 +202,28 @@ function BannerForm({
                   />
                 </div>
                 <div className="col-md-6">
+                  <label className="form-label">Publish Date</label>
+                  <input
+                    type="date"
+                    name="publishDate"
+                    value={data?.publishDate}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
+                  <label className="form-label">Expiry Date</label>
+                  <input
+                    type="date"
+                    name="expiryDate"
+                    value={data?.expiryDate}
+                    onChange={handleChange}
+                    className="form-control"
+                    required
+                  />
+                </div>
+                <div className="col-md-6">
                   <label className="form-label">Display Order No</label>
                   <input
                     type="number"
@@ -256,14 +281,14 @@ function BannerForm({
                 </div>
               </div>
             </div>
-              <div className="card-footer d-flex">
-                <button className="btn btn-info" type="submit">
-                  Save
-                </button>
-                 <button className="btn btn-info ms-auto" onClick={handleClose}>
-                  Close
-                </button>
-              </div>
+            <div className="card-footer d-flex">
+              <button className="btn btn-info" type="submit">
+                Save
+              </button>
+              <button className="btn btn-info ms-auto" onClick={handleClose}>
+                Close
+              </button>
+            </div>
           </form>
         </div>
       </div>
