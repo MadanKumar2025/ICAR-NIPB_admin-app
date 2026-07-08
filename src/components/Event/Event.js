@@ -10,7 +10,8 @@ import { usePermissions } from "../User_Management/UserManagement";
 function Event() {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [allEvent, setAllEvent] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -204,6 +205,57 @@ function Event() {
     });
     setPreview(null);
   };
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this  Event ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/event/delete/${item?.id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?.id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getEventData();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Event has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Event.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -241,7 +293,10 @@ function Event() {
           />
         )}
 
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <EventTable
             data={allEvent || []}
             handleToggle={handleToggle}
@@ -250,6 +305,8 @@ function Event() {
             setPagination={setPagination}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
           />
         </div>
       </div>

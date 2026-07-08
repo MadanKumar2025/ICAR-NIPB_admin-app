@@ -4,11 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import { usePermissions } from "../User_Management/UserManagement";
 import BannerTable from "./BannerTable";
 import BannerForm from "./BannerForm";
+import Swal from "sweetalert2";
 
 function Banner() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [banner, setBanner] = useState([]);
   const [data, setData] = useState({
@@ -135,6 +137,54 @@ function Banner() {
     });
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Banner?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(`${API_URL}/BannerRoutes/delete/${item?._id}`, {
+        data: {
+          isActive: !item.isActive,
+          updateby: decoded?._id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getBanner();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Banner has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Banner.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -182,6 +232,8 @@ function Banner() {
             setPagination={setPagination}
             hasActiveAccess={hasActiveAccess}
             hasEditAccess={hasEditAccess}
+            handleDelete={handleDelete}
+            hasDeleteAccess={hasDeleteAccess}
           />
         </div>
       </div>

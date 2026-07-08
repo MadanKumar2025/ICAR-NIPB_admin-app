@@ -1,5 +1,8 @@
- import React, { useMemo } from "react";
-import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
+import React, { useMemo } from "react";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 
 const PreviousDirectorTable = ({
   data = [],
@@ -9,8 +12,9 @@ const PreviousDirectorTable = ({
   setPagination,
   hasEditAccess,
   hasActiveAccess,
+  handleDelete,
+  hasDeleteAccess,
 }) => {
-
   const columns = useMemo(() => {
     const cols = [
       {
@@ -36,21 +40,18 @@ const PreviousDirectorTable = ({
       //       <label className="form-check-label">
       //         {item?.acting ? "Acting" : "Inactive"}
       //       </label>
-            
+
       //     );
       //   },
       // },
     ];
 
-    // =========================
-    // STATUS COLUMN (ACTIVE ACCESS)
-    // =========================
     if (hasActiveAccess?.("Previous Director")) {
       cols.push({
         // accessorKey: "isActive",
         header: "Status",
         //  header: "Acting Status",
-         size: 40,
+        size: 40,
         minSize: 30,
         maxSize: 70,
         Cell: ({ row }) => {
@@ -68,8 +69,9 @@ const PreviousDirectorTable = ({
                 {item?.isActive ? "Active" : "Inactive"}
               </label> */}
               <label
-                className={`form-check-label ${item?.isActive ? "status-active" : "status-inactive"
-                  }`}
+                className={`form-check-label ${
+                  item?.isActive ? "status-active" : "status-inactive"
+                }`}
               >
                 {/* {item?.isActive ? "Active" : "Inactive"} */}
               </label>
@@ -79,23 +81,56 @@ const PreviousDirectorTable = ({
       });
     }
 
-    // =========================
-    // ACTION COLUMN (EDIT ACCESS)
-    // =========================
-    if (hasEditAccess?.("Previous Director")) {
+    // if (hasEditAccess?.("Previous Director")) {
+    //   cols.push({
+    //     header: "Action",
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <div
+    //           className="table-text-edit"
+    //           style={{ cursor: "pointer" }}
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i className="bi bi-pencil fs-6"></i>
+    //           <span> Edit</span>
+    //         </div>
+    //       );
+    //     },
+    //   });
+    // }
+
+    if (
+      hasEditAccess?.("Previous Director") ||
+      hasDeleteAccess?.("Previous Director")
+    ) {
       cols.push({
         header: "Action",
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <div
-              className="table-text-edit"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleEdit?.(item)}
-            >
-               <i className="bi bi-pencil fs-6"></i>
-             <span> Edit</span>
+            <div className="d-flex align-items-center gap-3">
+              {hasEditAccess?.("Previous Director") && (
+                <div
+                  className="table-text-edit"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit?.(item)}
+                >
+                  <i className="bi bi-pencil fs-6"></i>
+                </div>
+              )}
+
+              {hasDeleteAccess?.("Previous Director") && (
+                <span
+                  className="trash-icon"
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => handleDelete?.(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
+                </span>
+              )}
             </div>
           );
         },
@@ -103,7 +138,14 @@ const PreviousDirectorTable = ({
     }
 
     return cols;
-  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
+  }, [
+    handleToggle,
+    handleEdit,
+    hasEditAccess,
+    hasActiveAccess,
+    handleDelete,
+    hasDeleteAccess,
+  ]);
 
   const table = useMaterialReactTable({
     columns,

@@ -3,8 +3,11 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Swal from "sweetalert2";
 import StudentTable from "./StudentTable";
+import { usePermissions } from "../User_Management/UserManagement";
 
 function Student({ setOpen, open, studentInCourse }) {
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
   const [editId, setEditId] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
   const [student, setStudent] = useState([]);
@@ -38,14 +41,14 @@ function Student({ setOpen, open, studentInCourse }) {
     }));
   };
 
-  const handleEdit = (item) => {    
+  const handleEdit = (item) => {
     setData({
       studentName_en: item?.studentName?.en || "",
       studentName_hi: item?.studentName?.hi || "",
       rollNo: item?.rollNo || "",
-       yearOfJoining: item?.yearOfJoining
-      ? item.yearOfJoining.substring(0, 10)
-      : "",
+      yearOfJoining: item?.yearOfJoining
+        ? item.yearOfJoining.substring(0, 10)
+        : "",
 
       guideName_en: item?.guideName?.en || "",
       guideName_hi: item?.guideName?.hi || "",
@@ -196,6 +199,59 @@ function Student({ setOpen, open, studentInCourse }) {
     }
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Student?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+
+      customClass: {
+        container: "my-swal-container",
+        popup: "my-swal-popup",
+      },
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(`${API_URL}/Student/delete-student/${item?._id}`, {
+        data: {
+          isActive: !item.isActive,
+          updateby: decoded?._id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getStudent();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Student has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Student.",
+        icon: "error",
+      });
+
+      console.error("Delete error =>", error);
+    }
+  };
+
   return (
     <>
       <div className="custom-card card card-info card-outline mb-4">
@@ -324,6 +380,8 @@ function Student({ setOpen, open, studentInCourse }) {
             handleEdit={handleEdit}
             pagination={pagination}
             setPagination={setPagination}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
           />
         </div>
       </div>

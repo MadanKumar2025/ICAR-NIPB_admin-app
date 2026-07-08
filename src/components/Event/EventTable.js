@@ -12,6 +12,8 @@ const EventTable = ({
   setPagination,
   hasEditAccess,
   hasActiveAccess,
+  hasDeleteAccess,
+  handleDelete,
 }) => {
   const columns = useMemo(() => {
     const cols = [
@@ -24,20 +26,7 @@ const EventTable = ({
         accessorFn: (row) => row.name?.en || "-",
         header: "Event Title",
       },
-      // {
-      //   header: "Start Time",
-      //   accessorFn: (row) =>
-      //     row.startTime
-      //       ? new Date(row.startTime).toLocaleDateString("en-GB")
-      //       : "-",
-      // },
-      // {
-      //   header: "End Time",
-      //   accessorFn: (row) =>
-      //     row.endTime
-      //       ? new Date(row.endTime).toLocaleDateString("en-GB")
-      //       : "-",
-      // },
+
       {
         header: "Time",
         accessorFn: (row) => {
@@ -79,25 +68,8 @@ const EventTable = ({
           );
         },
       },
-      // {
-      //   header: "Registration Start Time",
-      //   accessorFn: (row) =>
-      //     row.registrationStartTime
-      //       ? new Date(row.registrationStartTime).toLocaleDateString("en-GB")
-      //       : "-",
-      // },
-      // {
-      //   header: "Registration End Time",
-      //   accessorFn: (row) =>
-      //     row.registrationendTime
-      //       ? new Date(row.registrationendTime).toLocaleDateString("en-GB")
-      //       : "-",
-      // },
     ];
 
-    // =========================
-    // STATUS COLUMN (ACTIVE ACCESS)
-    // =========================
     if (hasActiveAccess?.("Event")) {
       cols.push({
         accessorKey: "isActive",
@@ -123,44 +95,82 @@ const EventTable = ({
               >
                 {item?.isActive ? "Active" : "Inactive"}
               </label>
-
-              {/* <label className="form-check-label">
-                {item?.isActive ? "Active" : "Inactive"}
-              </label> */}
             </div>
           );
         },
       });
     }
 
-    // =========================
-    // ACTION COLUMN (EDIT ACCESS)
-    // =========================
-    if (hasEditAccess?.("Event")) {
+    // if (hasEditAccess?.("Event")) {
+    //   cols.push({
+    //     header: "Action",
+    //     size: 50,
+    //     minSize: 40,
+    //     maxSize: 80,
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <div
+    //           className="table-text-edit"
+    //           style={{ cursor: "pointer" }}
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i class="bi bi-pencil fs-6"></i>
+    //           <span> Edit</span>
+    //         </div>
+    //       );
+    //     },
+    //   });
+    // }
+    const canEdit = hasEditAccess?.("Event");
+    const canDelete = hasDeleteAccess?.("Event");
+
+    if (canEdit || canDelete) {
       cols.push({
         header: "Action",
         size: 50,
         minSize: 40,
         maxSize: 80,
+
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <div
-              className="table-text-edit"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleEdit?.(item)}
-            >
-              <i class="bi bi-pencil fs-6"></i>
-              <span> Edit</span>
+            <div className="d-flex align-items-center gap-3">
+              {canEdit && (
+                <div
+                  className="table-text-edit"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit?.(item)}
+                >
+                  <i className="bi bi-pencil fs-6"></i>
+                </div>
+              )}
+
+              {canDelete && (
+                <span
+                  className="trash-icon"
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => handleDelete?.(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
+                </span>
+              )}
             </div>
           );
         },
       });
     }
-
     return cols;
-  }, [handleEdit, handleToggle, hasEditAccess, hasActiveAccess]);
+  }, [
+    handleEdit,
+    handleDelete,
+    handleToggle,
+    hasEditAccess,
+    hasActiveAccess,
+    hasDeleteAccess,
+  ]);
 
   const table = useMaterialReactTable({
     columns,

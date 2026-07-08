@@ -7,11 +7,13 @@ import { Box } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import Student from "../Student/Student";
 import { usePermissions } from "../User_Management/UserManagement";
+import Swal from "sweetalert2";
 
 function StudentCourse() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-    const { hasAddAccess,hasActiveAccess,hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [studentCourse, setStudentCourse] = useState([]);
   const [studentInCourse, setStudentInCourse] = useState(null);
@@ -119,17 +121,77 @@ function StudentCourse() {
   };
 
   const handleOpen = () => setOpen(true);
+
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this  Student Course?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/StudentCourse/delete-student-course/${item?._id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?._id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getStudentCourse();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Student Course has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Student Course.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
   return (
     <>
       <div>
         <div className="d-flex justify-content-end">
           <div
             className="card-footer"
-            style={{ marginTop: "2vh", marginBottom: "2vh" , marginRight: "4vw",}}
+            style={{
+              marginTop: "2vh",
+              marginBottom: "2vh",
+              marginRight: "4vw",
+            }}
           >
-           {hasAddAccess("Student Course") && (  <button className="btn btn-info" onClick={() => setShowForm(true)}>
-              Create Student Course
-            </button>)}
+            {hasAddAccess("Student Course") && (
+              <button
+                className="btn btn-info"
+                onClick={() => setShowForm(true)}
+              >
+                Create Student Course
+              </button>
+            )}
           </div>
         </div>
         {showForm && (
@@ -161,7 +223,10 @@ function StudentCourse() {
             />
           </Box>
         </Modal>
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <StudentCourseTable
             data={studentCourse?.data || []}
             handleToggle={handleToggle}
@@ -173,6 +238,8 @@ function StudentCourse() {
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
             hasAddAccess={hasAddAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
           />
         </div>
       </div>

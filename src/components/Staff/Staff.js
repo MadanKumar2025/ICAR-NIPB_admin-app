@@ -9,7 +9,8 @@ import { usePermissions } from "../User_Management/UserManagement";
 function Staff() {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [preview, setPreview] = useState(null);
   const [allStaff, setAllStaff] = useState([]);
@@ -98,7 +99,7 @@ function Staff() {
     }
   };
 
-  const handleEdit = (item) => {    
+  const handleEdit = (item) => {
     setData({
       department_en: item?.department?.en,
       department_hi: item?.department?.hi,
@@ -158,6 +159,57 @@ function Staff() {
     setEditId(null);
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Staff ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/staff/delete-staff/${item?.id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?.id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getStaffData();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Staff has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Staff.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -208,6 +260,8 @@ function Staff() {
             handleEdit={handleEdit}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
           />
         </div>
       </div>

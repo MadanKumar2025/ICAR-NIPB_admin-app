@@ -11,7 +11,8 @@ import { usePermissions } from "../User_Management/UserManagement";
 function Album() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [previewGallery, setPreviewGallery] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -260,6 +261,54 @@ function Album() {
 
     setEditId(item?.id);
     setIsEdit(true);
+  };
+
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Album?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(`${API_URL}/album/delete/${item?.id}`, {
+        data: {
+          isActive: !item.isActive,
+          updateby: decoded?.id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getAlbumData();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Album has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Album.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
   };
 
   // Gallery
@@ -537,6 +586,7 @@ function Album() {
   };
 
   const handleOpen = () => setOpen(true);
+
   const handleClose = () => {
     setOpen(false);
     setGalleryData({
@@ -564,7 +614,7 @@ function Album() {
       setPreviewGallery(`${IMG_BASE_URL}/${item?.photo}`);
     }
 
-    setGalleryeditId(item?._id);
+    setGalleryeditId(item?.id);
     setIsGalleryEdit(true);
   };
 
@@ -588,11 +638,65 @@ function Album() {
 
   // console.log("data", data);
 
+  const galleryhandleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Gallery ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+
+      customClass: {
+        container: "my-swal-container",
+        popup: "my-swal-popup",
+      },
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(`${API_URL}/gallery/delete-gallery/${item?.id}`, {
+        data: {
+          isActive: !item.isActive,
+          updateby: decoded?.id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getGalleryData();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Gallery has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Gallery.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
         {(hasAddAccess("Album") ||
           hasAddAccess("Facilities") ||
+          hasAddAccess("Student Course") ||
           hasAddAccess("Outreach programme")) && (
           <div style={{ width: "90%", marginLeft: "5%", marginTop: "3vh" }}>
             <div className="custom-card card card-info card-outline mb-4">
@@ -1024,6 +1128,9 @@ function Album() {
                   galleryhandleEdit={galleryhandleEdit}
                   pagination={pagination}
                   setPagination={setPagination}
+                  hasDeleteAccess={hasDeleteAccess}
+                  galleryhandleDelete={galleryhandleDelete}
+                  hasEditAccess={hasEditAccess}
                 />
               </div>
             </div>
@@ -1046,6 +1153,8 @@ function Album() {
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
             hasAddAccess={hasAddAccess}
+            handleDelete={handleDelete}
+            hasDeleteAccess={hasDeleteAccess}
           />
         </div>
       </div>

@@ -10,7 +10,8 @@ import { usePermissions } from "../User_Management/UserManagement";
 function News() {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [preview, setPreview] = useState(null);
   const [allNews, setAllNews] = useState([]);
@@ -63,37 +64,6 @@ function News() {
   useEffect(() => {
     getNewsData();
   }, []);
-
-  // const handleChange = (e) => {
-  //   const { name, type, files, checked, value } = e.target;
-
-  //   if (type === "file" && files.length > 0) {
-  //     const file = files[0];
-
-  //     setData((prev) => ({
-  //       ...prev,
-  //       [name]: file,
-  //     }));
-
-  //     const fileURL = URL.createObjectURL(file);
-  //     setPreview(fileURL);
-  //   } else if (type === "checkbox") {
-  //     setData((prev) => ({
-  //       ...prev,
-  //       [name]: checked,
-  //     }));
-  //   } else if (name === "isActive") {
-  //     setData((prev) => ({
-  //       ...prev,
-  //       isActive: value === "true",
-  //     }));
-  //   } else {
-  //     setData((prev) => ({
-  //       ...prev,
-  //       [name]: value,
-  //     }));
-  //   }
-  // };
 
   const handleChange = (e) => {
     const { name, type, files, checked, value } = e.target;
@@ -149,30 +119,7 @@ function News() {
     }
   };
 
-  // const handleEdit = (item) => {
-  //   setData({
-  //     type: item?.type,
-  //     title_en: item?.title?.en || "",
-  //     title_hi: item?.title?.hi || "",
-  //     link: item?.link,
-  //     documentFile: item?.documentFile,
-  //     publishDate: item?.publishDate ? item.publishDate.split("T")[0] : "",
-  //     expiryDate: item?.expiryDate ? item.expiryDate.split("T")[0] : "",
-  //     markAsNew: item?.markAsNew,
-  //     isActive: item?.isActive ?? true,
-  //   });
-
-  //   if (item?.documentFile !== null) {
-  //     setPreview(`${IMG_BASE_URL}/files/${item?.documentFile}`);
-  //   }
-
-  //   setEditId(item?.id);
-  //   setIsEdit(true);
-  //   setShowForm(true);
-  // };
-
   const handleEdit = (item) => {
-    // Check Document Type
     let documentType = "";
 
     if (item?.link && item.link.trim() !== "") {
@@ -252,6 +199,54 @@ function News() {
     setPreview(null);
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this item ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(`${API_URL}/news/delete/${item?.id}`, {
+        data: {
+          isActive: !item.isActive,
+          updateby: decoded?.id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getNewsData();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "item has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the item.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -301,6 +296,8 @@ function News() {
             setPagination={setPagination}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            handleDelete={handleDelete}
+            hasDeleteAccess={hasDeleteAccess}
           />
         </div>
       </div>

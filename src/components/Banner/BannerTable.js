@@ -12,6 +12,8 @@ const BannerTable = ({
   setPagination,
   hasEditAccess,
   hasActiveAccess,
+  hasDeleteAccess,
+  handleDelete,
 }) => {
   const columns = useMemo(() => {
     const cols = [
@@ -71,26 +73,68 @@ const BannerTable = ({
 
     // ACTION COLUMN (EDIT ACCESS)
 
-    if (hasEditAccess?.("Banner")) {
+    // if (hasEditAccess?.("Banner")) {
+    //   cols.push({
+    //     header: "Action",
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <span
+    //           className="table-icon-edit"
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i className="bi bi-pencil fs-5"></i>
+    //         </span>
+    //       );
+    //     },
+    //   });
+    // }
+    const canEdit = hasEditAccess?.("Banner");
+    const canDelete = hasDeleteAccess?.("Banner");
+
+    if (canEdit || canDelete) {
       cols.push({
         header: "Action",
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <span
-              className="table-icon-edit"
-              onClick={() => handleEdit?.(item)}
-            >
-              <i className="bi bi-pencil fs-5"></i>
-            </span>
+            <div className="d-flex align-items-center gap-3">
+              {canEdit && (
+                <div
+                  className="table-text-edit"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit(item)}
+                >
+                  <i className="bi bi-pencil fs-6"></i>
+                </div>
+              )}
+
+              {canDelete && (
+                <span
+                  className="trash-icon"
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => handleDelete(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
+                </span>
+              )}
+            </div>
           );
         },
       });
     }
 
     return cols;
-  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
+  }, [
+    handleToggle,
+    handleEdit,
+    hasEditAccess,
+    hasActiveAccess,
+    hasDeleteAccess,
+    handleDelete,
+  ]);
 
   const table = useMaterialReactTable({
     columns,

@@ -49,6 +49,8 @@ function AlumniForm({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log("data",data);
+    
     if (isEdit) {
       try {
         const formData = new FormData();

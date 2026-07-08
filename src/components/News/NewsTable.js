@@ -1,5 +1,8 @@
 import React, { useMemo } from "react";
-import { MaterialReactTable, useMaterialReactTable } from "material-react-table";
+import {
+  MaterialReactTable,
+  useMaterialReactTable,
+} from "material-react-table";
 
 const NewsTable = ({
   data = [],
@@ -9,8 +12,9 @@ const NewsTable = ({
   setPagination,
   hasEditAccess,
   hasActiveAccess,
+  hasDeleteAccess,
+  handleDelete,
 }) => {
-
   const columns = useMemo(() => {
     const cols = [
       {
@@ -36,7 +40,7 @@ const NewsTable = ({
           const link = row.original.link;
 
           return link ? (
-            <a 
+            <a
               href={link}
               target="_blank"
               rel="noopener noreferrer"
@@ -49,33 +53,8 @@ const NewsTable = ({
           );
         },
       },
-      // {
-      //   header: "Publish Date",
-      //   accessorFn: (row) =>
-      //     row.publishDate
-      //       ? new Date(row.publishDate).toLocaleDateString("en-GB")
-      //       : "-",
-      // },
-      // {
-      //   header: "Expiry Date",
-      //   accessorFn: (row) =>
-      //     row.expiryDate
-      //       ? new Date(row.expiryDate).toLocaleDateString("en-GB")
-      //       : "-",
-      // },
-      // {
-      //   accessorKey: "markAsNew",
-      //   header: "Mark As New",
-        
-      //   Cell: ({ row }) => {
-      //     return row.original.markAsNew ? "✅" : "❌";
-      //   },
-      // },
     ];
 
-    // =========================
-    // STATUS COLUMN (ACTIVE ACCESS)
-    // =========================
     if (hasActiveAccess?.("News")) {
       cols.push({
         accessorKey: "isActive",
@@ -95,10 +74,11 @@ const NewsTable = ({
                 {item?.isActive ? "Active" : "Inactive"}
               </label> */}
               <label
-                className={`form-check-label ${item?.isActive ? "status-active" : "status-inactive"
-                  }`}
+                className={`form-check-label ${
+                  item?.isActive ? "status-active" : "status-inactive"
+                }`}
               >
-                {item?.isActive ? "Active" : "Inactive"}
+                {/* {item?.isActive ? "Active" : "Inactive"} */}
               </label>
             </div>
           );
@@ -106,30 +86,76 @@ const NewsTable = ({
       });
     }
 
-     if (hasEditAccess?.("News")) {
+    // if (hasEditAccess?.("News")) {
+    //   cols.push({
+    //     header: "Action",
+    //     size: 50,
+    //     minSize: 40,
+    //     maxSize: 80,
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <div
+    //           className="table-text-edit"
+    //           style={{ cursor: "pointer" }}
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i class="bi bi-pencil fs-6"></i>
+    //           <span></span>
+    //         </div>
+    //       );
+    //     },
+    //   });
+    // }
+    const canEdit = hasEditAccess?.("News");
+    const canDelete = hasDeleteAccess?.("News");
+
+    if (canEdit || canDelete) {
       cols.push({
         header: "Action",
         size: 50,
         minSize: 40,
         maxSize: 80,
+
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <div className="table-text-edit" style={{ cursor: "pointer" }}
-                onClick={() => handleEdit?.(item)}
-              >
-                <i class="bi bi-pencil fs-6"></i>
-               <span>
-              </span>
+            <div className="d-flex align-items-center gap-3">
+              {canEdit && (
+                <div
+                  className="table-text-edit"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit?.(item)}
+                >
+                  <i className="bi bi-pencil fs-6"></i>
+                </div>
+              )}
+
+              {canDelete && (
+                <span
+                  className="trash-icon"
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => handleDelete?.(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
+                </span>
+              )}
             </div>
           );
         },
       });
     }
-
     return cols;
-  }, [handleEdit, handleToggle, hasEditAccess, hasActiveAccess]);
+  }, [
+    handleEdit,
+    handleDelete,
+    handleToggle,
+    hasEditAccess,
+    hasActiveAccess,
+    hasDeleteAccess,
+  ]);
 
   const table = useMaterialReactTable({
     columns,

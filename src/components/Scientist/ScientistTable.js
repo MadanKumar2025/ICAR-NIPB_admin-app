@@ -14,6 +14,8 @@ const ScientistTable = ({
   hasActiveAccess,
   hasAddAccess,
   handleCreateLogin,
+  hasDeleteAccess,
+  handleDelete,
 }) => {
   const columns = useMemo(() => {
     const cols = [
@@ -26,7 +28,7 @@ const ScientistTable = ({
         accessorFn: (row) => row.scientistName?.en || "-",
         header: "Scientist Name",
       },
-      
+
       {
         accessorFn: (row) => row?.designationId?.name?.en || "-",
         header: "Designation",
@@ -34,11 +36,11 @@ const ScientistTable = ({
     ];
 
     // STATUS COLUMN (ACTIVE ACCESS)
-    if (hasActiveAccess?.("Scientist") ||hasActiveAccess?.("Faculty") ) {
+    if (hasActiveAccess?.("Scientist") || hasActiveAccess?.("Faculty")) {
       cols.push({
         accessorKey: "isActive",
         header: "Status",
-          size: 50,
+        size: 50,
         minSize: 40,
         maxSize: 70,
         Cell: ({ row }) => {
@@ -58,28 +60,68 @@ const ScientistTable = ({
       });
     }
 
- 
-    if (hasEditAccess?.("Scientist") || hasEditAccess?.("Faculty")) {
+    // if (hasEditAccess?.("Scientist") || hasEditAccess?.("Faculty")) {
+    //   cols.push({
+    //     header: "Action",
+    //     size: 60,
+    //     minSize: 50,
+    //     maxSize: 80,
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <span
+    //           className="table-icon-edit"
+    //           style={{ cursor: "pointer" }}
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i className="bi bi-pencil fs-5"></i>
+    //         </span>
+    //       );
+    //     },
+    //   });
+    // }
+
+    if (
+      hasEditAccess?.("Scientist") ||
+      hasEditAccess?.("Faculty") ||
+      hasDeleteAccess?.("Scientist") ||
+      hasDeleteAccess?.("Faculty")
+    ) {
       cols.push({
         header: "Action",
-        size: 60,
-        minSize: 50,
-        maxSize: 80,
+        size: 90,
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <span
-              className="table-icon-edit"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleEdit?.(item)}
-            >
-              <i className="bi bi-pencil fs-5"></i>
-            </span>
+            <div className="d-flex align-items-center gap-3">
+              {(hasEditAccess?.("Scientist") || hasEditAccess?.("Faculty")) && (
+                <span
+                  className="table-icon-edit"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit?.(item)}
+                >
+                  <i className="bi bi-pencil fs-5"></i>
+                </span>
+              )}
+
+              {(hasDeleteAccess?.("Scientist") ||
+                hasDeleteAccess?.("Faculty")) && (
+                <span
+                  className="trash-icon"
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => handleDelete?.(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
+                </span>
+              )}
+            </div>
           );
         },
       });
     }
+
     if (hasEditAccess?.("Scientist")) {
       cols.push({
         // header: "Create Scientist Login",
@@ -126,7 +168,7 @@ const ScientistTable = ({
       });
     }
     return cols;
-  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
+  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess, handleDelete]);
 
   const table = useMaterialReactTable({
     columns,

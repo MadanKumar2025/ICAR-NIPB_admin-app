@@ -12,6 +12,8 @@ const AlumniTable = ({
   hasEditAccess,
   hasActiveAccess,
   handleEdit,
+  handleDelete,
+  hasDeleteAccess,
 }) => {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
 
@@ -25,7 +27,7 @@ const AlumniTable = ({
       {
         accessorFn: (row) => row?.name?.en || "-",
         header: "Name",
-             size: 50,
+        size: 50,
         minSize: 40,
         maxSize: 80,
       },
@@ -74,59 +76,59 @@ const AlumniTable = ({
       },
     ];
 
-    // APPROVED TOGGLE (ACTIVE ACCESS)
-    // if (hasActiveAccess?.("Alumni")) {
+    // if (hasActiveAccess?.("Alumni") || hasEditAccess?.("Alumni")) {
     //   cols.push({
-    //     header: "Approved",
+    //     header: "Actions",
+    //     size: 50,
+    //     minSize: 40,
+    //     maxSize: 80,
     //     Cell: ({ row }) => {
     //       const item = row.original;
 
     //       return (
-    //         <div className="form-check form-switch">
-    //           <input
-    //             className="form-check-input"
-    //             type="checkbox"
-    //             checked={Boolean(item?.isApproved)}
-    //             onChange={() => handleToggle?.(item)}
-    //           />
+    //         <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+    //           {/* APPROVE TOGGLE */}
+    //           {hasActiveAccess?.("Alumni") && (
+    //             <div className="form-check form-switch m-0">
+    //               <input
+    //                 className="form-check-input"
+    //                 type="checkbox"
+    //                 checked={Boolean(item?.isApproved)}
+    //                 onChange={() => handleToggle?.(item)}
+    //               />
+    //             </div>
+    //           )}
+
+    //           {/* EDIT BUTTON */}
+    //           {hasEditAccess?.("Alumni") && (
+    //             <span
+    //               className="table-icon-edit"
+    //               style={{ cursor: "pointer" }}
+    //               onClick={() => handleEdit?.(item)}
+    //             >
+    //               <i className="bi bi-pencil fs-5"></i>
+    //             </span>
+    //           )}
     //         </div>
     //       );
     //     },
     //   });
     // }
-
-    // if (hasEditAccess?.("Alumni")) {
-    //   cols.push({
-    //     header: "Action",
-    //     Cell: ({ row }) => {
-    //       const item = row.original;
-
-    //       return (
-    //         <span
-    //           className="table-icon-edit"
-    //           style={{ cursor: "pointer" }}
-    //           onClick={() => handleEdit?.(item)}
-    //         >
-    //           <i className="bi bi-pencil fs-5"></i>
-    //         </span>
-    //       );
-    //     },
-    //   });
-    // }
-    if (hasActiveAccess?.("Alumni") || hasEditAccess?.("Alumni")) {
+    if (
+      hasActiveAccess?.("Alumni") ||
+      hasEditAccess?.("Alumni") ||
+      hasDeleteAccess?.("Alumni")
+    ) {
       cols.push({
-        header: "Actions",
-        size: 50,
-        minSize: 40,
-        maxSize: 80,
+        header: "Action",
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              {/* APPROVE TOGGLE */}
+            <div className="d-flex align-items-center gap-3">
+              {/* Status Toggle */}
               {hasActiveAccess?.("Alumni") && (
-                <div className="form-check form-switch m-0">
+                <div className="form-check form-switch table-lable-switch d-flex align-items-center">
                   <input
                     className="form-check-input"
                     type="checkbox"
@@ -136,14 +138,25 @@ const AlumniTable = ({
                 </div>
               )}
 
-              {/* EDIT BUTTON */}
+              {/* Edit */}
               {hasEditAccess?.("Alumni") && (
-                <span
-                  className="table-icon-edit"
+                <div
+                  className="table-text-edit"
                   style={{ cursor: "pointer" }}
                   onClick={() => handleEdit?.(item)}
                 >
-                  <i className="bi bi-pencil fs-5"></i>
+                  <i className="bi bi-pencil fs-6"></i>
+                </div>
+              )}
+
+              {/* Delete */}
+              {hasDeleteAccess?.("Alumni") && (
+                <span
+                  className="trash-icon"
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => handleDelete?.(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
                 </span>
               )}
             </div>
@@ -152,7 +165,15 @@ const AlumniTable = ({
       });
     }
     return cols;
-  }, [handleToggle, hasActiveAccess, hasEditAccess, IMG_BASE_URL]);
+  }, [
+    handleToggle,
+    handleEdit,
+    handleDelete,
+    hasActiveAccess,
+    hasEditAccess,
+    hasDeleteAccess,
+    IMG_BASE_URL,
+  ]);
 
   const table = useMaterialReactTable({
     columns,

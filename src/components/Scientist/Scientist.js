@@ -5,11 +5,13 @@ import { jwtDecode } from "jwt-decode";
 import ScientistForm from "./ScientistForm";
 import { usePermissions } from "../User_Management/UserManagement";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function Scientist() {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
   const navigate = useNavigate();
 
   const [preview, setPreview] = useState(null);
@@ -192,21 +194,6 @@ function Scientist() {
         },
       ],
 
-      // galleryPhotos: item?.galleryPhotos?.map((img) => ({
-      //   galleryPhotostitle: img?.galleryPhotostitle || "",
-      //   galleryPhotos: null,
-      //   orderNumberGallery: img?.orderNumberGallery || 0,
-      //   previewImage: img?.galleryPhotos
-      //     ? `${IMG_BASE_URL}/${img.galleryPhotos}`
-      //     : "",
-      // })) || [
-      //   {
-      //     galleryPhotostitle: "",
-      //     galleryPhotos: null,
-      //     orderNumberGallery: 0,
-      //     previewImage: "",
-      //   },
-      // ],
       galleryPhotos:
         item?.galleryPhotos && item.galleryPhotos.length > 0
           ? item.galleryPhotos.map((img) => ({
@@ -229,12 +216,6 @@ function Scientist() {
       isActive: item?.isActive ?? true,
     });
 
-    // IMAGE PREVIEW
-    // if (item?.photo) {
-    //   setPreview(`${IMG_BASE_URL}/${item.photo}`);
-    // } else {
-    //   setPreview(null);
-    // }
     if (item?.photo) {
       setPreview(`${IMG_BASE_URL}/${item.photo}`);
     } else {
@@ -299,6 +280,57 @@ function Scientist() {
     navigate(`/CreateScientistLogin/${id}`);
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Scientist ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/ScientistRoutes/delete-scientist/${item?.id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?.id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getScientistData();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Scientist has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Scientist.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -347,6 +379,8 @@ function Scientist() {
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
             handleCreateLogin={handleCreateLogin}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
           />
         </div>
       </div>

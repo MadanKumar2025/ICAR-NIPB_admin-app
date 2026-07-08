@@ -12,6 +12,8 @@ const StaffTable = ({
   setPagination,
   hasEditAccess,
   hasActiveAccess,
+  handleDelete,
+  hasDeleteAccess,
 }) => {
   const columns = useMemo(() => {
     const cols = [
@@ -62,35 +64,85 @@ const StaffTable = ({
       });
     }
 
+    // if (
+    //   hasEditAccess?.("Staff") ||
+    //   hasEditAccess?.("Technical Staff") ||
+    //   hasEditAccess?.("Honorary Scientist") ||
+    //   hasEditAccess?.("Administrative Staff")
+    // ) {
+    //   cols.push({
+    //     header: "Action",
+    //     size: 40,
+    //     minSize: 30,
+    //     maxSize: 70,
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
+
+    //       return (
+    //         <span
+    //           className="table-icon-edit"
+    //           style={{ cursor: "pointer" }}
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i className="bi bi-pencil fs-5"></i>
+    //         </span>
+    //       );
+    //     },
+    //   });
+    // }
+
     if (
       hasEditAccess?.("Staff") ||
       hasEditAccess?.("Technical Staff") ||
       hasEditAccess?.("Honorary Scientist") ||
-      hasEditAccess?.("Administrative Staff")
+      hasEditAccess?.("Administrative Staff") ||
+      hasDeleteAccess?.("Staff") ||
+      hasDeleteAccess?.("Technical Staff") ||
+      hasDeleteAccess?.("Honorary Scientist") ||
+      hasDeleteAccess?.("Administrative Staff")
     ) {
       cols.push({
         header: "Action",
-        size: 40,
-        minSize: 30,
-        maxSize: 70,
+        size: 80,
+        minSize: 60,
+        maxSize: 100,
         Cell: ({ row }) => {
           const item = row.original;
 
           return (
-            <span
-              className="table-icon-edit"
-              style={{ cursor: "pointer" }}
-              onClick={() => handleEdit?.(item)}
-            >
-              <i className="bi bi-pencil fs-5"></i>
-            </span>
+            <div className="d-flex align-items-center gap-3">
+              {(hasEditAccess?.("Staff") ||
+                hasEditAccess?.("Technical Staff") ||
+                hasEditAccess?.("Honorary Scientist") ||
+                hasEditAccess?.("Administrative Staff")) && (
+                <span
+                  className="table-icon-edit"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => handleEdit?.(item)}
+                >
+                  <i className="bi bi-pencil fs-5"></i>
+                </span>
+              )}
+
+              {(hasDeleteAccess?.("Staff") ||
+                hasDeleteAccess?.("Technical Staff") ||
+                hasDeleteAccess?.("Honorary Scientist") ||
+                hasDeleteAccess?.("Administrative Staff")) && (
+                <span
+                  className="trash-icon"
+                  style={{ cursor: "pointer", color: "red" }}
+                  onClick={() => handleDelete?.(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
+                </span>
+              )}
+            </div>
           );
         },
       });
     }
-
     return cols;
-  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
+  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess,hasDeleteAccess]);
 
   const table = useMaterialReactTable({
     columns,

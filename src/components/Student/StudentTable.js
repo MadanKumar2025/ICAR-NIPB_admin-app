@@ -10,6 +10,8 @@ const StudentTable = ({
   setPagination,
   setAlbumGallery,
   handleOpen,
+  hasDeleteAccess,
+  handleDelete,
 }) => {
   const columns = useMemo(
     () => [
@@ -54,25 +56,58 @@ const StudentTable = ({
           );
         },
       },
+      // {
+      //   header: "Action",
+      //   Cell: ({ row }) => {
+      //     const item = row.original;
+      //     return (
+      //       <div className="d-flex gap-2">
+      //         <span
+      //           className="badge text-bg-danger"
+      //           style={{ cursor: "pointer" }}
+      //           onClick={() => handleEdit?.(item)}
+      //         >
+      //           Edit
+      //         </span>
+      //       </div>
+      //     );
+      //   },
+      // },
       {
         header: "Action",
         Cell: ({ row }) => {
           const item = row.original;
+
           return (
-            <div className="d-flex gap-2">
+            <div className="d-flex align-items-center gap-3">
+              {/* EDIT */}
               <span
-                className="badge text-bg-danger"
+                className="table-icon-edit"
                 style={{ cursor: "pointer" }}
                 onClick={() => handleEdit?.(item)}
               >
-                Edit
+                <i className="bi bi-pencil fs-5"></i>
               </span>
+
+              {/* DELETE */}
+              {hasDeleteAccess?.("Student Course") && (
+                <span
+                  className="trash-icon"
+                  style={{
+                    cursor: "pointer",
+                    color: "red",
+                  }}
+                  onClick={() => handleDelete?.(item)}
+                >
+                  <i className="bi bi-trash fs-5"></i>
+                </span>
+              )}
             </div>
           );
         },
       },
     ],
-    [handleEdit],
+    [handleEdit, handleDelete, hasDeleteAccess],
   );
 
   const table = useMaterialReactTable({

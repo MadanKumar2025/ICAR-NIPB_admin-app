@@ -1,5 +1,3 @@
- 
-
 import React, { useMemo } from "react";
 import {
   MaterialReactTable,
@@ -36,12 +34,15 @@ const DocumentUploaderTable = ({
           const fileUrl = row.original?.documentFile;
 
           return fileUrl ? (
-            <a className="view-file-btn"
+            <a
+              className="view-file-btn"
               href={`${IMG_BASE_URL}/files/${fileUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: "underline", color: "blue" }}
-            >  <i class="bi bi-files"></i> <span>View File</span>
+            >
+              {" "}
+              <i class="bi bi-files"></i> <span>View File</span>
             </a>
           ) : (
             "-"
@@ -65,9 +66,7 @@ const DocumentUploaderTable = ({
               }}
             />
           ) : (
-            <i
-              className="bi bi-file-earmark-pdf pdf-icon fs-3"
-            ></i>
+            <i className="bi bi-file-earmark-pdf pdf-icon fs-3"></i>
           );
         },
       },
@@ -80,7 +79,8 @@ const DocumentUploaderTable = ({
       hasDeleteAccess?.("Document Uploader")
     ) {
       cols.push({
-        header: "Action", size: 40,
+        header: "Action",
+        size: 40,
         minSize: 30,
         maxSize: 70,
         Cell: ({ row }) => {
@@ -89,13 +89,17 @@ const DocumentUploaderTable = ({
           return (
             <div style={{ display: "flex", gap: "10px", cursor: "pointer" }}>
               {hasEditAccess?.("Document Uploader") && (
-                <span className="table-icon-edit" onClick={() => handleEdit?.(item)}>
+                <span
+                  className="table-icon-edit"
+                  onClick={() => handleEdit?.(item)}
+                >
                   <i className="bi bi-pencil fs-5"></i>
                 </span>
               )}
 
               {hasDeleteAccess?.("Document Uploader") && (
-                <span className="trash-icon"
+                <span
+                  className="trash-icon"
                   onClick={() => {
                     handleDelete?.(item);
                     handleClose?.();

@@ -4,11 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import PublicationForm from "./PublicationForm";
 import PublicationTable from "./PublicationTable";
 import { usePermissions } from "../User_Management/UserManagement";
+import Swal from "sweetalert2";
 
 function Publication() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [publication, setPublication] = useState([]);
   const [preview, setPreview] = useState(null);
@@ -140,6 +142,56 @@ function Publication() {
     });
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Publication?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/PublicationsRoutes/delete-publication/${item?.id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?.id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getPublication();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Publication has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Publication.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
   return (
     <>
       <div>
@@ -193,6 +245,8 @@ function Publication() {
             setPagination={setPagination}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
             IMG_BASE_URL={IMG_BASE_URL}
           />
         </div>

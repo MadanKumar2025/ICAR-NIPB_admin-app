@@ -14,6 +14,8 @@ const PublicationTable = ({
   hasEditAccess,
   hasActiveAccess,
   IMG_BASE_URL,
+  hasDeleteAccess,
+  handleDelete,
 }) => {
   const stripHtmlAndLimit = (html, limit = 5) => {
     if (!html) return "-";
@@ -128,22 +130,62 @@ const PublicationTable = ({
       });
     }
 
-    if (
-      hasEditAccess?.("Research Publications") ||
-      hasEditAccess?.("Annual Report") ||
-      hasEditAccess?.("Newsletters") ||
-      hasEditAccess?.("Hindi Patrika") ||
-      hasEditAccess?.("Others")
-    ) {
-      cols.push({
-        header: "Action",
-        size: 30,
-        minSize: 20,
-        maxSize: 60,
-        Cell: ({ row }) => {
-          const item = row.original;
+    // if (
+    //   hasEditAccess?.("Research Publications") ||
+    //   hasEditAccess?.("Annual Report") ||
+    //   hasEditAccess?.("Newsletters") ||
+    //   hasEditAccess?.("Hindi Patrika") ||
+    //   hasEditAccess?.("Others")
+    // ) {
+    //   cols.push({
+    //     header: "Action",
+    //     size: 30,
+    //     minSize: 20,
+    //     maxSize: 60,
+    //     Cell: ({ row }) => {
+    //       const item = row.original;
 
-          return (
+    //       return (
+    //         <span
+    //           className="table-icon-edit"
+    //           style={{ cursor: "pointer" }}
+    //           onClick={() => handleEdit?.(item)}
+    //         >
+    //           <i className="bi bi-pencil fs-5"></i>
+    //         </span>
+    //       );
+    //     },
+    //   });
+    // }
+
+if (
+  hasEditAccess?.("Research Publications") ||
+  hasEditAccess?.("Annual Report") ||
+  hasEditAccess?.("Newsletters") ||
+  hasEditAccess?.("Hindi Patrika") ||
+  hasEditAccess?.("Others") ||
+  hasDeleteAccess?.("Research Publications") ||
+  hasDeleteAccess?.("Annual Report") ||
+  hasDeleteAccess?.("Newsletters") ||
+  hasDeleteAccess?.("Hindi Patrika") ||
+  hasDeleteAccess?.("Others")
+) {
+  cols.push({
+    header: "Action",
+    size: 70,
+    minSize: 50,
+    maxSize: 100,
+    Cell: ({ row }) => {
+      const item = row.original;
+
+      return (
+        <div className="d-flex align-items-center gap-3">
+
+          {(hasEditAccess?.("Research Publications") ||
+            hasEditAccess?.("Annual Report") ||
+            hasEditAccess?.("Newsletters") ||
+            hasEditAccess?.("Hindi Patrika") ||
+            hasEditAccess?.("Others")) && (
             <span
               className="table-icon-edit"
               style={{ cursor: "pointer" }}
@@ -151,13 +193,29 @@ const PublicationTable = ({
             >
               <i className="bi bi-pencil fs-5"></i>
             </span>
-          );
-        },
-      });
-    }
+          )}
 
+          {(hasDeleteAccess?.("Research Publications") ||
+            hasDeleteAccess?.("Annual Report") ||
+            hasDeleteAccess?.("Newsletters") ||
+            hasDeleteAccess?.("Hindi Patrika") ||
+            hasDeleteAccess?.("Others")) && (
+            <span
+              className="trash-icon"
+              style={{ cursor: "pointer", color: "red" }}
+              onClick={() => handleDelete?.(item)}
+            >
+              <i className="bi bi-trash fs-5"></i>
+            </span>
+          )}
+
+        </div>
+      );
+    },
+  });
+}
     return cols;
-  }, [handleToggle, handleEdit, hasActiveAccess, hasEditAccess]);
+  }, [handleToggle, handleEdit, hasActiveAccess, hasEditAccess,hasDeleteAccess]);
 
   const table = useMaterialReactTable({
     columns,
