@@ -4,21 +4,23 @@ import { jwtDecode } from "jwt-decode";
 import { usePermissions } from "../User_Management/UserManagement";
 import PatentsForm from "./PatentsForm";
 import PatentsTable from "./PatentsTable";
+import Swal from "sweetalert2";
 
 function Patents() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [patents, setPatents] = useState([]);
 
   const [preview, setPreview] = useState(null);
   const [data, setData] = useState({
-   type_en: "",
-      type_hi: "",
-      title_en: "",
-      title_hi: "",
-      isActive: true,
+    type_en: "",
+    type_hi: "",
+    title_en: "",
+    title_hi: "",
+    isActive: true,
   });
 
   const token = localStorage.getItem("token");
@@ -45,14 +47,11 @@ function Patents() {
 
   const getPatents = async () => {
     try {
-      const response = await axios.get(
-        `${API_URL}/PatentsRoutes/Getall`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      const response = await axios.get(`${API_URL}/PatentsRoutes/Getall`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       setPatents(response.data);
     } catch (error) {
@@ -100,7 +99,7 @@ function Patents() {
     }
   };
 
-  const handleEdit = (item) => {    
+  const handleEdit = (item) => {
     setData({
       type_en: item?.type?.en || "",
       type_hi: item?.type?.hi || "",
@@ -118,7 +117,55 @@ function Patents() {
       behavior: "smooth",
     });
   };
-  
+
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Patents ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(`${API_URL}/PatentsRoutes/delete-patent/${item?.id}`, {
+        data: {
+          isActive: !item.isActive,
+          updateby: decoded?.id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getPatents();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Patents has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Patents.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -154,7 +201,10 @@ function Patents() {
             preview={preview}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <PatentsTable
             data={patents?.data || []}
             handleToggle={handleToggle}
@@ -163,6 +213,8 @@ function Patents() {
             setPagination={setPagination}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
           />
         </div>
       </div>

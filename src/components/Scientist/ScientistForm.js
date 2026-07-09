@@ -87,8 +87,6 @@ function ScientistForm({
     getDesignation();
   }, []);
 
-  
-
   const handleLabProfileChange = (index, e) => {
     const { name, value, files } = e.target;
 
@@ -217,29 +215,93 @@ function ScientistForm({
     }));
   };
 
+  // const addGalleryPhotos = () => {
+  //   setData((prev) => ({
+  //     ...prev,
+  //     galleryPhotos: [
+  //       ...prev.galleryPhotos,
+  //       {
+  //         galleryPhotostitle: "",
+  //         galleryPhotos: null,
+  //         orderNumberGallery: "",
+  //       },
+  //     ],
+  //   }));
+  // };
+
+  // const deletegalleryPhotos = (index) => {
+  //   const updated = data.galleryPhotos.filter((_, i) => i !== index);
+  //   setData({ ...data, galleryPhotos: updated });
+  // };
+
   const addGalleryPhotos = () => {
     setData((prev) => ({
       ...prev,
       galleryPhotos: [
         ...prev.galleryPhotos,
         {
+          id: Date.now(),
           galleryPhotostitle: "",
           galleryPhotos: null,
+          previewImage: "",
           orderNumberGallery: "",
         },
       ],
     }));
   };
+  // const deletegalleryPhotos = (index) => {
+  //   setData((prev) => {
+  //     const updatedGallery = [...prev.galleryPhotos];
 
+  //     if (updatedGallery.length > 1) {
+  //       // agar multiple rows hain to row delete karo
+  //       updatedGallery.splice(index, 1);
+  //     } else {
+  //       // agar last row hai to sirf data clear karo
+  //       updatedGallery[index] = {
+  //         id: updatedGallery[index]?.id,
+  //         galleryPhotostitle: "",
+  //         galleryPhotos: null,
+  //         previewImage: "",
+  //         orderNumberGallery: "",
+  //       };
+  //     }
+
+  //     return {
+  //       ...prev,
+  //       galleryPhotos: updatedGallery,
+  //     };
+  //   });
+  // };
   const deletegalleryPhotos = (index) => {
-    const updated = data.galleryPhotos.filter((_, i) => i !== index);
-    setData({ ...data, galleryPhotos: updated });
-  };
+    setData((prev) => {
+      const updatedGallery = [...prev.galleryPhotos];
 
+      if (updatedGallery.length > 1) {
+        updatedGallery.splice(index, 1);
+      } else {
+        updatedGallery[index] = {
+          ...updatedGallery[index],
+          galleryPhotostitle: "",
+          galleryPhotos: null,
+          previewImage: "",
+          orderNumberGallery: "",
+          isDeleted: true,
+        };
+      }
+
+      return {
+        ...prev,
+        galleryPhotos: updatedGallery,
+      };
+    });
+  };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSubmit = async (e) => {
+    console.log("data", data);
+
     e.preventDefault();
     const formData = new FormData();
     formData.append("scientistName_en", data.scientistName_en || "");
@@ -296,12 +358,19 @@ function ScientistForm({
       }
     });
 
-    const cleangalleryPhotos = data?.galleryPhotos.map((item, index) => ({
-      galleryPhotostitle: item?.galleryPhotostitle || "",
-      orderNumberGallery: Number(item?.orderNumberGallery || 0),
-      photoKey: `galleryPhotos_${index}`,
-    }));
+    // const cleangalleryPhotos = data?.galleryPhotos.map((item, index) => ({
+    //   galleryPhotostitle: item?.galleryPhotostitle || "",
+    //   orderNumberGallery: Number(item?.orderNumberGallery || 0),
+    //   photoKey: `galleryPhotos_${index}`,
+    // }));
 
+    const cleangalleryPhotos = data?.galleryPhotos
+  .filter((item) => !item.isDeleted)
+  .map((item, index) => ({
+    galleryPhotostitle: item?.galleryPhotostitle || "",
+    orderNumberGallery: Number(item?.orderNumberGallery || 0),
+    photoKey: `galleryPhotos_${index}`,
+  }));
     formData.append("galleryPhotos", JSON.stringify(cleangalleryPhotos));
 
     // files
@@ -329,7 +398,7 @@ function ScientistForm({
             },
           },
         );
-       } else {
+      } else {
         response = await axios.post(
           `${API_URL}/ScientistRoutes/create`,
           formData,
@@ -1131,7 +1200,7 @@ function ScientistForm({
                 <div className="row g-3">
                   {data?.labProfile?.map((item, index) => (
                     <div
-                      key={index}
+                      key={item.id || index}
                       className="row g-3 align-items-center border p-3"
                     >
                       {/* Name EN */}
@@ -1307,7 +1376,7 @@ function ScientistForm({
                 <div className="row g-3">
                   {data?.galleryPhotos?.map((item, index) => (
                     <div
-                      key={index}
+                      key={item.id || index}
                       className="row g-3 align-items-center border p-3"
                     >
                       <div className="col-md-5">
@@ -1358,16 +1427,21 @@ function ScientistForm({
                         {/* Delete */}
                         <div
                           type="button"
-                          onClick={() =>
-                            data?.galleryPhotos?.length > 1 &&
-                            deletegalleryPhotos(index)
-                          }
+                          // onClick={() =>
+                          //   data?.galleryPhotos?.length > 1 &&
+                          //   deletegalleryPhotos(index)
+                          // }
+                          onClick={() => deletegalleryPhotos(index)}
+                          // style={{
+                          //   cursor:
+                          //     data?.galleryPhotos?.length > 1
+                          //       ? "pointer"
+                          //       : "not-allowed",
+                          //   opacity: data?.galleryPhotos?.length > 1 ? 1 : 0.5,
+                          // }}
                           style={{
-                            cursor:
-                              data?.galleryPhotos?.length > 1
-                                ? "pointer"
-                                : "not-allowed",
-                            opacity: data?.galleryPhotos?.length > 1 ? 1 : 0.5,
+                            cursor: "pointer",
+                            opacity: 1,
                           }}
                         >
                           <i className="bi bi-trash fs-4"></i>

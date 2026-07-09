@@ -4,11 +4,13 @@ import { jwtDecode } from "jwt-decode";
 import { usePermissions } from "../User_Management/UserManagement";
 import TrainingProgramForm from "./TrainingProgramForm";
 import TrainingProgramTable from "./TrainingProgramTable";
+import Swal from "sweetalert2";
 
 function TrainingProgram() {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [preview, setPreview] = useState(null);
   const [trainingProgram, setTrainingProgram] = useState([]);
@@ -106,6 +108,56 @@ function TrainingProgram() {
     setEditId(null);
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Training Program  ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/TrainingProgramRoutes/delete-training-program/${item?.id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?.id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getTrainingProgram();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Training Program has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Training Program.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
   return (
     <>
       <div>
@@ -150,6 +202,8 @@ function TrainingProgram() {
             handleEdit={handleEdit}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
             IMG_BASE_URL={IMG_BASE_URL}
           />
         </div>

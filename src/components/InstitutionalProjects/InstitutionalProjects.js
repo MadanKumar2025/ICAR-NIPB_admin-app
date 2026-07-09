@@ -5,11 +5,13 @@ import InstitutionalProjectsForm from "./InstitutionalProjectsForm";
 import InstitutionalProjectsTable from "./InstitutionalProjectsTable";
 import InstitutionalProjectsDetails from "../Institutional Projects Details/InstitutionalProjectsDetails";
 import { usePermissions } from "../User_Management/UserManagement";
+import Swal from "sweetalert2";
 
 function InstitutionalProjects() {
   const API_URL = process.env.REACT_APP_API_URL;
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [institutionalProjects, setInstitutionalProjects] = useState([]);
   const [data, setData] = useState({
@@ -116,6 +118,59 @@ function InstitutionalProjects() {
     });
   };
 
+  const handleDelete = async (item) => {
+    console.log("item",item);
+    
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Institutional Projects?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/institutionalprojects/delete-institutional-project/${item?._id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?._id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getInstitutionalProjects();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Institutional Projects has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Institutional Projects.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
+
   return (
     <>
       <div>
@@ -149,7 +204,10 @@ function InstitutionalProjects() {
             getInstitutionalProjects={getInstitutionalProjects}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <InstitutionalProjectsTable
             data={institutionalProjects?.data || []}
             handleToggle={handleToggle}
@@ -159,6 +217,8 @@ function InstitutionalProjects() {
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
             hasAddAccess={hasAddAccess}
+            handleDelete={handleDelete}
+            hasDeleteAccess={hasDeleteAccess}
           />
         </div>
       </div>

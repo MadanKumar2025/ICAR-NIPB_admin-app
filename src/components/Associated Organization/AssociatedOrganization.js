@@ -10,7 +10,8 @@ import AssociatedOrganizationTable from "./AssociatedOrganizationTable";
 function AssociatedOrganization() {
   const IMG_BASE_URL = process.env.REACT_APP_API_BASE_URL_img;
   const API_URL = process.env.REACT_APP_API_URL;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [preview, setPreview] = useState(null);
   const [associatedOrganization, setAssociatedOrganization] = useState([]);
@@ -116,6 +117,56 @@ function AssociatedOrganization() {
     setPreview(null);
   };
 
+  const handleDelete = async (item) => {
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this Associated Organization ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(
+        `${API_URL}/AssociatedOrganizationRoutes/delete-associated-organization/${item?.id}`,
+        {
+          data: {
+            isActive: !item.isActive,
+            updateby: decoded?.id,
+          },
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      getAssociatedOrganization();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "Associated Organization has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the Associated Organization.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
   return (
     <>
       <div>
@@ -151,7 +202,10 @@ function AssociatedOrganization() {
             handleClose={handleClose}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <AssociatedOrganizationTable
             data={associatedOrganization || []}
             handleToggle={handleToggle}
@@ -160,6 +214,8 @@ function AssociatedOrganization() {
             handleEdit={handleEdit}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
             IMG_BASE_URL={IMG_BASE_URL}
           />
         </div>

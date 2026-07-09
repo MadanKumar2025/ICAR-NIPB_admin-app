@@ -8,7 +8,8 @@ import HelpTable from "./HelpTable";
 
 function Help() {
   const API_URL = process.env.REACT_APP_API_URL;
-  const { hasAddAccess, hasActiveAccess, hasEditAccess } = usePermissions();
+  const { hasAddAccess, hasActiveAccess, hasEditAccess, hasDeleteAccess } =
+    usePermissions();
 
   const [allHelp, setAllHelp] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -81,8 +82,6 @@ function Help() {
   };
 
   const handleEdit = (item) => {
-    console.log("item", item);
-
     setData({
       title_en: item?.title?.en,
       title_hi: item?.title?.hi,
@@ -107,6 +106,54 @@ function Help() {
     });
   };
 
+  const handleDelete = async (item) => {
+ 
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to delete this FAQ?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const decoded = jwtDecode(token);
+
+      await axios.delete(`${API_URL}/HelpRoutes/delete-help/${item?.id}`, {
+        data: {
+          isActive: !item.isActive,
+          updateby: decoded?.id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      getHelp();
+
+      // Success message
+      Swal.fire({
+        title: "Deleted!",
+        text: "FAQ has been successfully deleted.",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "An error occurred while deleting the FAQ.",
+        icon: "error",
+      });
+
+      alert.error("Status update error", error);
+    }
+  };
   return (
     <>
       <div>
@@ -140,7 +187,10 @@ function Help() {
             handleClose={handleClose}
           />
         )}
-        <div className="card mb-4 custom-panel-table mt-3" style={{ width: "90%", marginLeft: "5%" }}>
+        <div
+          className="card mb-4 custom-panel-table mt-3"
+          style={{ width: "90%", marginLeft: "5%" }}
+        >
           <HelpTable
             data={allHelp || []}
             handleToggle={handleToggle}
@@ -149,6 +199,8 @@ function Help() {
             handleEdit={handleEdit}
             hasEditAccess={hasEditAccess}
             hasActiveAccess={hasActiveAccess}
+            hasDeleteAccess={hasDeleteAccess}
+            handleDelete={handleDelete}
           />
         </div>
       </div>

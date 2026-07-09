@@ -110,14 +110,14 @@ function UpdateScientist() {
   }, [userId]);
 
   const getScientistData = async (id) => {
-  if (!id) return;
-    try {      
+    if (!id) return;
+    try {
       const response = await axios.get(`${API_URL}/ScientistRoutes/get/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
- 
+
       setData({
         scientistName_en: response?.data?.data?.scientistName?.en || "",
         scientistName_hi: response?.data?.data?.scientistName?.hi || "",
@@ -186,14 +186,17 @@ function UpdateScientist() {
             photo: null,
           },
         ],
-        galleryPhotos: response?.data?.data?.galleryPhotos?.map((img) => ({
-          galleryPhotostitle: img?.galleryPhotostitle || "",
-          galleryPhotos: img?.galleryPhotos || null,
-          orderNumberGallery: img?.orderNumberGallery || 0,
-          previewImage: img?.galleryPhotos
-            ? `${IMG_BASE_URL}/${img.galleryPhotos}`
-            : "",
-        })) || [
+        galleryPhotos: response?.data?.data?.galleryPhotos?.map(
+          (img, index) => ({
+            id: img?._id || Date.now() + index,
+            galleryPhotostitle: img?.galleryPhotostitle || "",
+            galleryPhotos: img?.galleryPhotos || null,
+            orderNumberGallery: img?.orderNumberGallery || 0,
+            previewImage: img?.galleryPhotos
+              ? `${IMG_BASE_URL}/${img.galleryPhotos}`
+              : "",
+          }),
+        ) || [
           {
             galleryPhotostitle: "",
             galleryPhotos: null,
@@ -417,19 +420,39 @@ function UpdateScientist() {
       galleryPhotos: [
         ...prev.galleryPhotos,
         {
+          id: Date.now(),
           galleryPhotostitle: "",
           galleryPhotos: null,
           orderNumberGallery: "",
+          previewImage: "",
         },
       ],
     }));
   };
 
   const deletegalleryPhotos = (index) => {
-    const updated = data.galleryPhotos.filter((_, i) => i !== index);
-    setData({ ...data, galleryPhotos: updated });
-  };
+    setData((prev) => {
+      const updated = [...prev.galleryPhotos];
 
+      if (updated.length > 1) {
+        updated.splice(index, 1);
+      } else {
+        updated[index] = {
+          ...updated[index],
+          galleryPhotostitle: "",
+          galleryPhotos: null,
+          previewImage: "",
+          orderNumberGallery: 0,
+          isDeleted: true,
+        };
+      }
+
+      return {
+        ...prev,
+        galleryPhotos: updated,
+      };
+    });
+  };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -471,11 +494,13 @@ function UpdateScientist() {
       formData.append("photo", data.photo);
     }
 
-     const cleangalleryPhotos = data?.galleryPhotos.map((item, index) => ({
-      galleryPhotostitle: item?.galleryPhotostitle || "",
-      orderNumberGallery: Number(item?.orderNumberGallery || 0),
-      photoKey: `galleryPhotos_${index}`,
-    }));
+    const cleangalleryPhotos = data?.galleryPhotos
+      .filter((item) => !item.isDeleted)
+      .map((item, index) => ({
+        galleryPhotostitle: item?.galleryPhotostitle || "",
+        orderNumberGallery: Number(item?.orderNumberGallery || 0),
+        photoKey: `galleryPhotos_${index}`,
+      }));
 
     formData.append("galleryPhotos", JSON.stringify(cleangalleryPhotos));
 
@@ -548,6 +573,8 @@ function UpdateScientist() {
     }),
     [],
   );
+
+  console.log("data", data?.galleryPhotos);
 
   return (
     <>
@@ -1246,7 +1273,18 @@ function UpdateScientist() {
             <CustomTabPanel value={tab} index={7}>
               <div className="card-body tab-panel-body">
                 <div className="row g-3">
-                  {data?.galleryPhotos?.map((item, index) => (
+                  {/* {data?.galleryPhotos?.map((item, index) => ( */}
+                  {(data?.galleryPhotos?.length > 0
+                    ? data.galleryPhotos
+                    : [
+                        {
+                          galleryPhotostitle: "",
+                          galleryPhotos: null,
+                          orderNumberGallery: 0,
+                          previewImage: "",
+                        },
+                      ]
+                  ).map((item, index) => (
                     <div
                       key={index}
                       className="row g-3 align-items-center border p-3"
@@ -1299,16 +1337,21 @@ function UpdateScientist() {
                         {/* Delete */}
                         <div
                           type="button"
-                          onClick={() =>
-                            data?.galleryPhotos?.length > 1 &&
-                            deletegalleryPhotos(index)
-                          }
+                          // onClick={() =>
+                          //   data?.galleryPhotos?.length > 1 &&
+                          //   deletegalleryPhotos(index)
+                          // }
+                          onClick={() => deletegalleryPhotos(index)}
+                          // style={{
+                          //   cursor:
+                          //     data?.galleryPhotos?.length > 1
+                          //       ? "pointer"
+                          //       : "not-allowed",
+                          //   opacity: data?.galleryPhotos?.length > 1 ? 1 : 0.5,
+                          // }}
                           style={{
-                            cursor:
-                              data?.galleryPhotos?.length > 1
-                                ? "pointer"
-                                : "not-allowed",
-                            opacity: data?.galleryPhotos?.length > 1 ? 1 : 0.5,
+                            cursor: "pointer",
+                            opacity: 1,
                           }}
                         >
                           <i className="bi bi-trash fs-4"></i>
