@@ -13585,12 +13585,12 @@ fieldset:disabled .btn {
   color: var(--lte-sidebar-menu-active-color);
   background-color: var(--lte-sidebar-menu-active-bg);
 }
-.sidebar-wrapper .sidebar-menu > .nav-item.menu-open > .nav-link,
+/* .sidebar-wrapper .sidebar-menu > .nav-item.menu-open > .nav-link,
 .sidebar-wrapper .sidebar-menu > .nav-item:hover > .nav-link,
 .sidebar-wrapper .sidebar-menu > .nav-item > .nav-link:focus {
   color: var(--lte-sidebar-hover-color);
   background-color: var(--lte-sidebar-hover-bg);
-}
+} */
 .sidebar-wrapper .sidebar-menu > .nav-item > .nav-treeview {
   background-color: var(--lte-sidebar-submenu-bg);
 }

@@ -14,32 +14,30 @@ const AdminMenuMasterTable = ({
   hasActiveAccess,
   IMG_BASE_URL,
 }) => {
-   const columns = useMemo(() => {
-     const cols = [
-       {
-         header: "#",
-         Cell: ({ row }) => row.index + 1,
-         size: 50,
-       },
-       {
-         accessorFn: (row) => row?.menuName || "-",
-         header: "Menu Name",
-       },
-       {
-         accessorFn: (row) => row?.url || "-",
-         header: "Url",
-       },
-     
-     ];
- 
- 
+  const columns = useMemo(() => {
+    const cols = [
+      {
+        header: "#",
+        Cell: ({ row }) => row.index + 1,
+        size: 50,
+      },
+      {
+        accessorFn: (row) => row?.menuName || "-",
+        header: "Menu Name",
+      },
+      {
+        accessorFn: (row) => row?.url || "-",
+        header: "Url",
+      },
+    ];
+
     //  if (hasActiveAccess?.("Help")) {
     //    cols.push({
     //      accessorKey: "isActive",
     //      header: "Status",
     //      Cell: ({ row }) => {
     //        const item = row.original;
- 
+
     //        return (
     //          <div className="form-check form-switch">
     //            <input
@@ -53,28 +51,28 @@ const AdminMenuMasterTable = ({
     //      },
     //    });
     //  }
- 
- 
+
     //  if (hasEditAccess?.("AdminMenuMaster")) {
-       cols.push({
-         header: "Action",
-         Cell: ({ row }) => {
-           const item = row.original;
- 
-           return (
-             <span
-               style={{ cursor: "pointer" }}
-               onClick={() => handleEdit?.(item)}
-             >
-               <i className="bi bi-pencil fs-4"></i>
-             </span>
-           );
-         },
-       });
+    cols.push({
+      header: "Action",
+      Cell: ({ row }) => {
+        const item = row.original;
+
+        return (
+          <span
+            className="table-icon-edit"
+            style={{ cursor: "pointer" }}
+            onClick={() => handleEdit?.(item)}
+          >
+            <i className="bi bi-pencil fs-5"></i>
+          </span>
+        );
+      },
+    });
     //  }
- 
-     return cols;
-   }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
+
+    return cols;
+  }, [handleToggle, handleEdit, hasEditAccess, hasActiveAccess]);
 
   const table = useMaterialReactTable({
     columns,

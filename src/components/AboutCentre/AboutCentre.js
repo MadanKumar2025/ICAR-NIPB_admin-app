@@ -739,13 +739,13 @@ function AboutCentre() {
 
             <div className="custom-card card card-info card-outline mb-4">
               <div className="card-body">
-                <div className="row gap-3">
+                <div className="row">
                   <div className="col-12">
                     <label htmlFor="validationCustom05" className="form-label">
                       Photo
                     </label>
                   </div>
-                  <div className="col-sm-6 col-xl-5">
+                  <div className="col-sm-6 col-md-5">
                     <input
                       type="file"
                       name="photo"
@@ -755,18 +755,20 @@ function AboutCentre() {
                     />
                   </div>
                   <div className="col-sm-6 mt-3 mt-sm-0">
-                    {preview && (
-                      <img
-                        src={preview}
-                        alt="Preview"
-                        style={{
-                          height: "50px",
-                          objectFit: "cover",
-                        }}
-                      />
-                    )}
-                    <div className="invalid-feedback">
-                      Please provide a Photo.
+                    <div className="column-gap d-flex flex-wrap">
+                      {preview && (
+                        <img
+                          src={preview}
+                          alt="Preview"
+                          style={{
+                            height: "50px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      )}
+                      <div className="invalid-feedback">
+                        Please provide a Photo.
+                      </div>
                     </div>
                   </div>
                 </div>

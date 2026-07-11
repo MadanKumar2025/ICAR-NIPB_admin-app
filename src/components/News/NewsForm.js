@@ -82,7 +82,6 @@ const NewsForm = ({
         formRef.current.reset();
         await getNewsData();
         handleClose();
-        
       } catch (error) {
         Swal.fire({
           icon: "error",
@@ -343,6 +342,7 @@ const NewsForm = ({
                     name="markAsNew"
                     checked={data?.markAsNew || false}
                     onChange={handleChange}
+                    className="me-2"
                     id="validationCustom05"
                   />
                   <label

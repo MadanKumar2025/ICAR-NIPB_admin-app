@@ -60,7 +60,7 @@ body,
 
 .New-sidebar .nav-link {
   color: #f1f5f9;
-  padding: 10px 15px;
+  padding: 10px;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -173,6 +173,13 @@ body,
 }
 .associated-organization-logo {
   width: auto !important;
+}
+@media (max-width:419px) {
+  .payment-table .jodit-workplace div:has(> table) {
+    overflow-x: auto;
+    max-width: 100%;
+    position: relative;
+}
 }
 /*=== custom Table  ===*/
 .card.custom-panel-table {
@@ -426,4 +433,13 @@ body,
     transform: translateY(0);
     opacity: 1;
   }
+}
+.sidebar-arrow {
+    transition: transform .3s ease;
+} 
+.sidebar-arrow.rotate::before {
+    transform: rotate(90deg);
+}
+.column-gap {
+  gap: 2px;
 }

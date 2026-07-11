@@ -6,6 +6,7 @@ import ApexCharts from "apexcharts";
 // import "./Styles/main.scss";
 import "./css/home.css";
 import "./App.css";
+import "./css/sidebar.css"
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar.js";
@@ -75,11 +76,45 @@ import ForgotPassword from "./components/ForgotPassword.js";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+ // ADD NEW DATA 1
+  const [isCollapsed, setIsCollapsed] = useState(false);
+   const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024);
+ // ENd NEW DATA 1
   const DEFAULT_FONT_SIZE = 16;
+   // OLD DATA 1
+  // const toggleSidebar = () => {
+  //   setIsSidebarOpen(!isSidebarOpen);
+  // };
+   // ADD NEW DATA 2 
+  useEffect(() => {
+  const handleResize = () => {
+    const mobile = window.innerWidth <= 1024;
+    setIsMobile(mobile);
+    if (mobile) {
+      setIsSidebarOpen(false);
+    } else {
+      setIsSidebarOpen(true);
+    }
+  };
+  handleResize();
+  window.addEventListener("resize", handleResize);
+  return () => window.removeEventListener("resize", handleResize);
+}, []);
 
   const toggleSidebar = () => {
+  if (window.innerWidth <= 1024) {
     setIsSidebarOpen(!isSidebarOpen);
-  };
+  } else {
+    setIsCollapsed(!isCollapsed);
+  }
+};
+// ENd NEW DATA 2
+
+
+
+
+
+
 
   const location = useLocation();
   const isLogin = location.pathname === "/login";
@@ -110,7 +145,9 @@ function App() {
         </Routes>
       ) : (
         <div className="layout-fixed sidebar-expand-lg bg-body-tertiary">
-          <div style={{ display: "flex" }}>
+          
+            {/*  OLD CODE !
+            <div style={{ display: "flex" }}>
             <div style={{ width: isSidebarOpen ? "17.5%" : "0%" }}>
               {isSidebarOpen && <Sidebar toggleSidebar={toggleSidebar} />}
             </div>
@@ -120,9 +157,35 @@ function App() {
                 height: "100vh",
                 flex: 1,
                 overflowY: "auto",
-              }}
-            >
-              <Header toggleSidebar={toggleSidebar} />
+              }} */}
+              {/* ADD NEW CODE 1 STARTY */}
+              <div className="admin-layout">
+                <Sidebar
+                  isOpen={isSidebarOpen}
+                  isCollapsed={isCollapsed}
+                  isMobile={isMobile}
+                  toggleSidebar={toggleSidebar}
+                />
+                 {isMobile && isSidebarOpen && (
+                  <div
+                    className="sidebar-overlay"
+                    onClick={toggleSidebar}
+                  ></div>
+                )}
+                <div
+                  className={`main-content ${
+                    !isMobile && isCollapsed ? "expand" : ""
+                  }`}
+                >
+                  <Header
+                toggleSidebar={toggleSidebar}
+                isCollapsed={isCollapsed}
+                isMobile={isMobile}
+              />
+                  {/* ADD NEW CODE 1 END */}
+                   {/* OLD CODE 2 */}
+              {/* <Header toggleSidebar={toggleSidebar} /> */}
+              
               <Routes>
                 <Route
                   path="/"

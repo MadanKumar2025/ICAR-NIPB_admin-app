@@ -1,7 +1,8 @@
 import "../css/adminlte.css";
 import { Navigate } from "react-router-dom";
-
-function Header({ toggleSidebar }) {
+// old & add new
+// function Header({ toggleSidebar }) {
+function Header({ toggleSidebar, isCollapsed, isMobile }) {
   const token = localStorage.getItem("token");
   if (!token) {
     return <Navigate to="/login" />;
@@ -33,10 +34,7 @@ function Header({ toggleSidebar }) {
       {/* <nav className="app-header navbar navbar-expand bg-body"> */}
       <nav className=" navbar navbar-expand panel-navbar">
         {/* <nav className="app-header"> */}
-        <div
-          className="container-fluid"
-          style={{ display: "flex", justifyContent: "center", fontSize:"24px"}}
-        >
+        <div className="container-fluid">
           {/* Left Navbar */}
           {/* <ul className="navbar-nav">
             <li className="nav-item navbar-toggle">
@@ -56,7 +54,22 @@ function Header({ toggleSidebar }) {
               </button>
             </div>
           </ul> */}
-          <b>ICAR-National Institute for Plant Biotechnology (NIPB)</b>
+          {/* ADD NEW TOGGLE BUTOON */}
+          <button
+            type="button"
+            className="sidebar-toggle-btn"
+            onClick={toggleSidebar}
+          >
+            <span class="hamburger-icon">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+            {/* <i className="bi bi-list"></i> */}
+          </button>
+          <b className="panel-logo-heading d-flex justify-content-center w-100">
+            ICAR-National Institute for Plant Biotechnology (NIPB)
+          </b>
 
           {/* <ul className="navbar-nav ms-auto">
             <li className="nav-item">

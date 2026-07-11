@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import "../css/login.css";
+
 
 function Login() {
   const API_URL = process.env.REACT_APP_API_URL;
@@ -99,9 +101,38 @@ function Login() {
 
   return (
     <>
-      <div className="d-flex justify-content-center align-items-center">
-        <img src="/admin/qw.png" alt="Logo" />
-      </div>
+      <header className="header-area py-2">
+        <div className="container">
+          <div className="header-logos position-relative align-items-center">
+            <div className="icar-logo">
+              <Link to={"/"}>
+                <img
+                  src="./assets/img/icar_logo.png"
+                  className="img-fluid"
+                  alt="ICAR Logo"
+                />
+              </Link>
+            </div>
+            <div className="nipb-logo">
+              <Link to={"/"}>
+                <img
+                  src="./assets/img/nipb_logo.png"
+                  className="img-fluid"
+                  alt="NIPB Logo"
+                />
+              </Link>
+            </div>
+            <div className="logo-center text-center">
+              <div className="header-logo-title">
+                ICAR-National Institute for Plant Biotechnology (NIPB)
+              </div>
+              <span className="header-logo-sub-title">
+                LBS Centre, Pusa Campus, New Delhi - 110012, INDIA
+              </span>
+            </div>
+          </div>
+        </div>
+      </header>
       {!showForgotPassword ? (
         <div className="login-page bg-body-secondary">
           <div className="login-box">

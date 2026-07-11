@@ -365,12 +365,12 @@ function ScientistForm({
     // }));
 
     const cleangalleryPhotos = data?.galleryPhotos
-  .filter((item) => !item.isDeleted)
-  .map((item, index) => ({
-    galleryPhotostitle: item?.galleryPhotostitle || "",
-    orderNumberGallery: Number(item?.orderNumberGallery || 0),
-    photoKey: `galleryPhotos_${index}`,
-  }));
+      .filter((item) => !item.isDeleted)
+      .map((item, index) => ({
+        galleryPhotostitle: item?.galleryPhotostitle || "",
+        orderNumberGallery: Number(item?.orderNumberGallery || 0),
+        photoKey: `galleryPhotos_${index}`,
+      }));
     formData.append("galleryPhotos", JSON.stringify(cleangalleryPhotos));
 
     // files
@@ -478,9 +478,9 @@ function ScientistForm({
                   "& .MuiTab-root": {
                     textTransform: "none",
                     // fontWeight: 500,
-                    // minWidth: "200px",
+                    minWidth: "auto",
                     // maxWidth: "200px",
-                    width: "200px",
+                    // width: "200px",
                     fontSize: { xs: "11px", sm: "13px", md: "15px" },
                     padding: { xs: "6px 10px", sm: "8px 16px" },
                   },
@@ -815,20 +815,21 @@ function ScientistForm({
                         }));
                       }}
                     />*/}
+
+                      <JoditEditor
+                        ref={editor}
+                        value={data.researchInterest_en}
+                        config={config}
+                        tabIndex={1}
+                        onBlur={(newContent) => {
+                          setData((prev) => ({
+                            ...prev,
+                            researchInterest_en: newContent,
+                          }));
+                        }}
+                        onChange={() => {}}
+                      />
                     </div>
-                    <JoditEditor
-                      ref={editor}
-                      value={data.researchInterest_en}
-                      config={config}
-                      tabIndex={1}
-                      onBlur={(newContent) => {
-                        setData((prev) => ({
-                          ...prev,
-                          researchInterest_en: newContent,
-                        }));
-                      }}
-                      onChange={() => {}}
-                    />
                   </div>
                   <div></div>
                   <div className="col-md-12">

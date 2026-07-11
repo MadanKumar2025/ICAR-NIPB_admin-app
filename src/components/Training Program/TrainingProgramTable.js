@@ -150,10 +150,11 @@ const TrainingProgramTable = ({
               {/* EDIT */}
               {hasEditAccess?.("Training Program") && (
                 <span
+                  className="table-icon-edit"
                   style={{ cursor: "pointer" }}
                   onClick={() => handleEdit?.(item)}
                 >
-                  <i className="bi bi-pencil fs-6"></i>
+                  <i className="bi bi-pencil fs-5"></i>
                 </span>
               )}
 

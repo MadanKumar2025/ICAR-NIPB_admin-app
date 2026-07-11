@@ -237,7 +237,7 @@ function Payment() {
             >
               <div className="card-body">
                 <div className="row g-3">
-                  <div className="col-md-6">
+                  <div className="col-sm-6">
                     <label htmlFor="validationCustom05" className="form-label">
                       photo
                     </label>
@@ -261,7 +261,7 @@ function Payment() {
                       />
                     )}
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-sm-6">
                     <label htmlFor="validationCustom01" className="form-label">
                       Photo Title
                     </label>
@@ -295,7 +295,7 @@ function Payment() {
                           }))
                         }
                       /> */}
-                      <div className="custom-main-editor">
+                      <div className="custom-main-editor payment-table">
                         {/* <JoditEditor
                         ref={editor}
                         value={data.bankDetails_en}
@@ -333,7 +333,7 @@ function Payment() {
                       <label className="form-label fw-bold">
                         Bank Details (Hindi)
                       </label>
-                      <div className="custom-main-editor">
+                      <div className="custom-main-editor payment-table">
                         {/* <JoditEditor
                         style={{ width: "90%" }}
                         ref={editor}

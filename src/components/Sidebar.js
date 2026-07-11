@@ -3,7 +3,10 @@ import { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-function Sidebar({ isOpen, toggleSidebar }) {
+// OLD DATA 1
+// function Sidebar({ isOpen, toggleSidebar }) {
+// ADD NEW DATA 1
+function Sidebar({ isOpen, isCollapsed, isMobile, toggleSidebar }) {
   const location = useLocation();
   const pathname = location.pathname;
   const navigate = useNavigate();
@@ -11,6 +14,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
   const [user, setUser] = useState(null);
   const [permissions, setPermissions] = useState([]);
   const [openMenuId, setOpenMenuId] = useState(null);
+  const [activeMenuId, setActiveMenuId] = useState(null);
 
   const token = localStorage.getItem("token");
 
@@ -97,19 +101,39 @@ function Sidebar({ isOpen, toggleSidebar }) {
   const parents = menuPermissions.filter(
     (item) => item?.pageAccess && item?.menuId?.menuType === "parent",
   );
-  const handleParentClick = (id) => {
-    setOpenMenuId(openMenuId === id ? null : id);
+  // const handleParentClick = (id) => {
+  //   setOpenMenuId((prev) => (prev === id ? null : id));
+  // };
+  const handleParentClick = (menuId, hasChildren, url) => {
+    setActiveMenuId(menuId);
+
+    if (hasChildren) {
+      setOpenMenuId((prev) => (prev === menuId ? null : menuId));
+    } else {
+      setOpenMenuId(null);
+      handleMenuClick(url);
+    }
   };
 
   // console.log("userPermissions", userPermissions);
 
   return (
+    // OLD DATA 2
+    // <div
+    //   // className={`app-sidebar bg-body-secondary shadow ${!isOpen ? "collapsed" : ""}`}
+    //   className={`New-sidebar shadow ${!isOpen ? "collapsed" : ""}`}
+    //   data-bs-theme="dark"
+    //   // style={{ zIndex: 2, position: "relative", }}
+    // >
+    //  ADD NEW DATA 2
     <div
-      // className={`app-sidebar bg-body-secondary shadow ${!isOpen ? "collapsed" : ""}`}
-      className={`New-sidebar shadow ${!isOpen ? "collapsed" : ""}`}
+      className={`New-sidebar shadow
+    ${isMobile ? (isOpen ? "mobile-open" : "") : ""}
+    ${!isMobile && isCollapsed ? "mini-sidebar" : ""}
+  `}
       data-bs-theme="dark"
-      // style={{ zIndex: 2, position: "relative", }}
     >
+      {/* End */}
       {/* <div className="sidebar-brand d-flex justify-content-between">
         <Link
           to={"/"}
@@ -129,14 +153,27 @@ function Sidebar({ isOpen, toggleSidebar }) {
           style={{
             width: "100%",
             display: "flex",
-            justifyContent: "center",
           }}
         >
-          <p style={{ margin: 0 }}>Admin</p>
+          {/*OLD DATA 3 <p style={{ margin: 0 }}>Admin</p> */}
+          {/* ADD DATA NEW 3 */}
+          <p
+            className="sidebar-text d-flex gap-2 align-items-center justify-conteent-center"
+            style={{ margin: 0 }}
+          >
+            <img
+              src="./assets/img/icon/admin.webp"
+              className="img-fluid"
+              width="28"
+              height="28"
+              alt="Admin Icon"
+            />
+            <span>Admin</span>
+          </p>
         </Link>
 
         <div className="closeLogo" onClick={toggleSidebar}>
-          <i className="bi bi-asterisk"></i>
+          <i className="bi bi-x-lg"></i>
         </div>
       </div>
       <div className="sidebar-wrapper">
@@ -160,6 +197,8 @@ function Sidebar({ isOpen, toggleSidebar }) {
               );
 
               const isOpen = openMenuId === parentMenu?._id;
+              //  const isActiveParent = pathname === parentMenu?.url;
+              const hasChildren = children.length > 0;
 
               return (
                 <li
@@ -168,35 +207,54 @@ function Sidebar({ isOpen, toggleSidebar }) {
                 >
                   {/* Parent Click */}
                   <div
-                    className="nav-link"
+                    className={`nav-link panel-main-links ${
+                      activeMenuId === parentMenu?._id ? "menu-active" : ""
+                    }`}
                     // onClick={() => handleParentClick(parentMenu?._id)}
-                    onClick={() => {
-                      handleParentClick(parentMenu?._id);
-                      handleMenuClick(parent.menuId?.url);
-                    }}
+                    onClick={() =>
+                      handleParentClick(
+                        parentMenu?._id,
+                        hasChildren,
+                        parentMenu?.url,
+                      )
+                    }
                     style={{
                       cursor: "pointer",
                       display: "flex",
                       justifyContent: "space-between",
                     }}
                   >
-                    <p style={{ display: "flex" }}>
+                    {/* OLD DATA 4 */}
+                    {/* <p className="ps-0" style={{ display: "flex" }}>
                       <i className="nav-icon bi bi-folder"></i>
                       {parentMenu?.menuName}
+                    </p> */}
+                    {/* ADD NEW DATA 4 */}
+                    <p className="ps-0 d-flex align-items-center">
+                      <i className="nav-icon bi bi-folder"></i>
+                      <span className="sidebar-text">
+                        {parentMenu?.menuName}
+                      </span>
                     </p>
+                    {/* END 4 */}
                     <p>
                       {children.length > 0 && (
+                        // <i
+                        //   className={`bi ${
+                        //     isOpen ? "bi-chevron-down" : "bi-chevron-right"
+                        //   } ms-auto`}
+                        // ></i>
                         <i
-                          className={`bi ${
-                            isOpen ? "bi-chevron-down" : "bi-chevron-right"
-                          } ms-auto`}
+                          className={`bi bi-chevron-right ms-auto sidebar-arrow ${
+                            isOpen ? "rotate" : ""
+                          }`}
                         ></i>
                       )}
                     </p>
                   </div>
 
                   {/* Child Menu */}
-                  {isOpen && children.length > 0 && (
+                  {/* {isOpen && children.length > 0 && (
                     <ul className="nav nav-treeview">
                       {children.map((child, i) => (
                         <li className="nav-item" key={child.menuId?._id || i}>
@@ -208,6 +266,55 @@ function Sidebar({ isOpen, toggleSidebar }) {
                             onClick={() => handleMenuClick(child.menuId?.url)}
                           >
                             <i className="far fa-circle nav-icon"></i>
+                            <p>{child.menuId?.menuName}</p>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )} */}
+                  {/* old data 5 */}
+                  {/* <ul
+                          className={`nav nav-treeview sidebar-dropdown panel-dropdown ${
+                            isOpen ? "show" : ""
+                          }`}
+                        >
+                          {children.map((child, i) => (
+                            <li className="nav-item panel-dropdown-items" key={child.menuId?._id || i}>
+                              <Link
+                                to={child.menuId?.url}
+                                className={`nav-link panel-dropdown-link position-relative m-0 ${
+                                  pathname === child.menuId?.url ? "active" : ""
+                                }`}
+                                onClick={() => handleMenuClick(child.menuId?.url)}
+                              >
+                              <p>{child.menuId?.menuName}</p>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul> */}
+
+                  {children.length > 0 && (
+                    <ul
+                      className={`nav nav-treeview sidebar-dropdown panel-dropdown ${
+                        isOpen ? "show" : ""
+                      }`}
+                    >
+                      {children.map((child, i) => (
+                        <li
+                          className="nav-item panel-dropdown-items"
+                          key={child.menuId?._id || i}
+                        >
+                          <Link
+                            to={child.menuId?.url}
+                            className={`nav-link panel-dropdown-link ${
+                              pathname === child.menuId?.url ? "active" : ""
+                            }`}
+                            // onClick={() => handleMenuClick(child.menuId?.url)}
+                            onClick={() => {
+                              setActiveMenuId(parentMenu?._id);
+                              handleMenuClick(child.menuId?.url);
+                            }}
+                          >
                             <p>{child.menuId?.menuName}</p>
                           </Link>
                         </li>
@@ -246,7 +353,10 @@ function Sidebar({ isOpen, toggleSidebar }) {
             <li className="nav-item">
               <a className="nav-link" onClick={handleLogout}>
                 <i className="nav-icon bi bi-box-arrow-in-right"></i>
-                <p>Logout</p>
+
+                {/*old data 6 <p>Logout</p> */}
+                {/* add new data 6 */}
+                <p className="sidebar-text">Logout</p>
               </a>
             </li>
           </ul>

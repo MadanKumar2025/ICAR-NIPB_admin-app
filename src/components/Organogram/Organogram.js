@@ -225,7 +225,7 @@ function Organogram() {
                       type="file"
                       name="photo"
                       onChange={handleChange}
-                      className="form-control"
+                      className="form-control upload-image-input"
                       id="photo"
                     />
                     {preview && (

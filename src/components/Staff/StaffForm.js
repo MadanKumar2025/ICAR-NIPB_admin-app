@@ -351,7 +351,7 @@ function StaffForm({
                 overflowX: "auto",
               }}
             >
-              <Tabs
+              {/* <Tabs
                 value={tab}
                 onChange={handleTabChange}
                 variant={isMobile ? "scrollable" : "standard"}
@@ -364,6 +364,28 @@ function StaffForm({
                     textTransform: "none",
                     fontWeight: 500,
                     fontSize: { xs: "12px", sm: "14px", md: "16px" },
+                    padding: { xs: "6px 10px", sm: "8px 16px" },
+                  },
+                }}
+              > */}
+              <Tabs
+                value={tab}
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                sx={{
+                  minHeight: "48px",
+                  "& .MuiTabs-flexContainer": {
+                    gap: "8px", // optional spacing
+                  },
+                  "& .MuiTab-root": {
+                    textTransform: "none",
+                    // fontWeight: 500,
+                    minWidth: "auto",
+                    // maxWidth: "200px",
+                    // width: "200px",
+                    fontSize: { xs: "11px", sm: "13px", md: "30px" },
                     padding: { xs: "6px 10px", sm: "8px 16px" },
                   },
                 }}

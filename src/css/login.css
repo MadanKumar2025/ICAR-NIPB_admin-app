@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+.header-logo-title {
+    font-family: "Poppins", sans-serif;
+}
+.header-logo-title {
+    color: #008400;
+    font-weight: 700;
+    font-size: 18px;
+}
+.header-logo-sub-title {
+    font-size: 13px;
+    font-weight: 400;
+}
+@media (max-width: 479px) {
+.icar-logo {
+    width: 100px;
+    float: left;
+}
+.nipb-logo {
+    width: 100px;
+    float: right;
+}
+.logo-center {
+    overflow: hidden;
+    width: 100%;
+    padding-top: 10px;
+    display: block;
+}
+.nipb-logo {
+    order: 2;
+}
+}
+@media (min-width: 480px) {
+.header-logos {
+    display: grid;
+    grid-template-columns: 65px auto 65px;
+    gap: 10px;
+}
+.nipb-logo {
+    order: 2;
+}
+  }
+@media (min-width: 576px) {
+  .header-logo-title {
+    font-size: 20px;
+}
+.header-logo-sub-title {
+    font-size: 15px
+}
+}
+@media (min-width: 768px) {
+    .header-logos {
+    grid-template-columns: 100px auto 100px
+}
+  .header-logo-title {
+    font-size: 24px;
+}
+.header-logo-sub-title {
+    font-size: 20px;
+}
+}
+@media (min-width: 992px) {
+    .icar-logo {
+    width: 100px;
+}
+.nipb-logo {
+    width: 104px;
+}  
+}
+@media (min-width: 1200px) {
+  .header-logo-title {
+    font-size: 30px;
+} 
+}
+@media (min-width: 1400px) {
+  .header-logo-title {
+    font-size: 36px;
+}
+.header-logo-sub-title {
+    font-size: 25px;
+}
+}
